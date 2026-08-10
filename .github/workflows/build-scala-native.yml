@@ -1,0 +1,106 @@
+name: Build Scala Native FPP Tools
+
+on:
+  push:
+    branches: [ "main", "release/**" ]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event.pull_request.draft == false
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14
+            artifact: darwin-arm64
+            python: python3
+            wheel_tag: macosx_14_0_arm64
+          - runner: ubuntu-22.04
+            artifact: manylinux_2_28_x86_64
+            container: quay.io/pypa/manylinux_2_28_x86_64
+            python: /opt/python/cp39-cp39/bin/python
+            wheel_tag: manylinux_2_28_x86_64
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: ${{ matrix.container || '' }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: sbt
+      - if: runner.os == 'Linux'
+        name: Install Linux build tools
+        run: |
+          dnf install --assumeyes clang
+          curl --fail --location \
+            https://github.com/sbt/sbt/releases/download/v1.10.11/sbt-1.10.11.tgz \
+            | tar -xz --directory /opt
+          ln -s /opt/sbt/bin/sbt /usr/local/bin/sbt
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+      - name: Show toolchain versions
+        run: |
+          java --version
+          sbt --version
+          clang --version
+      - name: Build Scala Native tools
+        working-directory: compiler
+        run: sbt --batch "fpp/nativeLink"
+      - name: Stage Scala Native tools
+        working-directory: compiler
+        run: |
+          native_binary=$(find tools/fpp/target -type f -name fpp-out -print -quit)
+          test -n "$native_binary"
+          rm -rf bin
+          mkdir -p bin
+          install -m 755 "$native_binary" bin/fpp
+          while IFS= read -r tool
+          do
+            ln -s fpp "bin/fpp-$tool"
+          done < tools.txt
+      - name: Test Scala Native tools
+        working-directory: compiler
+        run: ./test
+      - name: Package Scala Native tools
+        working-directory: compiler
+        run: |
+          bundle="fpp-scala-native-${{ matrix.artifact }}"
+          mkdir -p "$bundle"
+          cp -a bin/. "$bundle"
+          tar -czf "$bundle.tar.gz" "$bundle"
+      - name: Build Python wheel
+        run: |
+          ${{ matrix.python }} -m pip install build
+          cp compiler/bin/fpp python/fprime_fpp/fpp
+          chmod +x python/fprime_fpp/fpp
+          touch python/fprime_fpp/fpp-native-all-tools
+          ${{ matrix.python }} -m build --wheel --outdir dist \
+            --config-setting=--build-option=--plat-name=${{ matrix.wheel_tag }} .
+      - name: Install wheel with uv
+        run: |
+          wheel=$(find dist -type f -name '*.whl' -print -quit)
+          test -n "$wheel"
+          printf 'fprime-fpp @ file://%s\n' "$(pwd)/$wheel" > overrides.txt
+          uv venv .venv --python ${{ matrix.python }}
+          uv pip install --python .venv/bin/python --override overrides.txt fprime-fpp
+          .venv/bin/fpp --help
+          .venv/bin/fpp-to-json --help
+      - name: Archive Scala Native tools
+        uses: actions/upload-artifact@v7
+        with:
+          name: fpp-scala-native-${{ matrix.artifact }}
+          path: |
+            compiler/fpp-scala-native-${{ matrix.artifact }}.tar.gz
+            dist/*.whl
+          retention-days: 14
+          if-no-files-found: error
