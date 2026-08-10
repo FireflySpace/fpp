@@ -1,9 +1,14 @@
 #!/bin/sh
 
-export NO_COLOR='\033[0m'
-export BOLD='\033[1m'
-export RED='\033[31m'
-export GREEN='\033[32m'
+# Build the escape sequences with real ESC bytes via printf so plain echo
+# emits them verbatim regardless of whether /bin/sh's echo interprets
+# backslash escapes (dash does, bash does not), keeping test-runner color
+# consistent across the macOS and manylinux Scala Native CI builds.
+esc=`printf '\033'`
+export NO_COLOR="${esc}[0m"
+export BOLD="${esc}[1m"
+export RED="${esc}[31m"
+export GREEN="${esc}[32m"
 
 echo_green()
 {
