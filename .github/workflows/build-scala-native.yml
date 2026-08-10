@@ -95,7 +95,7 @@ jobs:
           wheel=$(find dist -type f -name '*.whl' -print -quit)
           test -n "$wheel"
           printf 'fprime-fpp @ file://%s\n' "$(pwd)/$wheel" > overrides.txt
-          uv venv .venv --python ${{ matrix.python }}
+          uv venv .venv --python ${{ matrix.python }} --clear
           uv pip install --python .venv/bin/python --override overrides.txt fprime-fpp
           .venv/bin/fpp --help
           .venv/bin/fpp-to-json --help
