@@ -13,20 +13,37 @@ lazy val settings = Seq(
     "-unchecked",
     "-Xmax-inlines:100"
   ),
-  libraryDependencies ++= dependencies.value,
   Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oNCXELOPQRM"),
   Test / parallelExecution := false,
 )
 
-lazy val dependencies = Def.setting(Seq(
+lazy val jvmDependencies = Seq(
+  "com.github.scopt" %% "scopt" % "4.0.1",
+  "io.circe" %% "circe-core" % "0.14.3",
+  "io.circe" %% "circe-generic" % "0.14.3",
+  "io.circe" %% "circe-parser" % "0.14.3",
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.1",
+  "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
+  "org.scalatest" %% "scalatest" % "3.2.12" % "test",
+)
+
+lazy val nativeDependencies = Def.setting(Seq(
   "com.github.scopt" %%% "scopt" % "4.0.1",
   "io.circe" %%% "circe-core" % "0.14.3",
   "io.circe" %%% "circe-generic" % "0.14.3",
   "io.circe" %%% "circe-parser" % "0.14.3",
   "org.scala-lang.modules" %%% "scala-parser-combinators" % "2.1.1",
   "org.scala-lang.modules" %%% "scala-xml" % "2.1.0",
-  "org.scalatest" %% "scalatest" % "3.2.12" % "test",
 ))
+
+lazy val jvmSettings = settings ++ Seq(
+  libraryDependencies ++= jvmDependencies,
+)
+
+lazy val nativeSettings = settings ++ Seq(
+  libraryDependencies ++= nativeDependencies.value,
+  target := baseDirectory.value / "target-native",
+)
 
 lazy val root = (project in file("."))
   .settings(settings)
@@ -36,16 +53,24 @@ lazy val root = (project in file("."))
   )
 
 lazy val lib = project
-  .settings(settings)
-  .enablePlugins(ScalaNativePlugin)
+  .settings(jvmSettings)
 
 lazy val fpp = (project in file("tools/fpp"))
-  .settings(settings)
+  .settings(jvmSettings)
+  .dependsOn(lib)
+
+lazy val nativeLib = (project in file("lib"))
+  .settings(nativeSettings)
+  .enablePlugins(ScalaNativePlugin)
+
+lazy val nativeFpp = (project in file("tools/fpp"))
+  .settings(nativeSettings)
   .settings(
+    name := "fpp",
     nativeConfig ~= { config =>
       config.withLTO(LTO.thin).withMode(Mode.releaseFast).withGC(GC.none)
         .withLinkStubs(true)
     }
   )
-  .dependsOn(lib)
+  .dependsOn(nativeLib)
   .enablePlugins(ScalaNativePlugin)

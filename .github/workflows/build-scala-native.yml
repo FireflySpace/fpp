@@ -38,14 +38,16 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: sbt
+      - name: Install sbt
+        run: |
+          curl --fail --location \
+            https://github.com/sbt/sbt/releases/download/v1.10.11/sbt-1.10.11.tgz \
+            | tar -xz --directory "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/sbt/bin" >> "$GITHUB_PATH"
       - if: runner.os == 'Linux'
         name: Install Linux build tools
         run: |
           dnf install --assumeyes clang
-          curl --fail --location \
-            https://github.com/sbt/sbt/releases/download/v1.10.11/sbt-1.10.11.tgz \
-            | tar -xz --directory /opt
-          ln -s /opt/sbt/bin/sbt /usr/local/bin/sbt
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
       - name: Show toolchain versions
@@ -55,18 +57,20 @@ jobs:
           clang --version
       - name: Build Scala Native tools
         working-directory: compiler
-        run: sbt --batch "fpp/nativeLink"
+        run: sbt --batch "nativeFpp/nativeLink"
       - name: Stage Scala Native tools
         working-directory: compiler
         run: |
-          native_binary=$(find tools/fpp/target -type f -name fpp-out -print -quit)
+          native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
           test -n "$native_binary"
           rm -rf bin
           mkdir -p bin
           install -m 755 "$native_binary" bin/fpp
           while IFS= read -r tool
           do
-            ln -s fpp "bin/fpp-$tool"
+            printf '#!/bin/sh\n"$(dirname "$0")/fpp" %s "$@"\n' "$tool" \
+              > "bin/fpp-$tool"
+            chmod +x "bin/fpp-$tool"
           done < tools.txt
       - name: Test Scala Native tools
         working-directory: compiler
@@ -80,11 +84,11 @@ jobs:
           tar -czf "$bundle.tar.gz" "$bundle"
       - name: Build Python wheel
         run: |
-          ${{ matrix.python }} -m pip install build
           cp compiler/bin/fpp python/fprime_fpp/fpp
           chmod +x python/fprime_fpp/fpp
           touch python/fprime_fpp/fpp-native-all-tools
-          ${{ matrix.python }} -m build --wheel --outdir dist \
+          uv run --python ${{ matrix.python }} --with build python -m build \
+            --wheel --outdir dist \
             --config-setting=--build-option=--plat-name=${{ matrix.wheel_tag }} .
       - name: Install wheel with uv
         run: |
