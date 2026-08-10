@@ -76,6 +76,13 @@ jobs:
           # plain describe adds on commits past the tag; `--match 'v*'` ignores the
           # rolling CI release tag (fpp-scala-native-*) so it never gets embedded.
           # Fall back to $VERSION from version.sh when no matching tag is found.
+          #
+          # The manylinux leg runs as root in a container while the checkout is
+          # owned by another uid, so git refuses with "detected dubious ownership"
+          # and `git describe` exits non-zero -> the fallback silently hides the
+          # real tag. Mark the workspace safe so describe works in the container
+          # exactly as it does on the bare macOS runner.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           . ../version.sh
           if git describe --tags --abbrev=0 --match 'v*' > /dev/null 2>&1
           then
