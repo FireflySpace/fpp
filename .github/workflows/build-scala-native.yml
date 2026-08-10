@@ -141,10 +141,18 @@ jobs:
           linux_wheel=$(find release -type f -name '*manylinux_*_x86_64.whl' -print -quit)
           test -n "$macos_wheel"
           test -n "$linux_wheel"
+          # Downloaded artifacts keep their internal layout
+          # (release/dist/*.whl and release/compiler/*.tar.gz), so flatten the
+          # real files into release/ root where the publish globs look for them.
+          cp "$macos_wheel" "$linux_wheel" release/
+          find release -type f -name '*.tar.gz' -exec cp -t release/ {} +
           printf 'fprime-fpp @ %s/%s ; sys_platform == "darwin" and platform_machine == "arm64"\n' \
             "$base_url" "$(basename "$macos_wheel")" > release/overrides.txt
           printf 'fprime-fpp @ %s/%s ; sys_platform == "linux" and platform_machine == "x86_64"\n' \
             "$base_url" "$(basename "$linux_wheel")" >> release/overrides.txt
+          # Fail loudly if the flattened assets the publish step uploads are
+          # missing, instead of letting a glob silently match nothing.
+          ls release/*.whl release/*.tar.gz release/overrides.txt
       - name: Publish rolling prerelease
         env:
           GH_TOKEN: ${{ github.token }}
