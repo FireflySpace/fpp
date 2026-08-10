@@ -70,12 +70,15 @@ jobs:
       - name: Embed version in Version.scala
         working-directory: compiler
         run: |
-          # Mirror compiler/install: prefer `git describe --tags --always`,
-          # falling back to $VERSION from version.sh when tags are unavailable.
+          # Embed the nearest release tag (v3.3.0a9 on this branch) so `fpp --help`
+          # reports a clean version F Prime's tool version check can match against
+          # its pinned requirement. `--abbrev=0` drops the `-<n>-g<sha>` suffix a
+          # plain describe adds on commits past the tag. Fall back to $VERSION from
+          # version.sh when no tag is found.
           . ../version.sh
-          if git describe --tags --always > /dev/null 2>&1
+          if git describe --tags --abbrev=0 > /dev/null 2>&1
           then
-            version=`git describe --tags --always`
+            version=`git describe --tags --abbrev=0`
           else
             version="$VERSION"
           fi
@@ -163,9 +166,18 @@ jobs:
           pattern: fpp-scala-native-*
           path: release
           merge-multiple: true
+      - name: Derive release tag from branch
+        id: rel
+        run: |
+          # One rolling release per branch: main -> ...-latest, release/a9 -> ...-a9.
+          # Keeps each F Prime baseline (a9, a15, ...) on its own release without
+          # per-branch workflow edits.
+          slug="${GITHUB_REF_NAME##*/}"
+          if [ "$slug" = "main" ]; then slug="latest"; fi
+          echo "tag=fpp-scala-native-$slug" >> "$GITHUB_OUTPUT"
       - name: Create release assets
         run: |
-          tag=fpp-scala-native-latest
+          tag='${{ steps.rel.outputs.tag }}'
           base_url="https://github.com/${{ github.repository }}/releases/download/$tag"
           macos_wheel=$(find release -type f -name '*macosx_*_arm64.whl' -print -quit)
           linux_wheel=$(find release -type f -name '*manylinux_*_x86_64.whl' -print -quit)
@@ -187,14 +199,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          tag=fpp-scala-native-latest
+          tag='${{ steps.rel.outputs.tag }}'
           gh release view "$tag" --repo "${{ github.repository }}" >/dev/null 2>&1 || \
             gh release create "$tag" \
               --repo "${{ github.repository }}" \
               --target "${{ github.sha }}" \
               --prerelease \
-              --title 'Scala Native FPP tools' \
-              --notes 'Latest cross-platform Scala Native FPP wheels.'
+              --title "Scala Native FPP tools ($tag)" \
+              --notes 'Cross-platform Scala Native FPP wheels for this branch baseline.'
           gh release upload "$tag" \
             --repo "${{ github.repository }}" \
             release/*.whl \
@@ -203,9 +215,13 @@ jobs:
             --clobber
 
   pages:
+    # GitHub Pages allows a single deployment per repo, so only the main line
+    # publishes the PEP 503 simple index. Other branches (release/**) still get
+    # their wheels + direct-URL overrides.txt from the publish job above.
     if: >-
       github.event_name != 'pull_request' &&
-      github.repository == 'Willmac16/fpp'
+      github.repository == 'Willmac16/fpp' &&
+      github.ref == 'refs/heads/main'
     needs: publish
     runs-on: ubuntu-22.04
     permissions:
