@@ -60,9 +60,10 @@ def main():
     # Locate the fpp binary and/or JAR files
     binary_file = Path(__file__).parent / "fpp"
     jar_file = Path(__file__).parent / "fpp.jar"
+    native_all_tools = (Path(__file__).parent / "fpp-native-all-tools").exists()
 
     # Prefer the binary file if it exists
-    if binary_file.exists() and name != "fpp-to-json":
+    if binary_file.exists() and (name != "fpp-to-json" or native_all_tools):
         process = subprocess.run([str(binary_file)] + base_arguments)
     # Then check for the JAR file
     elif jar_file.exists():
