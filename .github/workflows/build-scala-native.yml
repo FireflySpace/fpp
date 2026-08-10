@@ -34,6 +34,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Fetch full history and tags so `git describe --tags` can embed a
+          # real version below (a shallow checkout has no tags).
+          fetch-depth: 0
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
@@ -63,9 +67,35 @@ jobs:
           sw_vers
           xcodebuild -version
           ld -v
+      - name: Embed version in Version.scala
+        working-directory: compiler
+        run: |
+          # Mirror compiler/install: prefer `git describe --tags --always`,
+          # falling back to $VERSION from version.sh when tags are unavailable.
+          . ../version.sh
+          if git describe --tags --always > /dev/null 2>&1
+          then
+            version=`git describe --tags --always`
+          else
+            version="$VERSION"
+          fi
+          util=lib/src/main/scala/util
+          echo "Updating version to $version"
+          sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
+            $util/Version.scala
       - name: Build Scala Native tools
         working-directory: compiler
         run: sbt --batch "nativeFpp/nativeLink"
+      - name: Restore Version.scala
+        if: always()
+        working-directory: compiler
+        run: |
+          # Restore the committed placeholder so no tracked file is left dirty,
+          # exactly as compiler/install does after building.
+          util=lib/src/main/scala/util
+          echo "Restoring Version.scala"
+          sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
+            $util/Version.scala
       - name: Stage Scala Native tools
         working-directory: compiler
         run: |
