@@ -150,13 +150,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag=fpp-scala-native-latest
-          gh release view "$tag" >/dev/null 2>&1 || \
+          gh release view "$tag" --repo "${{ github.repository }}" >/dev/null 2>&1 || \
             gh release create "$tag" \
+              --repo "${{ github.repository }}" \
               --target "${{ github.sha }}" \
               --prerelease \
               --title 'Scala Native FPP tools' \
               --notes 'Latest cross-platform Scala Native FPP wheels.'
           gh release upload "$tag" \
+            --repo "${{ github.repository }}" \
             release/*.whl \
             release/*.tar.gz \
             release/overrides.txt \
