@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-14
+          - runner: macos-15
             artifact: darwin-arm64
             python: python3
             wheel_tag: macosx_14_0_arm64
@@ -29,6 +29,8 @@ jobs:
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
+    env:
+      MACOSX_DEPLOYMENT_TARGET: '14.0'
 
     steps:
       - uses: actions/checkout@v6
@@ -55,6 +57,12 @@ jobs:
           java --version
           sbt --version
           clang --version
+      - if: runner.os == 'macOS'
+        name: Show macOS linker version
+        run: |
+          sw_vers
+          xcodebuild -version
+          ld -v
       - name: Build Scala Native tools
         working-directory: compiler
         run: sbt --batch "nativeFpp/nativeLink"
