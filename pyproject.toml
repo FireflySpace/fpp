@@ -60,3 +60,8 @@ fprime_fpp = ["fpp", "fpp.jar", "fpp-native-all-tools"]
 
 ####
 [tool.setuptools_scm]
+# Only derive the version from release tags (vX.Y.Z...). The CI publishes a
+# rolling git tag per branch (fpp-scala-native-a9, ...-latest) for its GitHub
+# release; without this match, git-describe would pick that tag and
+# setuptools_scm would fail to parse a version from it.
+git_describe_command = ["git", "describe", "--dirty", "--tags", "--long", "--match", "v*"]
