@@ -45,6 +45,16 @@ lazy val nativeSettings = settings ++ Seq(
   target := baseDirectory.value / "target-native",
 )
 
+lazy val macOSUnwindLinkerOptions =
+  if (System.getProperty("os.name") == "Mac OS X") Seq(
+    "-Wl,-u,___unw_regname",
+    "-Wl,-u,___unw_iterate_dwarf_unwind_cache",
+    "-Wl,-u,___unw_is_fpreg",
+    "-Wl,-u,___unw_get_fpreg",
+    "-Wl,-u,___unw_set_fpreg",
+  )
+  else Seq.empty
+
 lazy val root = (project in file("."))
   .settings(settings)
   .aggregate(
@@ -70,6 +80,7 @@ lazy val nativeFpp = (project in file("tools/fpp"))
     nativeConfig ~= { config =>
       config.withLTO(LTO.thin).withMode(Mode.releaseFast).withGC(GC.none)
         .withLinkStubs(true)
+        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions)
     }
   )
   .dependsOn(nativeLib)
