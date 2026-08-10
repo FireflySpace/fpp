@@ -73,12 +73,13 @@ jobs:
           # Embed the nearest release tag (v3.3.0a9 on this branch) so `fpp --help`
           # reports a clean version F Prime's tool version check can match against
           # its pinned requirement. `--abbrev=0` drops the `-<n>-g<sha>` suffix a
-          # plain describe adds on commits past the tag. Fall back to $VERSION from
-          # version.sh when no tag is found.
+          # plain describe adds on commits past the tag; `--match 'v*'` ignores the
+          # rolling CI release tag (fpp-scala-native-*) so it never gets embedded.
+          # Fall back to $VERSION from version.sh when no matching tag is found.
           . ../version.sh
-          if git describe --tags --abbrev=0 > /dev/null 2>&1
+          if git describe --tags --abbrev=0 --match 'v*' > /dev/null 2>&1
           then
-            version=`git describe --tags --abbrev=0`
+            version=`git describe --tags --abbrev=0 --match 'v*'`
           else
             version="$VERSION"
           fi
