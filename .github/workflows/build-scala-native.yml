@@ -159,9 +159,7 @@ jobs:
           if-no-files-found: error
 
   publish:
-    if: >-
-      github.event_name != 'pull_request' &&
-      github.repository == 'Willmac16/fpp'
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-22.04
     permissions:
@@ -228,7 +226,6 @@ jobs:
     # their wheels + direct-URL overrides.txt from the publish job above.
     if: >-
       github.event_name != 'pull_request' &&
-      github.repository == 'Willmac16/fpp' &&
       github.ref == 'refs/heads/main'
     needs: publish
     runs-on: ubuntu-22.04
