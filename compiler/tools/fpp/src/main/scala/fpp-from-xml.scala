@@ -21,7 +21,29 @@ object FPPFromXml {
   def parseXmlFile(file: File): Result.Result[XmlFppWriter.File] = {
     for {
       elem <- try {
-        Right(scala.xml.XML.loadFile(file.toString))
+        val source = scala.io.Source.fromFile(file.toString)
+        val input = try {
+          source.mkString
+        }
+        finally source.close()
+        val xml = input.dropWhile(_.isWhitespace)
+        if (xml.startsWith("<")) {
+          val parser =
+            scala.xml.parsing.ConstructingParser.fromSource(
+              scala.io.Source.fromString(xml),
+              preserveWS = true
+            )
+          Option(parser.document().docElem)
+            .collect { case elem: scala.xml.Elem => elem }
+            .toRight(XmlError.ParseError(file.toString, "XML document has no root element"))
+        }
+        else Left(
+          XmlError.ParseError(
+            file.toString,
+            "org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; " +
+              "Content is not allowed in prolog."
+          )
+        )
       }
       catch {
         case e: Exception => Left(XmlError.ParseError(file.toString, e.toString))
