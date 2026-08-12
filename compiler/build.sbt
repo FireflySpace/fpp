@@ -77,9 +77,18 @@ lazy val nativeFpp = (project in file("tools/fpp"))
   .settings(nativeSettings)
   .settings(
     name := "fpp",
-    nativeConfig ~= { config =>
-      config.withLTO(LTO.thin).withMode(Mode.releaseFast).withGC(GC.none)
+    nativeConfig := {
+      val config = nativeConfig.value
+      // Absolute path to the committed PGO profile (clang resolves it at compile time).
+      val profile = ((ThisBuild / baseDirectory).value / "pgo" / "fpp.profdata")
+      val pgoOpts =
+        if (profile.exists) Seq("-fprofile-use=" + profile.getAbsolutePath,
+                                "-Wno-profile-instr-out-of-date",
+                                "-Wno-profile-instr-unprofiled")
+        else Seq.empty[String]
+      config.withLTO(LTO.full).withMode(Mode.releaseFull).withGC(GC.none)
         .withLinkStubs(true)
+        .withCompileOptions(config.compileOptions ++ Seq("-O3") ++ pgoOpts)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions)
     }
   )
