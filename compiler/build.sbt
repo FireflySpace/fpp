@@ -17,24 +17,23 @@ lazy val settings = Seq(
   Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oNCXELOPQRM"),
 )
 
-lazy val jvmDependencies = Seq(
-  "com.github.scopt" %% "scopt" % "4.0.1",
-  "io.circe" %% "circe-core" % "0.14.3",
-  "io.circe" %% "circe-generic" % "0.14.3",
-  "io.circe" %% "circe-parser" % "0.14.3",
-  "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.1",
-  "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
-  "org.scalatest" %% "scalatest" % "3.2.12" % "test",
+// Shared (org, artifact, version); JVM cross-builds with %%, Scala Native with %%%.
+lazy val sharedDependencies = Seq(
+  ("com.github.scopt", "scopt", "4.0.1"),
+  ("io.circe", "circe-core", "0.14.3"),
+  ("io.circe", "circe-generic", "0.14.3"),
+  ("io.circe", "circe-parser", "0.14.3"),
+  ("org.scala-lang.modules", "scala-parser-combinators", "2.1.1"),
+  ("org.scala-lang.modules", "scala-xml", "2.1.0"),
 )
 
-lazy val nativeDependencies = Def.setting(Seq(
-  "com.github.scopt" %%% "scopt" % "4.0.1",
-  "io.circe" %%% "circe-core" % "0.14.3",
-  "io.circe" %%% "circe-generic" % "0.14.3",
-  "io.circe" %%% "circe-parser" % "0.14.3",
-  "org.scala-lang.modules" %%% "scala-parser-combinators" % "2.1.1",
-  "org.scala-lang.modules" %%% "scala-xml" % "2.1.0",
-))
+lazy val jvmDependencies =
+  sharedDependencies.map { case (o, a, v) => o %% a % v } :+
+    ("org.scalatest" %% "scalatest" % "3.2.12" % "test")
+
+lazy val nativeDependencies = Def.setting(
+  sharedDependencies.map { case (o, a, v) => o %%% a % v }
+)
 
 lazy val jvmSettings = settings ++ Seq(
   libraryDependencies ++= jvmDependencies,
@@ -78,18 +77,26 @@ lazy val nativeFpp = (project in file("tools/fpp"))
   .settings(
     name := "fpp",
     nativeConfig := {
+      // PGO via env FPP_PGO; see compiler/pgo/README.md.
+      val localProf = (ThisBuild / baseDirectory).value / "pgo" / "fpp.profdata"
+      val (mode, lto, compile, link) = sys.env.get("FPP_PGO").map(_.trim).filter(_.nonEmpty) match {
+        case Some("generate") => // instrumented
+          val dir = sys.env.getOrElse("FPP_PGO_DIR", "/tmp/fpp-pgo")
+          val rt = sys.env.get("FPP_PGO_RUNTIME").map(_.trim).filter(_.nonEmpty)
+          (Mode.releaseFast, LTO.thin, Seq("-fprofile-generate=" + dir),
+            Seq("-fprofile-generate=" + dir) ++
+              rt.toSeq.flatMap(a => Seq("-Wl,--whole-archive", a, "-Wl,--no-whole-archive")))
+        case other => // optimized, applying a profile when present
+          val prof = other.map(new java.io.File(_)).filter(_.exists).orElse(Some(localProf).filter(_.exists))
+          (Mode.releaseFull, LTO.full,
+            prof.toSeq.flatMap(p => Seq("-fprofile-use=" + p.getAbsolutePath,
+              "-Wno-profile-instr-out-of-date", "-Wno-profile-instr-unprofiled")),
+            Seq.empty[String])
+      }
       val config = nativeConfig.value
-      // Absolute path to the committed PGO profile (clang resolves it at compile time).
-      val profile = ((ThisBuild / baseDirectory).value / "pgo" / "fpp.profdata")
-      val pgoOpts =
-        if (profile.exists) Seq("-fprofile-use=" + profile.getAbsolutePath,
-                                "-Wno-profile-instr-out-of-date",
-                                "-Wno-profile-instr-unprofiled")
-        else Seq.empty[String]
-      config.withLTO(LTO.full).withMode(Mode.releaseFull).withGC(GC.none)
-        .withLinkStubs(true)
-        .withCompileOptions(config.compileOptions ++ Seq("-O3") ++ pgoOpts)
-        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions)
+      config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
+        .withCompileOptions(config.compileOptions ++ Seq("-O3") ++ compile)
+        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }
   )
   .dependsOn(nativeLib)
