@@ -55,8 +55,9 @@ object FPPLocateUses {
           case Some(dir) => dir
           case None => ""
         }
-        val baseDirPath = java.nio.file.Paths.get(baseDir).toAbsolutePath
-        val relativePath = baseDirPath.relativize(path)
+        // Normalize both operands before relativize (fixes Scala Native bug)
+        val baseDirPath = java.nio.file.Paths.get(baseDir).toAbsolutePath.normalize
+        val relativePath = baseDirPath.relativize(path.toAbsolutePath.normalize)
         val fileNode = AstNode.create(relativePath.normalize.toString)
         val kind = s match {
           case _: Symbol.AbsType => Ast.SpecLoc.Type
