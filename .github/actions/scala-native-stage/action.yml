@@ -1,0 +1,20 @@
+name: Stage Scala Native FPP
+description: Stage the Scala Native dispatcher and per-tool wrappers
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      working-directory: compiler
+      run: |
+        native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
+        test -n "$native_binary"
+        rm -rf bin
+        mkdir -p bin
+        install -m 755 "$native_binary" bin/fpp
+        while IFS= read -r tool
+        do
+          printf '#!/bin/sh\n"$(dirname "$0")/fpp" %s "$@"\n' "$tool" \
+            > "bin/fpp-$tool"
+          chmod +x "bin/fpp-$tool"
+        done < tools.txt

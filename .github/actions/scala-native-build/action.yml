@@ -1,0 +1,43 @@
+name: Build Scala Native FPP
+description: Link the Scala Native FPP binary with an optional PGO mode
+
+inputs:
+  jvm-heap:
+    description: Maximum sbt JVM heap, such as 12G; empty uses JVM ergonomics
+    required: false
+    default: ''
+  pgo-mode:
+    description: Empty for a normal build, or generate/apply for PGO
+    required: false
+    default: ''
+  profile-directory:
+    description: Directory for raw profiles during PGO generation
+    required: false
+    default: ''
+  profile-file:
+    description: Merged profile file to consume during PGO application
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      working-directory: compiler
+      env:
+        FPP_PGO: ${{ inputs.pgo-mode }}
+        FPP_PGO_DIR: ${{ inputs.profile-directory }}
+        FPP_PGO_PROFILE: ${{ inputs.profile-file }}
+        SBT_JVM_HEAP: ${{ inputs.jvm-heap }}
+      run: |
+        sbt_args=(--batch)
+        if [[ -n "$SBT_JVM_HEAP" ]]
+        then
+          sbt_args=("-J-Xmx$SBT_JVM_HEAP" "${sbt_args[@]}")
+        fi
+        if [[ "$FPP_PGO" == generate ]]
+        then
+          test -n "$FPP_PGO_DIR"
+          mkdir -p "$FPP_PGO_DIR"
+        fi
+        sbt "${sbt_args[@]}" "nativeFpp/nativeLink"
