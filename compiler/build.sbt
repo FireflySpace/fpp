@@ -103,7 +103,7 @@ lazy val nativeFpp = (project in file("tools/fpp"))
           sys.error(s"Unsupported FPP_PGO value '$value'; use generate or apply")
       }
       val config = nativeConfig.value
-      config.withMode(Mode.releaseFull).withLTO(LTO.full).withGC(GC.none).withLinkStubs(true)
+      config.withMode(Mode.releaseFull).withLTO(LTO.thin).withGC(GC.none).withLinkStubs(true)
         .withCompileOptions(config.compileOptions ++ compile)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }
