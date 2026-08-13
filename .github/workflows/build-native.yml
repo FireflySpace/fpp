@@ -1,4 +1,4 @@
-name: Build Native Images
+name: Build Graal CE Native Images
 
 on:
   push:
