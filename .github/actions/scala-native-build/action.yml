@@ -33,7 +33,7 @@ runs:
         sbt_args=(--batch)
         if [[ -n "$SBT_JVM_HEAP" ]]
         then
-          sbt_args=("-J-Xmx$SBT_JVM_HEAP" "${sbt_args[@]}")
+          sbt_args+=("-J-Xmx$SBT_JVM_HEAP")
         fi
         if [[ "$FPP_PGO" == generate ]]
         then
