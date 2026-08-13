@@ -45,6 +45,11 @@ defs_dir()
   update '-d defs' 'defs/defs-1.fpp defs/defs-2' defs_dir
 }
 
+defs_parent_dir()
+{
+  update '-d defs/build/subdir' 'defs/defs-1.fpp defs/defs-2' defs_parent_dir
+}
+
 stdin()
 {
   $fpp_locate_defs < defs/defs-1.fpp > stdin.ref.txt
