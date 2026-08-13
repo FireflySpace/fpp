@@ -98,6 +98,8 @@ jobs:
       - if: runner.os == 'macOS'
         name: Build Scala Native tools
         uses: ./.github/actions/scala-native-build
+        with:
+          jvm-heap: 6GB
       - if: runner.os == 'Linux'
         name: Build instrumented Scala Native tools
         uses: ./.github/actions/scala-native-build
