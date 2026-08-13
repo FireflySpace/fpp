@@ -99,7 +99,7 @@ jobs:
         name: Build Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 4GB
+          jvm-heap: 5G
       - if: runner.os == 'Linux'
         name: Build instrumented Scala Native tools
         uses: ./.github/actions/scala-native-build
