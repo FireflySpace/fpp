@@ -1,4 +1,4 @@
-name: 'fprime-build-native-scala'
+name: 'Build Graal CE Native'
 on:
   workflow_call:
     inputs:
