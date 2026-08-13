@@ -92,59 +92,39 @@ jobs:
           fi
           util=lib/src/main/scala/util
           echo "Updating version to $version"
+          echo "FPP_VERSION=${version#v}" >> "$GITHUB_ENV"
           sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
             $util/Version.scala
       - if: runner.os == 'macOS'
         name: Build Scala Native tools
-        working-directory: compiler
-        run: sbt --batch "nativeFpp/nativeLink"
+        uses: ./.github/actions/scala-native-build
       - if: runner.os == 'Linux'
         name: Build instrumented Scala Native tools
-        working-directory: compiler
-        env:
-          FPP_PGO: generate
-          FPP_PGO_DIR: ${{ runner.temp }}/fpp-pgo
-        run: |
-          mkdir -p "$FPP_PGO_DIR"
-          sbt -J-Xmx12G --batch "nativeFpp/nativeLink"
+        uses: ./.github/actions/scala-native-build
+        with:
+          jvm-heap: 12G
+          pgo-mode: generate
+          profile-directory: ${{ runner.temp }}/fpp-pgo
       - if: runner.os == 'Linux'
         name: Stage instrumented Scala Native tools
-        working-directory: compiler
-        run: |
-          native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
-          test -n "$native_binary"
-          mkdir -p bin
-          install -m 755 "$native_binary" bin/fpp
-          while IFS= read -r tool
-          do
-            printf '#!/bin/sh\n"$(dirname "$0")/fpp" %s "$@"\n' "$tool" \
-              > "bin/fpp-$tool"
-            chmod +x "bin/fpp-$tool"
-          done < tools.txt
+        uses: ./.github/actions/scala-native-stage
       - if: runner.os == 'Linux'
-        name: Exercise instrumented Scala Native tools
-        working-directory: compiler
-        env:
-          # Each test launches a new fpp process; keep every process's counters.
-          LLVM_PROFILE_FILE: ${{ runner.temp }}/fpp-pgo/fpp-%p.profraw
-        run: ./test
-      - if: runner.os == 'Linux'
-        name: Merge Scala Native profiles
-        working-directory: compiler
-        env:
-          FPP_PGO_DIR: ${{ runner.temp }}/fpp-pgo
-        run: |
-          mkdir -p pgo
-          llvm-profdata merge -o pgo/fpp.profdata "$FPP_PGO_DIR"/*.profraw
-          llvm-profdata show pgo/fpp.profdata
+        name: Profile instrumented Scala Native tools
+        uses: ./.github/actions/scala-native-profile
+        with:
+          fpp-version: ${{ env.FPP_VERSION }}
+          profile-directory: ${{ runner.temp }}/fpp-pgo
+          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
+          python: ${{ matrix.python }}
+          fprime-directory: ${{ runner.temp }}/fprime
+          fprime-venv: ${{ runner.temp }}/fprime-venv
       - if: runner.os == 'Linux'
         name: Build profile-guided Scala Native tools
-        working-directory: compiler
-        env:
-          FPP_PGO: apply
-        # -J forwards the heap limit through sbt to its JVM. The runner has
-        # 16 GB, leaving 4 GB for Clang, the linker, and other processes.
-        run: sbt -J-Xmx12G --batch "nativeFpp/nativeLink"
+        uses: ./.github/actions/scala-native-build
+        with:
+          jvm-heap: 12G
+          pgo-mode: apply
+          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
       - name: Restore Version.scala
         if: always()
         working-directory: compiler
@@ -156,19 +136,7 @@ jobs:
           sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
             $util/Version.scala
       - name: Stage Scala Native tools
-        working-directory: compiler
-        run: |
-          native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
-          test -n "$native_binary"
-          rm -rf bin
-          mkdir -p bin
-          install -m 755 "$native_binary" bin/fpp
-          while IFS= read -r tool
-          do
-            printf '#!/bin/sh\n"$(dirname "$0")/fpp" %s "$@"\n' "$tool" \
-              > "bin/fpp-$tool"
-            chmod +x "bin/fpp-$tool"
-          done < tools.txt
+        uses: ./.github/actions/scala-native-stage
       - name: Test Scala Native tools
         working-directory: compiler
         run: ./test

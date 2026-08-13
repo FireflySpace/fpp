@@ -5,6 +5,7 @@
 .*
 !.gitignore
 !.gitattributes
+!.github/
 __SHADOW__
 __pycache__
 dist/

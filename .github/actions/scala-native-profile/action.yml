@@ -1,0 +1,75 @@
+name: Profile Scala Native FPP
+description: Exercise instrumented FPP, build a matching F Prime revision, and merge profiles
+
+inputs:
+  fpp-version:
+    description: FPP version required by the F Prime revision
+    required: true
+  profile-directory:
+    description: Directory containing raw LLVM profiles
+    required: true
+  profile-file:
+    description: Output path for the merged LLVM profile
+    required: true
+  python:
+    description: Python interpreter used for the F Prime environment
+    required: true
+  fprime-directory:
+    description: Temporary F Prime checkout path
+    required: true
+  fprime-venv:
+    description: Temporary F Prime virtual environment path
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Exercise FPP acceptance suite
+      shell: bash
+      working-directory: compiler
+      env:
+        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%p.profraw
+      run: ./test
+
+    - name: Build matching F Prime revision
+      shell: bash
+      env:
+        FPP_VERSION: ${{ inputs.fpp-version }}
+        FPRIME_DIR: ${{ inputs.fprime-directory }}
+        FPRIME_VENV: ${{ inputs.fprime-venv }}
+        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%p.profraw
+      run: |
+        git clone https://github.com/nasa/fprime.git "$FPRIME_DIR"
+        cd "$FPRIME_DIR"
+        pin="fprime-fpp==$FPP_VERSION"
+        if grep -Fqx "$pin" requirements.txt
+        then
+          commit=HEAD
+        else
+          boundary=$(git log -1 -G "^$pin$" --format=%H -- requirements.txt)
+          test -n "$boundary"
+          commit="$boundary^"
+        fi
+        git checkout "$commit"
+        grep -Fqx "$pin" requirements.txt
+        git submodule update --init --recursive
+        git show -s --format='Profiling against F Prime %H (%cs): %s'
+
+        uv venv "$FPRIME_VENV" --python '${{ inputs.python }}'
+        uv pip install --python "$FPRIME_VENV/bin/python" -r requirements.txt
+        export PATH="$GITHUB_WORKSPACE/compiler/bin:$FPRIME_VENV/bin:$PATH"
+        test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
+        fpp --version
+        cd TestDeploymentsProject
+        fprime-util generate
+        fprime-util build -j4
+
+    - name: Merge profiles
+      shell: bash
+      env:
+        PROFILE_DIRECTORY: ${{ inputs.profile-directory }}
+        PROFILE_FILE: ${{ inputs.profile-file }}
+      run: |
+        mkdir -p "$(dirname "$PROFILE_FILE")"
+        llvm-profdata merge -o "$PROFILE_FILE" "$PROFILE_DIRECTORY"/*.profraw
+        llvm-profdata show "$PROFILE_FILE"
