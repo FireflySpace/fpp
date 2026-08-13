@@ -53,7 +53,7 @@ jobs:
       - if: runner.os == 'Linux'
         name: Install Linux build tools
         run: |
-          dnf install --assumeyes clang
+          dnf install --assumeyes clang llvm
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
       - name: Show toolchain versions
@@ -94,9 +94,57 @@ jobs:
           echo "Updating version to $version"
           sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
             $util/Version.scala
-      - name: Build Scala Native tools
+      - if: runner.os == 'macOS'
+        name: Build Scala Native tools
         working-directory: compiler
         run: sbt --batch "nativeFpp/nativeLink"
+      - if: runner.os == 'Linux'
+        name: Build instrumented Scala Native tools
+        working-directory: compiler
+        env:
+          FPP_PGO: generate
+          FPP_PGO_DIR: ${{ runner.temp }}/fpp-pgo
+        run: |
+          mkdir -p "$FPP_PGO_DIR"
+          sbt -J-Xmx12G --batch "nativeFpp/nativeLink"
+      - if: runner.os == 'Linux'
+        name: Stage instrumented Scala Native tools
+        working-directory: compiler
+        run: |
+          native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
+          test -n "$native_binary"
+          mkdir -p bin
+          install -m 755 "$native_binary" bin/fpp
+          while IFS= read -r tool
+          do
+            printf '#!/bin/sh\n"$(dirname "$0")/fpp" %s "$@"\n' "$tool" \
+              > "bin/fpp-$tool"
+            chmod +x "bin/fpp-$tool"
+          done < tools.txt
+      - if: runner.os == 'Linux'
+        name: Exercise instrumented Scala Native tools
+        working-directory: compiler
+        env:
+          # Each test launches a new fpp process; keep every process's counters.
+          LLVM_PROFILE_FILE: ${{ runner.temp }}/fpp-pgo/fpp-%p.profraw
+        run: ./test
+      - if: runner.os == 'Linux'
+        name: Merge Scala Native profiles
+        working-directory: compiler
+        env:
+          FPP_PGO_DIR: ${{ runner.temp }}/fpp-pgo
+        run: |
+          mkdir -p pgo
+          llvm-profdata merge -o pgo/fpp.profdata "$FPP_PGO_DIR"/*.profraw
+          llvm-profdata show pgo/fpp.profdata
+      - if: runner.os == 'Linux'
+        name: Build profile-guided Scala Native tools
+        working-directory: compiler
+        env:
+          FPP_PGO: apply
+        # -J forwards the heap limit through sbt to its JVM. The runner has
+        # 16 GB, leaving 4 GB for Clang, the linker, and other processes.
+        run: sbt -J-Xmx12G --batch "nativeFpp/nativeLink"
       - name: Restore Version.scala
         if: always()
         working-directory: compiler
