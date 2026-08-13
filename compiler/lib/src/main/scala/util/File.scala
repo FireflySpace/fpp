@@ -64,6 +64,35 @@ object File {
   /** Construct a file from a string representing a file path */
   def fromString(s: String): File = Path(getJavaPath(s))
 
+  /** Relativize a path without relying on Path.relativize.
+   *
+   *  Scala Native 0.4.17 drops parent segments when the target is outside the
+   *  base directory. Its Path.normalize also cancels consecutive leading `..`
+   *  segments, so construct and return the clean lexical path directly.
+   */
+  def relativize(base: JavaPath)(target: JavaPath): JavaPath = {
+    val normalizedBase = base.toAbsolutePath.normalize
+    val normalizedTarget = target.toAbsolutePath.normalize
+    if normalizedBase.getRoot != normalizedTarget.getRoot
+    then throw new IllegalArgumentException(
+      s"cannot relativize paths with different roots: $normalizedBase and $normalizedTarget"
+    )
+
+    def getNames(path: JavaPath) =
+      (0 until path.getNameCount).map(path.getName(_).toString)
+
+    val baseNames = getNames(normalizedBase)
+    val targetNames = getNames(normalizedTarget)
+    val commonCount = baseNames.zip(targetNames).takeWhile {
+      case (baseName, targetName) => baseName == targetName
+    }.length
+    val relativeNames =
+      Seq.fill(baseNames.length - commonCount)("..") ++ targetNames.drop(commonCount)
+    relativeNames.foldLeft(java.nio.file.Paths.get("")) {
+      case (path, name) => path.resolve(name)
+    }
+  }
+
   /** Remove the longest prefix from a Java path */
   def removeLongestPrefix(prefixes: List[String])(path: JavaPath): JavaPath = {
     def removePrefix(s: String) = {

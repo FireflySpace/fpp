@@ -171,10 +171,9 @@ object LocateDefsFppWriter extends AstVisitor with LineUtils {
           case Some(dir) => dir
           case None => ""
         }
-        // Normalize both operands before relativize (fixes Scala Native bug)
-        val baseDirPath = java.nio.file.Paths.get(baseDir).toAbsolutePath.normalize
-        val relativePath = baseDirPath.relativize(path.toAbsolutePath.normalize)
-        val fileNode = AstNode.create(relativePath.normalize.toString)
+        val baseDirPath = java.nio.file.Paths.get(baseDir)
+        val relativePath = File.relativize(baseDirPath)(path)
+        val fileNode = AstNode.create(relativePath.toString)
         val specLocNode = AstNode.create(Ast.SpecLoc(kind, qualIdentNode, fileNode, isDictionaryDef))
         val specLocAnnotatedNode = (Nil, specLocNode, Nil)
         FppWriter.specLocAnnotatedNode((), specLocAnnotatedNode)

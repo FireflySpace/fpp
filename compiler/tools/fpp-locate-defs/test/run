@@ -53,4 +53,9 @@ defs_dir()
   run_test '-d defs' 'defs/defs-1.fpp defs/defs-2' defs_dir
 }
 
+defs_parent_dir()
+{
+  run_test '-d defs/build/subdir' 'defs/defs-1.fpp defs/defs-2' defs_parent_dir
+}
+
 run_suite $tests
