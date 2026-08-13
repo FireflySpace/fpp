@@ -19,12 +19,12 @@ jobs:
         include:
           - runner: macos-15
             artifact: darwin-arm64
-            python: python3
+            python: '3.10'
             wheel_tag: macosx_14_0_arm64
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
-            python: /opt/python/cp39-cp39/bin/python
+            python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_x86_64
     runs-on: ${{ matrix.runner }}
     container:
