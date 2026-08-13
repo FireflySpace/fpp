@@ -173,7 +173,7 @@ object LocateDefsFppWriter extends AstVisitor with LineUtils {
         }
         val baseDirPath = java.nio.file.Paths.get(baseDir)
         val relativePath = File.relativize(baseDirPath)(path)
-        val fileNode = AstNode.create(relativePath.toString)
+        val fileNode = AstNode.create(relativePath)
         val specLocNode = AstNode.create(Ast.SpecLoc(kind, qualIdentNode, fileNode, isDictionaryDef))
         val specLocAnnotatedNode = (Nil, specLocNode, Nil)
         FppWriter.specLocAnnotatedNode((), specLocAnnotatedNode)

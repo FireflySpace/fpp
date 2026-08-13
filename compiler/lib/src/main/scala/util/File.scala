@@ -68,9 +68,9 @@ object File {
    *
    *  Scala Native 0.4.17 drops parent segments when the target is outside the
    *  base directory. Its Path.normalize also cancels consecutive leading `..`
-   *  segments, so construct and return the clean lexical path directly.
+   *  segments.
    */
-  def relativize(base: JavaPath)(target: JavaPath): JavaPath = {
+  def relativize(base: JavaPath)(target: JavaPath): String = {
     val normalizedBase = base.toAbsolutePath.normalize
     val normalizedTarget = target.toAbsolutePath.normalize
     if normalizedBase.getRoot != normalizedTarget.getRoot
@@ -88,9 +88,7 @@ object File {
     }.length
     val relativeNames =
       Seq.fill(baseNames.length - commonCount)("..") ++ targetNames.drop(commonCount)
-    relativeNames.foldLeft(java.nio.file.Paths.get("")) {
-      case (path, name) => path.resolve(name)
-    }
+    if relativeNames.isEmpty then "." else relativeNames.mkString("/")
   }
 
   /** Remove the longest prefix from a Java path */

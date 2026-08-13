@@ -57,7 +57,7 @@ object FPPLocateUses {
         }
         val baseDirPath = java.nio.file.Paths.get(baseDir)
         val relativePath = File.relativize(baseDirPath)(path)
-        val fileNode = AstNode.create(relativePath.toString)
+        val fileNode = AstNode.create(relativePath)
         val kind = s match {
           case _: Symbol.AbsType => Ast.SpecLoc.Type
           case _: Symbol.AliasType => Ast.SpecLoc.Type
