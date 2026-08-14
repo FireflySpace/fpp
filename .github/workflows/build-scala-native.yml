@@ -17,10 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-15
-            artifact: darwin-arm64
-            python: '3.10'
-            wheel_tag: macosx_14_0_arm64
+          # macOS leg disarmed for now — re-enable later (a fight for another day).
+          # - runner: macos-15
+          #   artifact: darwin-arm64
+          #   python: '3.10'
+          #   wheel_tag: macosx_14_0_arm64
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
@@ -104,7 +105,7 @@ jobs:
         name: Build instrumented Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 12G
+          jvm-heap: 8G
           pgo-mode: generate
           profile-directory: ${{ runner.temp }}/fpp-pgo
       - if: runner.os == 'Linux'
@@ -124,7 +125,7 @@ jobs:
         name: Build profile-guided Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 12G
+          jvm-heap: 8G
           pgo-mode: apply
           profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
       - name: Restore Version.scala
@@ -203,19 +204,16 @@ jobs:
         run: |
           tag='${{ steps.rel.outputs.tag }}'
           base_url="https://github.com/${{ github.repository }}/releases/download/$tag"
-          macos_wheel=$(find release -type f -name '*macosx_*_arm64.whl' -print -quit)
+          # macOS leg disarmed — linux-only publish for now.
           linux_wheel=$(find release -type f -name '*manylinux_*_x86_64.whl' -print -quit)
-          test -n "$macos_wheel"
           test -n "$linux_wheel"
           # Downloaded artifacts keep their internal layout
           # (release/dist/*.whl and release/compiler/*.tar.gz), so flatten the
           # real files into release/ root where the publish globs look for them.
-          cp "$macos_wheel" "$linux_wheel" release/
+          cp "$linux_wheel" release/
           find release -type f -name '*.tar.gz' -exec cp -t release/ {} +
-          printf 'fprime-fpp @ %s/%s ; sys_platform == "darwin" and platform_machine == "arm64"\n' \
-            "$base_url" "$(basename "$macos_wheel")" > release/overrides.txt
           printf 'fprime-fpp @ %s/%s ; sys_platform == "linux" and platform_machine == "x86_64"\n' \
-            "$base_url" "$(basename "$linux_wheel")" >> release/overrides.txt
+            "$base_url" "$(basename "$linux_wheel")" > release/overrides.txt
           # Fail loudly if the flattened assets the publish step uploads are
           # missing, instead of letting a glob silently match nothing.
           ls release/*.whl release/*.tar.gz release/overrides.txt

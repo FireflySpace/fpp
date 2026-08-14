@@ -35,9 +35,50 @@ runs:
         then
           sbt_args+=("-J-Xmx$SBT_JVM_HEAP")
         fi
+        # Serialize Scala Native's per-.ll clang compiles (it otherwise spawns
+        # one clang per processor). On the 16 GB free runner, releaseFull's
+        # concurrent clang -flto processes (~1.6-3.7 GB each) stack on top of the
+        # resident JVM heap and OOM-kill the job at the optimize->codegen
+        # transition. Capping processors to 1 compiles one .ll at a time
+        # (~3.7 GB peak instead of ~10.5 GB); the optimize phase is
+        # single-threaded so this doesn't slow it.
+        sbt_args+=("-J-XX:ActiveProcessorCount=1")
         if [[ "$FPP_PGO" == generate ]]
         then
           test -n "$FPP_PGO_DIR"
           mkdir -p "$FPP_PGO_DIR"
         fi
+
+        # Locate this shell's cgroup v2 dir so we can read the memory
+        # high-water mark and OOM-kill counter after the build (works inside the
+        # manylinux container without privilege, unlike dmesg).
+        cg=/sys/fs/cgroup
+        rel=$(awk -F: '$1=="0"{print $3}' /proc/self/cgroup 2>/dev/null)
+        [[ -n "$rel" && -d "$cg$rel" ]] && cg="$cg$rel"
+        echo "::group::memory before build"
+        free -m || true
+        cat "$cg/memory.max" 2>/dev/null | sed 's/^/memory.max=/' || true
+        echo "::endgroup::"
+
+        # Run the link but do NOT let a non-zero exit abort before diagnostics.
+        set +e
         sbt "${sbt_args[@]}" "nativeFpp/nativeLink"
+        rc=$?
+        set -e
+
+        echo "::group::memory after build (rc=$rc)"
+        echo "peak(bytes)=$(cat "$cg/memory.peak" 2>/dev/null || echo n/a)"
+        echo "memory.max=$(cat "$cg/memory.max" 2>/dev/null || echo n/a)"
+        echo "--- memory.events (oom_kill = kernel OOM-killed a process here) ---"
+        cat "$cg/memory.events" 2>/dev/null || echo "unavailable"
+        echo "--- free -m ---"; free -m || true
+        echo "--- dmesg OOM lines (usually denied in container) ---"
+        dmesg 2>/dev/null | grep -iE "killed process|out of memory|oom-kill" | tail -5 || echo "dmesg unavailable"
+        echo "::endgroup::"
+
+        if [[ $rc -ne 0 ]]; then
+          peak=$(cat "$cg/memory.peak" 2>/dev/null || echo 0)
+          oom=$(awk '/^oom_kill /{print $2}' "$cg/memory.events" 2>/dev/null || echo 0)
+          echo "::error::nativeLink failed (rc=$rc). cgroup peak=${peak} bytes, oom_kill=${oom:-0}. rc=137 + oom_kill>0 => OOM."
+        fi
+        exit $rc
