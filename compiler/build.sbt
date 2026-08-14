@@ -102,8 +102,22 @@ lazy val nativeFpp = (project in file("tools/fpp"))
         case Some(value) =>
           sys.error(s"Unsupported FPP_PGO value '$value'; use generate or apply")
       }
+      // FPP_MODE selects the Scala Native optimization mode (default releaseFast):
+      val mode = sys.env.get("FPP_MODE").map(_.trim.toLowerCase).filter(_.nonEmpty) match {
+        case None | Some("fast") | Some("releaseFast") => Mode.releaseFast
+        case        Some("full") | Some("releaseFull") => Mode.releaseFull
+        case        Some("debug")                      => Mode.debug
+        case Some(v) => sys.error(s"Unsupported FPP_MODE '$v'; use releasefast|releasefull|debug")
+      }
+      // FPP_LTO selects the link-time-optimization level (default thin):
+      val lto = sys.env.get("FPP_LTO").map(_.trim.toLowerCase).filter(_.nonEmpty) match {
+        case None | Some("thin") => LTO.thin
+        case        Some("full") => LTO.full
+        case        Some("none") => LTO.none
+        case Some(v) => sys.error(s"Unsupported FPP_LTO '$v'; use none|thin|full")
+      }
       val config = nativeConfig.value
-      config.withMode(Mode.releaseFull).withLTO(LTO.thin).withGC(GC.none).withLinkStubs(true)
+      config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
         .withCompileOptions(config.compileOptions ++ compile)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }
