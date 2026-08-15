@@ -86,9 +86,12 @@ lazy val nativeFpp = (project in file("tools/fpp"))
         case Some("generate") => // instrumented
           val dir = sys.env.getOrElse("FPP_PGO_DIR", "/tmp/fpp-pgo")
           val rt = sys.env.get("FPP_PGO_RUNTIME").map(_.trim).filter(_.nonEmpty)
-          (Seq("-fprofile-generate=" + dir),
-            Seq("-fprofile-generate=" + dir) ++
-              rt.toSeq.flatMap(a => Seq("-Wl,--whole-archive", a, "-Wl,--no-whole-archive")))
+          // Whole Archive if RUNTIME is provided
+          val link = rt match {
+            case Some(a) => Seq("-Wl,--whole-archive", a, "-Wl,--no-whole-archive")
+            case None    => Seq("-fprofile-generate=" + dir)
+          }
+          (Seq("-fprofile-generate=" + dir), link)
         case Some("apply") =>
           val localProf = (ThisBuild / baseDirectory).value / "pgo" / "fpp.profdata"
           val prof = sys.env.get("FPP_PGO_PROFILE").map(new java.io.File(_)).getOrElse(localProf)
@@ -103,9 +106,10 @@ lazy val nativeFpp = (project in file("tools/fpp"))
           sys.error(s"Unsupported FPP_PGO value '$value'; use generate or apply")
       }
       // FPP_MODE selects the Scala Native optimization mode (default releaseFast):
+      // Input is lowercased
       val mode = sys.env.get("FPP_MODE").map(_.trim.toLowerCase).filter(_.nonEmpty) match {
-        case None | Some("fast") | Some("releaseFast") => Mode.releaseFast
-        case        Some("full") | Some("releaseFull") => Mode.releaseFull
+        case None | Some("fast") | Some("releasefast") => Mode.releaseFast
+        case        Some("full") | Some("releasefull") => Mode.releaseFull
         case        Some("debug")                      => Mode.debug
         case Some(v) => sys.error(s"Unsupported FPP_MODE '$v'; use releasefast|releasefull|debug")
       }
