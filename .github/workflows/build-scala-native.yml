@@ -17,16 +17,32 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # macOS leg disarmed for now — re-enable later (a fight for another day).
-          # - runner: macos-15
-          #   artifact: darwin-arm64
-          #   python: '3.10'
-          #   wheel_tag: macosx_14_0_arm64
+          - runner: macos-14
+            artifact: darwin-arm64
+            python: '3.10'
+            wheel_tag: macosx_14_0_arm64
+            jvm_heap: 6G
+            pgo: true
+          - runner: macos-15-intel
+            artifact: darwin-x86_64
+            python: '3.10'
+            wheel_tag: macosx_15_0_x86_64
+            jvm_heap: 10G
+            pgo: true
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
             python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_x86_64
+            jvm_heap: 10G
+            pgo: true
+          - runner: ubuntu-22.04-arm
+            artifact: manylinux_2_28_aarch64
+            container: quay.io/pypa/manylinux_2_28_aarch64
+            python: /opt/python/cp310-cp310/bin/python
+            wheel_tag: manylinux_2_28_aarch64
+            jvm_heap: 10G
+            pgo: true
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
@@ -93,11 +109,6 @@ jobs:
           echo "Updating version to $version"
           sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
             $util/Version.scala
-      - if: runner.os == 'macOS'
-        name: Build Scala Native tools
-        uses: ./.github/actions/scala-native-build
-        with:
-          jvm-heap: 6G
       - if: runner.os == 'Linux'
         name: Reserve swap headroom for the full-LTO links
         shell: bash
@@ -124,20 +135,20 @@ jobs:
           echo "Enabled ${gib} GiB swap at $sw"
           swapon --show || true
           free -m || true
-      - if: runner.os == 'Linux'
-        name: Build instrumented Scala Native tools
+      - name: Build instrumented Scala Native tools
+        if: matrix.pgo
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 10G
+          jvm-heap: ${{ matrix.jvm_heap }}
           mode: releasefull
           lto: full
           pgo-mode: generate
           profile-directory: ${{ runner.temp }}/fpp-pgo
-      - if: runner.os == 'Linux'
-        name: Stage instrumented Scala Native tools
+      - name: Stage instrumented Scala Native tools
+        if: matrix.pgo
         uses: ./.github/actions/scala-native-stage
-      - if: runner.os == 'Linux'
-        name: Profile instrumented Scala Native tools
+      - name: Profile instrumented Scala Native tools
+        if: matrix.pgo
         uses: ./.github/actions/scala-native-profile
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -147,15 +158,22 @@ jobs:
           python: ${{ matrix.python }}
           fprime-directory: ${{ runner.temp }}/fprime
           fprime-venv: ${{ runner.temp }}/fprime-venv
-      - if: runner.os == 'Linux'
-        name: Build profile-guided Scala Native tools
+      - name: Build profile-guided Scala Native tools
+        if: matrix.pgo
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 10G
+          jvm-heap: ${{ matrix.jvm_heap }}
           mode: releasefull
           lto: full
           pgo-mode: apply
           profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
+      - name: Build unprofiled Scala Native tools
+        if: ${{ !matrix.pgo }}
+        uses: ./.github/actions/scala-native-build
+        with:
+          jvm-heap: ${{ matrix.jvm_heap }}
+          mode: releasefull
+          lto: full
       - name: Restore Version.scala
         if: always()
         working-directory: compiler
@@ -232,16 +250,25 @@ jobs:
         run: |
           tag='${{ steps.rel.outputs.tag }}'
           base_url="https://github.com/${{ github.repository }}/releases/download/$tag"
-          # macOS leg disarmed — linux-only publish for now.
-          linux_wheel=$(find release -type f -name '*manylinux_*_x86_64.whl' -print -quit)
-          test -n "$linux_wheel"
           # Downloaded artifacts keep their internal layout
           # (release/dist/*.whl and release/compiler/*.tar.gz), so flatten the
           # real files into release/ root where the publish globs look for them.
-          cp "$linux_wheel" release/
-          find release -type f -name '*.tar.gz' -exec cp -t release/ {} +
-          printf 'fprime-fpp @ %s/%s ; sys_platform == "linux" and platform_machine == "x86_64"\n' \
-            "$base_url" "$(basename "$linux_wheel")" > release/overrides.txt
+          find release -mindepth 2 -type f -name '*.whl' -exec cp -t release/ {} +
+          find release -mindepth 2 -type f -name '*.tar.gz' -exec cp -t release/ {} +
+          : > release/overrides.txt
+          while IFS='|' read -r pattern platform machine
+          do
+            wheel=$(find release -maxdepth 1 -type f -name "$pattern" -print -quit)
+            test -n "$wheel"
+            printf 'fprime-fpp @ %s/%s ; sys_platform == "%s" and platform_machine == "%s"\n' \
+              "$base_url" "$(basename "$wheel")" "$platform" "$machine" \
+              >> release/overrides.txt
+          done <<'EOF'
+          *manylinux_*_x86_64.whl|linux|x86_64
+          *manylinux_*_aarch64.whl|linux|aarch64
+          *macosx_*_x86_64.whl|darwin|x86_64
+          *macosx_*_arm64.whl|darwin|arm64
+          EOF
           # Fail loudly if the flattened assets the publish step uploads are
           # missing, instead of letting a glob silently match nothing.
           ls release/*.whl release/*.tar.gz release/overrides.txt

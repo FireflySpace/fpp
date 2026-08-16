@@ -51,10 +51,10 @@ runs:
         export CFLAGS="-Wno-error=overloaded-virtual"
         export CXXFLAGS="$CFLAGS"
 
-        mapfile -t candidates < <("$FPRIME_PYTHON" \
+        candidates=$("$FPRIME_PYTHON" \
           "$GITHUB_ACTION_PATH/select-fprime-revision.py" "$FPP_VERSION")
         selected=
-        for commit in "${candidates[@]}"; do
+        for commit in $candidates; do
           echo "Testing F Prime $commit with the staged FPP"
           git checkout --force "$commit"
           git clean -ffdX
