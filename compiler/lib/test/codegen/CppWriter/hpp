@@ -1,3 +1,0 @@
-#!/bin/sh
-
-scala -J--sun-misc-unsafe-memory-access=allow hpp

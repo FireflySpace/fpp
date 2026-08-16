@@ -68,6 +68,9 @@ lazy val root = (project in file("."))
 
 lazy val lib = project
   .settings(jvmSettings)
+  .settings(
+    Test / unmanagedSourceDirectories += baseDirectory.value / "test" / "codegen" / "CppWriter"
+  )
 
 lazy val fpp = (project in file("tools/fpp"))
   .settings(jvmSettings)

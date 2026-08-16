@@ -1,5 +1,6 @@
 import fpp.compiler.codegen._
 import CppDoc._
+import java.nio.file.{Files, Path}
 
 object Program extends LineUtils {
   val includeHeader = List(
@@ -232,32 +233,25 @@ object Program extends LineUtils {
 
 }
 
-object hpp {
+object generateCppDoc {
+
+  private def write(path: Path, lines: List[Line]): Unit =
+    Files.writeString(path, lines.map(_.toString).mkString("\n") + "\n")
 
   def main(args: Array[String]): Unit = {
-    val output = CppDocHppWriter.visitCppDoc(Program.cppDoc)
-    output.map(Line.write(Line.stdout))
-    ()
-  }
-
-}
-
-object cpp {
-
-  def main(args: Array[String]): Unit = {
-    val output = CppDocCppWriter.visitCppDoc(Program.cppDoc)
-    output.map(Line.write(Line.stdout))
-    ()
-  }
-
-}
-
-object otherCpp {
-
-  def main(args: Array[String]): Unit = {
-    val output = CppDocCppWriter.visitCppDoc(Program.cppDoc, Some("Other"))
-    output.map(Line.write(Line.stdout))
-    ()
+    val outputDirectory = Path.of(args(0))
+    write(
+      outputDirectory.resolve("C.hpp"),
+      CppDocHppWriter.visitCppDoc(Program.cppDoc)
+    )
+    write(
+      outputDirectory.resolve("C.cpp"),
+      CppDocCppWriter.visitCppDoc(Program.cppDoc)
+    )
+    write(
+      outputDirectory.resolve("Other.cpp"),
+      CppDocCppWriter.visitCppDoc(Program.cppDoc, Some("Other"))
+    )
   }
 
 }
