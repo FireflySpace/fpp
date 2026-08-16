@@ -61,8 +61,15 @@ runs:
         test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
         fpp --version
         cd TestDeploymentsProject
-        fprime-util generate
-        fprime-util build -j4
+        # GCC 14's -Woverloaded-virtual + F Prime's -Werror errors on
+        # Svc/BufferAccumulator
+        export CFLAGS="-Wno-error=overloaded-virtual"
+        export CXXFLAGS="$CFLAGS"
+        # Best-effort
+        if ! { fprime-util generate && fprime-util build -j4; }; then
+          echo "::warning::F Prime revision build failed; falling back to acceptance-suite PGO profiles"
+          exit 0
+        fi
 
     - name: Merge profiles
       shell: bash
