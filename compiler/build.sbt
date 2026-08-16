@@ -14,6 +14,8 @@ lazy val settings = Seq(
     // Language level 3.2: the FPP compiler has ~60 irrefutable `val Pattern =
     // expr` bindings that Scala 3.3 rejects
     "-source:3.2",
+    // Keep migration diagnostics visible without failing
+    "-Wconf:any:w",
     "-Xmax-inlines:1000"
   ),
   Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oNCXELOPQRM"),
