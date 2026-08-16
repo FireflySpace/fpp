@@ -1404,12 +1404,10 @@
               "astNodeId" : 19
             },
             "channelType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "U32" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
                   }
                 }
               }
@@ -1434,12 +1432,10 @@
               "astNodeId" : 19
             },
             "channelType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "U32" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
                   }
                 }
               }
@@ -1948,42 +1944,32 @@
     },
     "typeMap" : {
       "18" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "23" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "27" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "101" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "102" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },
@@ -2116,12 +2102,10 @@
                 "astNodeId" : 19
               },
               "channelType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -2169,12 +2153,10 @@
                 "astNodeId" : 19
               },
               "channelType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }

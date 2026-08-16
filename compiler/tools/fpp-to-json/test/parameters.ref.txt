@@ -1262,12 +1262,10 @@
               "astNodeId" : 10
             },
             "paramType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "U32" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
                   }
                 }
               }
@@ -1293,12 +1291,10 @@
               "astNodeId" : 16
             },
             "paramType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1333,12 +1329,10 @@
                     "Some" : 3
                   },
                   "eltType" : {
-                    "Primitive" : {
-                      "Float" : {
-                        "kind" : {
-                          "F64" : {
-                            
-                          }
+                    "Float" : {
+                      "kind" : {
+                        "F64" : {
+                          
                         }
                       }
                     }
@@ -1389,12 +1383,10 @@
                           "Some" : 3
                         },
                         "eltType" : {
-                          "Primitive" : {
-                            "Float" : {
-                              "kind" : {
-                                "F64" : {
-                                  
-                                }
+                          "Float" : {
+                            "kind" : {
+                              "F64" : {
+                                
                               }
                             }
                           }
@@ -1454,12 +1446,10 @@
                         "Some" : 3
                       },
                       "eltType" : {
-                        "Primitive" : {
-                          "Float" : {
-                            "kind" : {
-                              "F64" : {
-                                
-                              }
+                        "Float" : {
+                          "kind" : {
+                            "F64" : {
+                              
                             }
                           }
                         }
@@ -1510,12 +1500,10 @@
                               "Some" : 3
                             },
                             "eltType" : {
-                              "Primitive" : {
-                                "Float" : {
-                                  "kind" : {
-                                    "F64" : {
-                                      
-                                    }
+                              "Float" : {
+                                "kind" : {
+                                  "F64" : {
+                                    
                                   }
                                 }
                               }
@@ -1540,12 +1528,10 @@
               "astNodeId" : 34
             },
             "paramType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "I16" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "I16" : {
+                    
                   }
                 }
               }
@@ -1682,19 +1668,15 @@
     },
     "typeMap" : {
       "0" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "1" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
@@ -1709,12 +1691,10 @@
               "Some" : 3
             },
             "eltType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1765,12 +1745,10 @@
                     "Some" : 3
                   },
                   "eltType" : {
-                    "Primitive" : {
-                      "Float" : {
-                        "kind" : {
-                          "F64" : {
-                            
-                          }
+                    "Float" : {
+                      "kind" : {
+                        "F64" : {
+                          
                         }
                       }
                     }
@@ -1785,64 +1763,50 @@
         }
       },
       "8" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "9" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "11" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "12" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "13" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "14" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "15" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "19" : {
@@ -1855,12 +1819,10 @@
               "Some" : 3
             },
             "eltType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1911,12 +1873,10 @@
                     "Some" : 3
                   },
                   "eltType" : {
-                    "Primitive" : {
-                      "Float" : {
-                        "kind" : {
-                          "F64" : {
-                            
-                          }
+                    "Float" : {
+                      "kind" : {
+                        "F64" : {
+                          
                         }
                       }
                     }
@@ -1931,34 +1891,28 @@
         }
       },
       "20" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "21" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "22" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
@@ -1969,12 +1923,10 @@
             "Some" : 3
           },
           "eltType" : {
-            "Primitive" : {
-              "Float" : {
-                "kind" : {
-                  "F64" : {
-                    
-                  }
+            "Float" : {
+              "kind" : {
+                "F64" : {
+                  
                 }
               }
             }
@@ -1982,28 +1934,22 @@
         }
       },
       "24" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "32" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "I16" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "I16" : {
+              
             }
           }
         }
       },
       "33" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },

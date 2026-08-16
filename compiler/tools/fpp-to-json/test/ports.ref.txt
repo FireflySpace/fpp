@@ -2024,12 +2024,10 @@
     },
     "typeMap" : {
       "0" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U16" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U16" : {
+              
             }
           }
         }
@@ -2040,12 +2038,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U16" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U16" : {
+                  
                 }
               }
             }
@@ -2053,48 +2049,38 @@
         }
       },
       "2" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "3" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "10" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "13" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "I32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "I32" : {
+              
             }
           }
         }
       },
       "15" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F32" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F32" : {
+              
             }
           }
         }
@@ -2298,12 +2284,10 @@
         }
       },
       "63" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
@@ -2344,17 +2328,13 @@
         }
       },
       "90" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "91" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "124" : {
@@ -2363,12 +2343,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U16" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U16" : {
+                  
                 }
               }
             }
@@ -2376,10 +2354,8 @@
         }
       },
       "125" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },

@@ -2658,159 +2658,123 @@
     },
     "typeMap" : {
       "3" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "8" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "10" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "141" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "143" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "148" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "I32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "I32" : {
+              
             }
           }
         }
       },
       "150" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "152" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "153" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "155" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "157" : {
         "AnonStruct" : {
           "members" : {
             "seconds" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             },
             "useconds" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             }
           }
         }
       },
       "162" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "I32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "I32" : {
+              
             }
           }
         }
       },
       "166" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F32" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F32" : {
+              
             }
           }
         }
       },
       "170" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U8" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U8" : {
+              
             }
           }
         }
       },
       "172" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "191" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "193" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },

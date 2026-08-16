@@ -1446,31 +1446,23 @@
     },
     "typeMap" : {
       "0" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "1" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "2" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "3" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "4" : {
@@ -1484,24 +1476,18 @@
         }
       },
       "6" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "7" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "8" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "9" : {
@@ -1510,10 +1496,8 @@
             "Some" : 3
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
@@ -1524,28 +1508,22 @@
             "Some" : 3
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
       },
       "11" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "12" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
@@ -1556,12 +1534,10 @@
             "Some" : 2
           },
           "eltType" : {
-            "Primitive" : {
-              "Float" : {
-                "kind" : {
-                  "F64" : {
-                    
-                  }
+            "Float" : {
+              "kind" : {
+                "F64" : {
+                  
                 }
               }
             }
@@ -1574,12 +1550,10 @@
             "Some" : 2
           },
           "eltType" : {
-            "Primitive" : {
-              "Float" : {
-                "kind" : {
-                  "F64" : {
-                    
-                  }
+            "Float" : {
+              "kind" : {
+                "F64" : {
+                  
                 }
               }
             }
@@ -1587,17 +1561,13 @@
         }
       },
       "15" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "16" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "17" : {
@@ -1606,26 +1576,20 @@
             "Some" : 2
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
       },
       "18" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "19" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "20" : {
@@ -1634,10 +1598,8 @@
             "Some" : 2
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
@@ -1653,10 +1615,8 @@
                 "Some" : 2
               },
               "eltType" : {
-                "Int" : {
-                  "Integer" : {
-                    
-                  }
+                "Integer" : {
+                  
                 }
               }
             }
@@ -1674,10 +1634,8 @@
                 "Some" : 2
               },
               "eltType" : {
-                "Int" : {
-                  "Integer" : {
-                    
-                  }
+                "Integer" : {
+                  
                 }
               }
             }
@@ -1695,10 +1653,8 @@
                 "Some" : 2
               },
               "eltType" : {
-                "Int" : {
-                  "Integer" : {
-                    
-                  }
+                "Integer" : {
+                  
                 }
               }
             }
@@ -1706,10 +1662,8 @@
         }
       },
       "24" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "25" : {
@@ -1718,10 +1672,8 @@
             "Some" : 2
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
@@ -1732,10 +1684,8 @@
             "Some" : 2
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
@@ -1751,10 +1701,8 @@
                 "Some" : 2
               },
               "eltType" : {
-                "Int" : {
-                  "Integer" : {
-                    
-                  }
+                "Integer" : {
+                  
                 }
               }
             }
@@ -1762,17 +1710,13 @@
         }
       },
       "28" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "29" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "30" : {
@@ -1781,33 +1725,25 @@
             "Some" : 2
           },
           "eltType" : {
-            "Int" : {
-              "Integer" : {
-                
-              }
+            "Integer" : {
+              
             }
           }
         }
       },
       "31" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "32" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "33" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "35" : {
@@ -1816,20 +1752,16 @@
         }
       },
       "37" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "39" : {
         "AnonStruct" : {
           "members" : {
             "x" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             },
             "y" : {
@@ -1838,10 +1770,8 @@
               }
             },
             "z" : {
-              "Primitive" : {
-                "Boolean" : {
-                  
-                }
+              "Boolean" : {
+                
               }
             }
           }
@@ -1851,10 +1781,8 @@
         "AnonStruct" : {
           "members" : {
             "x" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             },
             "y" : {
@@ -1863,10 +1791,8 @@
               }
             },
             "z" : {
-              "Primitive" : {
-                "Boolean" : {
-                  
-                }
+              "Boolean" : {
+                
               }
             }
           }
@@ -1887,54 +1813,42 @@
         }
       },
       "43" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "45" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "47" : {
         "AnonStruct" : {
           "members" : {
             "x" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             },
             "y" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             }
           }
         }
       },
       "48" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "50" : {
         "AnonStruct" : {
           "members" : {
             "x" : {
-              "Int" : {
-                "Integer" : {
-                  
-                }
+              "Integer" : {
+                
               }
             }
           }
@@ -1949,17 +1863,13 @@
             "AnonStruct" : {
               "members" : {
                 "x" : {
-                  "Int" : {
-                    "Integer" : {
-                      
-                    }
+                  "Integer" : {
+                    
                   }
                 },
                 "y" : {
-                  "Int" : {
-                    "Integer" : {
-                      
-                    }
+                  "Integer" : {
+                    
                   }
                 }
               }
@@ -1976,17 +1886,13 @@
             "AnonStruct" : {
               "members" : {
                 "x" : {
-                  "Int" : {
-                    "Integer" : {
-                      
-                    }
+                  "Integer" : {
+                    
                   }
                 },
                 "y" : {
-                  "Int" : {
-                    "Integer" : {
-                      
-                    }
+                  "Integer" : {
+                    
                   }
                 }
               }
@@ -1995,189 +1901,137 @@
         }
       },
       "53" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "54" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "55" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "56" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "57" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "58" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "59" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "60" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "61" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "62" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "63" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "64" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "65" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "66" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "67" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "68" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "69" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "70" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "71" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "72" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "73" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "76" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "77" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "78" : {
-        "Primitive" : {
-          "Boolean" : {
-            
-          }
+        "Boolean" : {
+          
         }
       },
       "79" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "80" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },

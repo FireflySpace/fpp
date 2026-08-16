@@ -1229,12 +1229,10 @@
               "astNodeId" : 53
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F32" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F32" : {
+                    
                   }
                 }
               }
@@ -1257,12 +1255,10 @@
               "astNodeId" : 59
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F32" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F32" : {
+                    
                   }
                 }
               }
@@ -1287,12 +1283,10 @@
               "astNodeId" : 53
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F32" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F32" : {
+                    
                   }
                 }
               }
@@ -1315,12 +1309,10 @@
               "astNodeId" : 59
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F32" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F32" : {
+                    
                   }
                 }
               }
@@ -1532,50 +1524,40 @@
     },
     "typeMap" : {
       "4" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F32" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F32" : {
+              
             }
           }
         }
       },
       "52" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F32" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F32" : {
+              
             }
           }
         }
       },
       "58" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F32" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F32" : {
+              
             }
           }
         }
       },
       "77" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "78" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },

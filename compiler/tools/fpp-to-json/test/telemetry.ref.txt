@@ -1408,12 +1408,10 @@
               "astNodeId" : 11
             },
             "channelType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "U32" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
                   }
                 }
               }
@@ -1473,12 +1471,10 @@
               "astNodeId" : 30
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1568,12 +1564,10 @@
               "astNodeId" : 57
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1640,12 +1634,10 @@
               "astNodeId" : 11
             },
             "channelType" : {
-              "Int" : {
-                "PrimitiveInt" : {
-                  "kind" : {
-                    "U32" : {
-                      
-                    }
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
                   }
                 }
               }
@@ -1705,12 +1697,10 @@
               "astNodeId" : 30
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -1800,12 +1790,10 @@
               "astNodeId" : 57
             },
             "channelType" : {
-              "Primitive" : {
-                "Float" : {
-                  "kind" : {
-                    "F64" : {
-                      
-                    }
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
                   }
                 }
               }
@@ -2114,162 +2102,120 @@
     },
     "typeMap" : {
       "2" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
       },
       "3" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "6" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "8" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "10" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "12" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "13" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "16" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "17" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "19" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "20" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "22" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "23" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "25" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "27" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "29" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "49" : {
-        "Primitive" : {
-          "Float" : {
-            "kind" : {
-              "F64" : {
-                
-              }
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
             }
           }
         }
       },
       "52" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "54" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "56" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "66" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },
@@ -2401,6 +2347,329 @@
     },
     "dictionaryMap" : {
       
+      "97" : {
+        "usedSymbolSet" : [
+        ],
+        "commandEntryMap" : {
+          
+        },
+        "tlmChannelEntryMap" : {
+          "18944" : {
+            "instance" : {
+              "aNode" : {
+                "astNodeId" : 67
+              },
+              "qualifiedName" : {
+                "qualifier" : [
+                ],
+                "base" : "i"
+              },
+              "component" : {
+                "astNodeId" : 58
+              },
+              "baseId" : 18944,
+              "maxId" : 18961,
+              "file" : "None",
+              "queueSize" : "None",
+              "stackSize" : "None",
+              "priority" : "None",
+              "cpu" : "None",
+              "initSpecifierMap" : {
+                
+              }
+            },
+            "tlmChannel" : {
+              "aNode" : {
+                "astNodeId" : 11
+              },
+              "channelType" : {
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
+                    }
+                  }
+                }
+              },
+              "update" : {
+                "Always" : {
+                  
+                }
+              },
+              "format" : {
+                "Some" : {
+                  "prefix" : "",
+                  "fields" : [
+                    [
+                      {
+                        "Default" : {
+                          
+                        }
+                      },
+                      "s"
+                    ]
+                  ]
+                }
+              },
+              "lowLimits" : {
+                "orange" : [
+                  7,
+                  {
+                    "Integer" : {
+                      "value" : 1
+                    }
+                  }
+                ],
+                "red" : [
+                  5,
+                  {
+                    "Integer" : {
+                      "value" : 0
+                    }
+                  }
+                ],
+                "yellow" : [
+                  9,
+                  {
+                    "Integer" : {
+                      "value" : 2
+                    }
+                  }
+                ]
+              },
+              "highLimits" : {
+                
+              }
+            }
+          },
+          "18960" : {
+            "instance" : {
+              "aNode" : {
+                "astNodeId" : 67
+              },
+              "qualifiedName" : {
+                "qualifier" : [
+                ],
+                "base" : "i"
+              },
+              "component" : {
+                "astNodeId" : 58
+              },
+              "baseId" : 18944,
+              "maxId" : 18961,
+              "file" : "None",
+              "queueSize" : "None",
+              "stackSize" : "None",
+              "priority" : "None",
+              "cpu" : "None",
+              "initSpecifierMap" : {
+                
+              }
+            },
+            "tlmChannel" : {
+              "aNode" : {
+                "astNodeId" : 30
+              },
+              "channelType" : {
+                "Float" : {
+                  "kind" : {
+                    "F64" : {
+                      
+                    }
+                  }
+                }
+              },
+              "update" : {
+                "OnChange" : {
+                  
+                }
+              },
+              "format" : {
+                "Some" : {
+                  "prefix" : "",
+                  "fields" : [
+                    [
+                      {
+                        "Rational" : {
+                          "precision" : {
+                            "Some" : 3
+                          },
+                          "t" : {
+                            "Fixed" : {
+                              
+                            }
+                          }
+                        }
+                      },
+                      ""
+                    ]
+                  ]
+                }
+              },
+              "lowLimits" : {
+                "orange" : [
+                  18,
+                  {
+                    "Integer" : {
+                      "value" : -2
+                    }
+                  }
+                ],
+                "red" : [
+                  15,
+                  {
+                    "Integer" : {
+                      "value" : -3
+                    }
+                  }
+                ],
+                "yellow" : [
+                  21,
+                  {
+                    "Integer" : {
+                      "value" : -1
+                    }
+                  }
+                ]
+              },
+              "highLimits" : {
+                "orange" : [
+                  26,
+                  {
+                    "Integer" : {
+                      "value" : 2
+                    }
+                  }
+                ],
+                "red" : [
+                  24,
+                  {
+                    "Integer" : {
+                      "value" : 3
+                    }
+                  }
+                ],
+                "yellow" : [
+                  28,
+                  {
+                    "Integer" : {
+                      "value" : 1
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "18961" : {
+            "instance" : {
+              "aNode" : {
+                "astNodeId" : 67
+              },
+              "qualifiedName" : {
+                "qualifier" : [
+                ],
+                "base" : "i"
+              },
+              "component" : {
+                "astNodeId" : 58
+              },
+              "baseId" : 18944,
+              "maxId" : 18961,
+              "file" : "None",
+              "queueSize" : "None",
+              "stackSize" : "None",
+              "priority" : "None",
+              "cpu" : "None",
+              "initSpecifierMap" : {
+                
+              }
+            },
+            "tlmChannel" : {
+              "aNode" : {
+                "astNodeId" : 57
+              },
+              "channelType" : {
+                "Float" : {
+                  "kind" : {
+                    "F64" : {
+                      
+                    }
+                  }
+                }
+              },
+              "update" : {
+                "Always" : {
+                  
+                }
+              },
+              "format" : {
+                "Some" : {
+                  "prefix" : "",
+                  "fields" : [
+                    [
+                      {
+                        "Rational" : {
+                          "precision" : "None",
+                          "t" : {
+                            "Exponent" : {
+                              
+                            }
+                          }
+                        }
+                      },
+                      ""
+                    ]
+                  ]
+                }
+              },
+              "lowLimits" : {
+                
+              },
+              "highLimits" : {
+                "orange" : [
+                  53,
+                  {
+                    "Integer" : {
+                      "value" : 2
+                    }
+                  }
+                ],
+                "red" : [
+                  51,
+                  {
+                    "Integer" : {
+                      "value" : 3
+                    }
+                  }
+                ],
+                "yellow" : [
+                  55,
+                  {
+                    "Integer" : {
+                      "value" : 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "eventEntryMap" : {
+          
+        },
+        "paramEntryMap" : {
+          
+        },
+        "recordEntryMap" : {
+          
+        },
+        "containerEntryMap" : {
+          
+        },
+        "tlmPacketSetMap" : {
+          
+        }
+      }
     }
   }
 }

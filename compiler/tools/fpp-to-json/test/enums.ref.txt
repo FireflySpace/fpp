@@ -837,10 +837,8 @@
         }
       },
       "10" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "11" : {
@@ -859,10 +857,8 @@
         }
       },
       "12" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "13" : {
@@ -881,10 +877,8 @@
         }
       },
       "18" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "19" : {
@@ -953,33 +947,25 @@
         }
       },
       "24" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "25" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "26" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "27" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U8" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U8" : {
+              
             }
           }
         }

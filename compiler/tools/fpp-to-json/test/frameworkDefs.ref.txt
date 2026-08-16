@@ -3044,12 +3044,10 @@
     },
     "typeMap" : {
       "0" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U32" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U32" : {
+              
             }
           }
         }
@@ -3060,12 +3058,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3078,12 +3074,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3101,12 +3095,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3121,12 +3113,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3144,12 +3134,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3164,12 +3152,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3187,12 +3173,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3207,12 +3191,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3230,12 +3212,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3250,12 +3230,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3273,12 +3251,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3293,12 +3269,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3316,12 +3290,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3331,12 +3303,10 @@
         }
       },
       "26" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U16" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U16" : {
+              
             }
           }
         }
@@ -3347,12 +3317,10 @@
             "astNodeId" : 27
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U16" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U16" : {
+                  
                 }
               }
             }
@@ -3365,12 +3333,10 @@
             "astNodeId" : 1
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U32" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U32" : {
+                  
                 }
               }
             }
@@ -3388,12 +3354,10 @@
                 "astNodeId" : 1
               },
               "aliasType" : {
-                "Int" : {
-                  "PrimitiveInt" : {
-                    "kind" : {
-                      "U32" : {
-                        
-                      }
+                "PrimitiveInt" : {
+                  "kind" : {
+                    "U32" : {
+                      
                     }
                   }
                 }
@@ -3403,12 +3367,10 @@
         }
       },
       "32" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U16" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U16" : {
+              
             }
           }
         }
@@ -3419,12 +3381,10 @@
             "astNodeId" : 33
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U16" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U16" : {
+                  
                 }
               }
             }
@@ -3432,12 +3392,10 @@
         }
       },
       "34" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U16" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U16" : {
+              
             }
           }
         }
@@ -3448,12 +3406,10 @@
             "astNodeId" : 35
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U16" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U16" : {
+                  
                 }
               }
             }
@@ -3461,12 +3417,10 @@
         }
       },
       "36" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U8" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U8" : {
+              
             }
           }
         }
@@ -3477,12 +3431,10 @@
             "astNodeId" : 37
           },
           "aliasType" : {
-            "Int" : {
-              "PrimitiveInt" : {
-                "kind" : {
-                  "U8" : {
-                    
-                  }
+            "PrimitiveInt" : {
+              "kind" : {
+                "U8" : {
+                  
                 }
               }
             }
@@ -3490,12 +3442,10 @@
         }
       },
       "38" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U8" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U8" : {
+              
             }
           }
         }
@@ -3596,35 +3546,27 @@
         }
       },
       "124" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "125" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "150" : {
-        "Int" : {
-          "PrimitiveInt" : {
-            "kind" : {
-              "U8" : {
-                
-              }
+        "PrimitiveInt" : {
+          "kind" : {
+            "U8" : {
+              
             }
           }
         }
       },
       "151" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "152" : {
@@ -3643,10 +3585,8 @@
         }
       },
       "153" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "154" : {
@@ -3665,10 +3605,8 @@
         }
       },
       "159" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "160" : {
@@ -3722,367 +3660,263 @@
         }
       },
       "164" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "165" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "166" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "167" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "168" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "169" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "170" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "171" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "172" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "173" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "174" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "175" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "176" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "177" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "178" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "179" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "180" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "181" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "182" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "183" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "184" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "185" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "186" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "187" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "188" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "189" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "190" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "191" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "192" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "193" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "194" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "195" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "196" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "197" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "198" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "199" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "200" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "201" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "202" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "203" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "204" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "205" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "206" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "207" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "208" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "209" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "210" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "211" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "212" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "213" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "214" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       },
       "215" : {
-        "Int" : {
-          "Integer" : {
-            
-          }
+        "Integer" : {
+          
         }
       }
     },
