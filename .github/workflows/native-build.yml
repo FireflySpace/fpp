@@ -158,6 +158,8 @@ jobs:
           # Graal setup persists its own PATH through GITHUB_ENV, so restore the
           # sbt launcher directory exported by the shared setup action.
           export PATH="${FPP_SBT_BIN}:${PATH}"
+          export FPP_JAVA_HOME="$FPP_GRAALVM_JAVA_HOME"
+          "$FPP_JAVA_HOME/bin/java" -version
           # Generate wrappers for tools
           tool_names=`cat ${{ inputs.working-directory }}/compiler/tools.txt`
           for tool in $tool_names
