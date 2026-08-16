@@ -17,7 +17,7 @@ if ! (cd ../../../.. && ./fpp-sbt --batch \
   > build_log.txt 2>&1
 then
   echo 'Scala compilation or C++ generation failed'
-  echo 'see build_log.txt' for details
+  cat build_log.txt
   exit 1
 fi
 
