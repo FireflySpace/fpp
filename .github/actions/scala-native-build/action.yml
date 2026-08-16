@@ -63,7 +63,11 @@ runs:
         # high-water mark and OOM-kill counter after the build (works inside the
         # manylinux container without privilege, unlike dmesg).
         cg=/sys/fs/cgroup
-        rel=$(awk -F: '$1=="0"{print $3}' /proc/self/cgroup 2>/dev/null)
+        rel=
+        if [[ -r /proc/self/cgroup ]]
+        then
+          rel=$(awk -F: '$1=="0"{print $3}' /proc/self/cgroup 2>/dev/null || true)
+        fi
         [[ -n "$rel" && -d "$cg$rel" ]] && cg="$cg$rel"
         echo "::group::memory before build"
         free -m || true
