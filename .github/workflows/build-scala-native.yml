@@ -95,7 +95,6 @@ jobs:
           fi
           util=lib/src/main/scala/util
           echo "Updating version to $version"
-          echo "FPP_VERSION=${version#v}" >> "$GITHUB_ENV"
           sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
             $util/Version.scala
       - if: runner.os == 'macOS'
@@ -118,8 +117,9 @@ jobs:
       - if: runner.os == 'Linux'
         name: Profile instrumented Scala Native tools
         uses: ./.github/actions/scala-native-profile
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          fpp-version: ${{ env.FPP_VERSION }}
           profile-directory: ${{ runner.temp }}/fpp-pgo
           profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
           python: ${{ matrix.python }}

@@ -2,9 +2,6 @@ name: Profile Scala Native FPP
 description: Exercise instrumented FPP, build a matching F Prime revision, and merge profiles
 
 inputs:
-  fpp-version:
-    description: FPP version required by the F Prime revision
-    required: true
   profile-directory:
     description: Directory containing raw LLVM profiles
     required: true
@@ -34,22 +31,20 @@ runs:
     - name: Build matching F Prime revision
       shell: bash
       env:
-        FPP_VERSION: ${{ inputs.fpp-version }}
         FPRIME_DIR: ${{ inputs.fprime-directory }}
         FPRIME_VENV: ${{ inputs.fprime-venv }}
+        FPRIME_PYTHON: ${{ inputs.python }}
         LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%p.profraw
       run: |
+        FPP_VERSION=$("$GITHUB_WORKSPACE/compiler/bin/fpp" --version | \
+          sed -n 's/^fpp v//p')
+        test -n "$FPP_VERSION"
+        echo "Selecting a CI-tested F Prime revision for fprime-fpp==$FPP_VERSION"
         git clone https://github.com/nasa/fprime.git "$FPRIME_DIR"
         cd "$FPRIME_DIR"
         pin="fprime-fpp==$FPP_VERSION"
-        if grep -Fqx "$pin" requirements.txt
-        then
-          commit=HEAD
-        else
-          boundary=$(git log -1 -G "^$pin$" --format=%H -- requirements.txt)
-          test -n "$boundary"
-          commit="$boundary^"
-        fi
+        commit=$("$FPRIME_PYTHON" \
+          "$GITHUB_ACTION_PATH/select-fprime-revision.py" "$FPP_VERSION")
         git checkout "$commit"
         grep -Fqx "$pin" requirements.txt
         git submodule update --init --recursive
