@@ -103,30 +103,7 @@ jobs:
         with:
           jvm-heap: 6G
       - if: runner.os == 'Linux'
-        name: Build instrumented Scala Native tools
-        uses: ./.github/actions/scala-native-build
-        with:
-          jvm-heap: 10G
-          mode: releasefull
-          lto: full
-          pgo-mode: generate
-          profile-directory: ${{ runner.temp }}/fpp-pgo
-      - if: runner.os == 'Linux'
-        name: Stage instrumented Scala Native tools
-        uses: ./.github/actions/scala-native-stage
-      - if: runner.os == 'Linux'
-        name: Profile instrumented Scala Native tools
-        uses: ./.github/actions/scala-native-profile
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          profile-directory: ${{ runner.temp }}/fpp-pgo
-          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
-          python: ${{ matrix.python }}
-          fprime-directory: ${{ runner.temp }}/fprime
-          fprime-venv: ${{ runner.temp }}/fprime-venv
-      - if: runner.os == 'Linux'
-        name: Reserve swap headroom for the full-LTO link
+        name: Reserve swap headroom for the full-LTO links
         shell: bash
         run: |
           sw="${RUNNER_TEMP:-/tmp}/fpp-swapfile"
@@ -151,6 +128,29 @@ jobs:
           echo "Enabled ${gib} GiB swap at $sw"
           swapon --show || true
           free -m || true
+      - if: runner.os == 'Linux'
+        name: Build instrumented Scala Native tools
+        uses: ./.github/actions/scala-native-build
+        with:
+          jvm-heap: 10G
+          mode: releasefull
+          lto: full
+          pgo-mode: generate
+          profile-directory: ${{ runner.temp }}/fpp-pgo
+      - if: runner.os == 'Linux'
+        name: Stage instrumented Scala Native tools
+        uses: ./.github/actions/scala-native-stage
+      - if: runner.os == 'Linux'
+        name: Profile instrumented Scala Native tools
+        uses: ./.github/actions/scala-native-profile
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          profile-directory: ${{ runner.temp }}/fpp-pgo
+          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
+          python: ${{ matrix.python }}
+          fprime-directory: ${{ runner.temp }}/fprime
+          fprime-venv: ${{ runner.temp }}/fprime-venv
       - if: runner.os == 'Linux'
         name: Build profile-guided Scala Native tools
         uses: ./.github/actions/scala-native-build
