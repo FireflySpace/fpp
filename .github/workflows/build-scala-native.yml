@@ -30,6 +30,8 @@ jobs:
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
+      # get us swapon
+      options: --privileged
     env:
       MACOSX_DEPLOYMENT_TARGET: '14.0'
 
@@ -123,6 +125,32 @@ jobs:
           python: ${{ matrix.python }}
           fprime-directory: ${{ runner.temp }}/fprime
           fprime-venv: ${{ runner.temp }}/fprime-venv
+      - if: runner.os == 'Linux'
+        name: Reserve swap headroom for the full-LTO link
+        shell: bash
+        run: |
+          sw="${RUNNER_TEMP:-/tmp}/fpp-swapfile"
+          gib=8
+          echo "::group::disk before swapfile"; df -h "$(dirname "$sw")" || true; echo "::endgroup::"
+
+          if ! dd if=/dev/zero of="$sw" bs=1M count=$((gib * 1024)) status=none
+          then
+            echo "::warning::could not allocate swapfile; continuing on RAM only"
+            exit 0
+          fi
+
+          chmod 600 "$sw"
+          mkswap "$sw" >/dev/null
+          if ! swapon "$sw"
+          then
+            echo "::warning::swapon failed (needs CAP_SYS_ADMIN); continuing on RAM only"
+            rm -f "$sw"
+            exit 0
+          fi
+
+          echo "Enabled ${gib} GiB swap at $sw"
+          swapon --show || true
+          free -m || true
       - if: runner.os == 'Linux'
         name: Build profile-guided Scala Native tools
         uses: ./.github/actions/scala-native-build
