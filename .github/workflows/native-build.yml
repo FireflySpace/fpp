@@ -153,7 +153,11 @@ jobs:
       - name: "Install sbt for project-backed tests"
         uses: ./.github/actions/setup-sbt
       - name: "Testing Native Images via Unit-Tests"
+        shell: bash
         run: |
+          # Graal setup persists its own PATH through GITHUB_ENV, so restore the
+          # sbt launcher directory exported by the shared setup action.
+          export PATH="${FPP_SBT_BIN}:${PATH}"
           # Generate wrappers for tools
           tool_names=`cat ${{ inputs.working-directory }}/compiler/tools.txt`
           for tool in $tool_names
