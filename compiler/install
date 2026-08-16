@@ -15,19 +15,35 @@
 # ----------------------------------------------------------------------
 
 # Check arguments
-if test $# -gt 1
-then
-  echo 'usage: install dest-dir' 1>&2
-  echo '       install' 1>&2
+usage()
+{
+  echo 'usage: install [--scala-native] [dest-dir]' 1>&2
   exit 1
-fi
+}
+
+mode=jvm
+dest_arg=
+for arg in "$@"
+do
+  case "$arg" in
+    --scala-native)
+      test "$mode" = jvm || usage
+      mode=scala-native
+      ;;
+    -*) usage ;;
+    *)
+      test -z "$dest_arg" || usage
+      dest_arg=$arg
+      ;;
+  esac
+done
 
 # Check for output directory
-if test -n "$1" 
+if test -n "$dest_arg"
 then
   # Convert to absolute path as the `cd` to 'compiler' will break relative paths passed in
-  mkdir -p "$1"
-  dest=`cd $1; pwd`
+  mkdir -p "$dest_arg"
+  dest=`cd "$dest_arg"; pwd`
 else
   dest=bin
 fi
@@ -39,21 +55,19 @@ cd $wd
 # Pull in the version info
 . ../version.sh
 
-scala_version="3.9.0"
-
-# Flags that suppress JVM warnings. These require JDK 23 or later.
-java_warning_flags="--sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED"
-
 if test -n "$FPP_JAVA_HOME"
 then
   sbt="sbt --java-home $FPP_JAVA_HOME $FPP_SBT_FLAGS"
-  java="$FPP_JAVA_HOME/bin/java $java_warning_flags $FPP_JAVA_FLAGS"
+  java="$FPP_JAVA_HOME/bin/java $FPP_JAVA_FLAGS"
 else
   sbt="sbt $FPP_SBT_FLAGS"
-  java="java $java_warning_flags $FPP_JAVA_FLAGS"
+  java=java $FPP_JAVA_FLAGS
 fi
 echo "sbt command: $sbt"
-echo "java command: $java"
+if test "$mode" = jvm
+then
+  echo "java command: $java"
+fi
 
 dir=`dirname $dest`
 dir=`cd $dir; pwd`
@@ -75,29 +89,61 @@ echo "Updating version to $version"
 sed -i.update.bak -e "s/val v = .*/val v = \"$version\"/" \
   $util/Version.scala
 
-echo "Building jar files"
-cmd="$sbt assembly"
-echo $cmd
+restore_version()
+{
+  echo "Restoring Version.scala"
+  sed -i.restore.bak -e 's/val v = .*/val v = "[unknown version]"/' \
+    $util/Version.scala
+}
+trap restore_version 0 1 2 15
+
+if test "$mode" = scala-native
+then
+  echo "Building Scala Native executable"
+  cmd="$sbt nativeFpp/nativeLink"
+else
+  echo "Building jar files"
+  cmd="$sbt assembly"
+fi
+echo "$cmd"
 $cmd
 
-echo "Restoring Version.scala"
-sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
-  $util/Version.scala
+restore_version
+trap - 0 1 2 15
 
 mkdir -p $dest
 
 echo "Installing fpp at $dest"
-jar=`find tools/fpp -name "*$name*assembly*.jar" | grep "target/scala-$scala_version"`
-echo "  $jar"
-cp $jar $dest/fpp.jar
-echo '#!/bin/sh
-'$java' -jar "`dirname $0`/'fpp'.jar" "$@"' > $dest/fpp
-chmod +x $dest/fpp
+if test "$mode" = scala-native
+then
+  native_binary=`find tools/fpp/target-native -type f \( -name fpp -o -name fpp-out \) -print -quit`
+  if test -z "$native_binary"
+  then
+    echo 'Scala Native build produced no fpp executable' 1>&2
+    exit 1
+  fi
+  echo "  $native_binary"
+  install -m 755 "$native_binary" "$dest/fpp"
+  tool_command='"`dirname $0`/fpp"'
+else
+  jars=`find tools/fpp/target -type f -name '*assembly*.jar'`
+  if test -z "$jars"
+  then
+    echo 'JVM build produced no assembly jar' 1>&2
+    exit 1
+  fi
+  jar=$(ls -t $jars | sed -n '1p')
+  echo "  $jar"
+  cp "$jar" "$dest/fpp.jar"
+  echo '#!/bin/sh
+'$java' -jar "`dirname $0`/'fpp'.jar" "$@"' > "$dest/fpp"
+  chmod +x "$dest/fpp"
+  tool_command="$java -jar \"\`dirname \$0\`/fpp.jar\""
+fi
 
 echo "Installing tools at $dest"
 for tool in $tools
 do
-  echo '#!/bin/sh
-  '$java' -jar "`dirname $0`/'fpp'.jar" '$tool' "$@"' > $dest/fpp-$tool
-  chmod +x $dest/fpp-$tool
+  printf '#!/bin/sh\n%s %s "$@"\n' "$tool_command" "$tool" > "$dest/fpp-$tool"
+  chmod +x "$dest/fpp-$tool"
 done
