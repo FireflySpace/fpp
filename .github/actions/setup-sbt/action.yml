@@ -1,0 +1,20 @@
+name: Set up sbt
+description: Install the sbt launcher across hosted macOS and manylinux runners
+
+runs:
+  using: composite
+  steps:
+    - if: runner.os == 'macOS'
+      name: Install sbt with the maintained action
+      uses: sbt/setup-sbt@v1.5.7
+    - if: runner.os == 'Linux'
+      name: Install sbt on manylinux
+      shell: bash
+      run: |
+        properties="$GITHUB_WORKSPACE/compiler/project/build.properties"
+        version=$(sed -n 's/^sbt.version=//p' "$properties")
+        test -n "$version"
+        curl --fail --location \
+          "https://github.com/sbt/sbt/releases/download/v$version/sbt-$version.tgz" \
+          | tar -xz --directory "$RUNNER_TEMP"
+        echo "$RUNNER_TEMP/sbt/bin" >> "$GITHUB_PATH"
