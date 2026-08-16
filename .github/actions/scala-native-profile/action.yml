@@ -91,5 +91,16 @@ runs:
         PROFILE_FILE: ${{ inputs.profile-file }}
       run: |
         mkdir -p "$(dirname "$PROFILE_FILE")"
-        llvm-profdata merge -o "$PROFILE_FILE" "$PROFILE_DIRECTORY"/*.profraw
-        llvm-profdata show "$PROFILE_FILE"
+        if command -v llvm-profdata >/dev/null 2>&1
+        then
+          profdata=(llvm-profdata)
+        elif command -v xcrun >/dev/null 2>&1 && \
+          xcrun --find llvm-profdata >/dev/null 2>&1
+        then
+          profdata=(xcrun llvm-profdata)
+        else
+          echo "::error::llvm-profdata is not available"
+          exit 127
+        fi
+        "${profdata[@]}" merge -o "$PROFILE_FILE" "$PROFILE_DIRECTORY"/*.profraw
+        "${profdata[@]}" show "$PROFILE_FILE"
