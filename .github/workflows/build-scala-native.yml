@@ -105,7 +105,9 @@ jobs:
         name: Build instrumented Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 8G
+          jvm-heap: 10G
+          mode: releasefull
+          lto: none
           pgo-mode: generate
           profile-directory: ${{ runner.temp }}/fpp-pgo
       - if: runner.os == 'Linux'
@@ -125,7 +127,9 @@ jobs:
         name: Build profile-guided Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: 8G
+          jvm-heap: 10G
+          mode: releasefull
+          lto: full
           pgo-mode: apply
           profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
       - name: Restore Version.scala

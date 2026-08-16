@@ -6,6 +6,14 @@ inputs:
     description: Maximum sbt JVM heap, such as 12G; empty uses JVM ergonomics
     required: false
     default: ''
+  mode:
+    description: Scala Native optimization mode (releasefast|releasefull|debug); empty uses the build default (releasefast)
+    required: false
+    default: ''
+  lto:
+    description: Link-time optimization level (none|thin|full); empty uses the build default (thin)
+    required: false
+    default: ''
   pgo-mode:
     description: Empty for a normal build, or generate/apply for PGO
     required: false
@@ -25,6 +33,8 @@ runs:
     - shell: bash
       working-directory: compiler
       env:
+        FPP_MODE: ${{ inputs.mode }}
+        FPP_LTO: ${{ inputs.lto }}
         FPP_PGO: ${{ inputs.pgo-mode }}
         FPP_PGO_DIR: ${{ inputs.profile-directory }}
         FPP_PGO_PROFILE: ${{ inputs.profile-file }}
