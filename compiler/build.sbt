@@ -3,15 +3,18 @@ import scala.scalanative.build._
 
 name := "fpp-compiler"
 ThisBuild / organization := "gov.nasa.jpl"
-ThisBuild / scalaVersion := "3.1.2"
+ThisBuild / scalaVersion := "3.3.6"
 ThisBuild / dependencyOverrides +=
-  "org.scala-lang" %% "scala3-library" % "3.1.2"
+  "org.scala-lang" %% "scala3-library" % "3.3.6"
 
 lazy val settings = Seq(
   scalacOptions ++= Seq(
     "-deprecation",
     "-unchecked",
-    "-Xmax-inlines:100"
+    // Language level 3.2: the FPP compiler has ~60 irrefutable `val Pattern =
+    // expr` bindings that Scala 3.3 rejects
+    "-source:3.2",
+    "-Xmax-inlines:1000"
   ),
   Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oNCXELOPQRM"),
   Test / parallelExecution := false,
@@ -19,17 +22,17 @@ lazy val settings = Seq(
 
 // Shared (org, artifact, version); JVM cross-builds with %%, Scala Native with %%%.
 lazy val sharedDependencies = Seq(
-  ("com.github.scopt", "scopt", "4.0.1"),
-  ("io.circe", "circe-core", "0.14.3"),
-  ("io.circe", "circe-generic", "0.14.3"),
-  ("io.circe", "circe-parser", "0.14.3"),
-  ("org.scala-lang.modules", "scala-parser-combinators", "2.1.1"),
-  ("org.scala-lang.modules", "scala-xml", "2.1.0"),
+  ("com.github.scopt", "scopt", "4.1.0"),
+  ("io.circe", "circe-core", "0.14.16"),
+  ("io.circe", "circe-generic", "0.14.16"),
+  ("io.circe", "circe-parser", "0.14.16"),
+  ("org.scala-lang.modules", "scala-parser-combinators", "2.4.0"),
+  ("org.scala-lang.modules", "scala-xml", "2.4.0"),
 )
 
 lazy val jvmDependencies =
   sharedDependencies.map { case (o, a, v) => o %% a % v } :+
-    ("org.scalatest" %% "scalatest" % "3.2.12" % "test")
+    ("org.scalatest" %% "scalatest" % "3.2.19" % "test")
 
 lazy val nativeDependencies = Def.setting(
   sharedDependencies.map { case (o, a, v) => o %%% a % v }
@@ -42,6 +45,8 @@ lazy val jvmSettings = settings ++ Seq(
 lazy val nativeSettings = settings ++ Seq(
   libraryDependencies ++= nativeDependencies.value,
   target := baseDirectory.value / "target-native",
+  // Native-only sources
+  Compile / unmanagedSourceDirectories += baseDirectory.value / "src" / "main" / "scala-native",
 )
 
 lazy val macOSUnwindLinkerOptions =

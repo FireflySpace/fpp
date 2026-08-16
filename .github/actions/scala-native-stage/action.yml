@@ -7,7 +7,8 @@ runs:
     - shell: bash
       working-directory: compiler
       run: |
-        native_binary=$(find tools/fpp -type f -name fpp-out -print -quit)
+        # either fpp or fpp-out
+        native_binary=$(find tools/fpp/target-native -type f \( -name fpp -o -name fpp-out \) -print -quit)
         test -n "$native_binary"
         rm -rf bin
         mkdir -p bin
