@@ -48,11 +48,7 @@ jobs:
           java-version: '17'
           cache: sbt
       - name: Install sbt
-        run: |
-          curl --fail --location \
-            https://github.com/sbt/sbt/releases/download/v1.10.11/sbt-1.10.11.tgz \
-            | tar -xz --directory "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/sbt/bin" >> "$GITHUB_PATH"
+        uses: sbt/setup-sbt@v1.5.7
       - if: runner.os == 'Linux'
         name: Install Linux build tools
         run: |

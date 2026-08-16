@@ -150,6 +150,8 @@ jobs:
           path:  ${{ inputs.output-directory }}/fpp
           retention-days: 5
           if-no-files-found: error
+      - name: "Install sbt for project-backed tests"
+        uses: sbt/setup-sbt@v1.5.7
       - name: "Testing Native Images via Unit-Tests"
         run: |
           # Generate wrappers for tools
