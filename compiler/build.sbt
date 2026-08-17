@@ -131,12 +131,26 @@ lazy val nativeFpp = (project in file("tools/fpp"))
         case Some(v) => sys.error(s"Unsupported FPP_LTO '$v'; use none|thin|full")
       }
       val config = nativeConfig.value
+      def optimizerInt(name: String, default: Int) =
+        sys.env.get(name).map(_.trim).filter(_.nonEmpty).map { value =>
+          scala.util.Try(value.toInt).toOption.filter(_ >= 0).getOrElse(
+            sys.error(s"$name must be a non-negative integer, got '$value'")
+          )
+        }.getOrElse(default)
+      // Scala Native 0.4.17 esque defaults
+      val maxInlineDepth = optimizerInt("FPP_MAX_INLINE_DEPTH", 256)
+      val maxCallerSize = optimizerInt("FPP_MAX_CALLER_SIZE", 8192)
+      val maxCalleeSize = optimizerInt("FPP_MAX_CALLEE_SIZE", 8192)
+      val smallFunctionSize = optimizerInt("FPP_SMALL_FUNCTION_SIZE", 8)
       val extraCompile = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
         .map(m => Seq("-march=" + m)).getOrElse(Seq.empty)
       config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
         .withMultithreading(false)
         .withSemanticsConfig(_.withFinalFields(JVMMemoryModelCompliance.None).withStrictExternCallSemantics(false))
-        .withOptimizerConfig(_.withMaxInlineDepth(64).withMaxCallerSize(65536).withMaxCalleeSize(4096).withSmallFunctionSize(24))
+        .withOptimizerConfig(_.withMaxInlineDepth(maxInlineDepth)
+          .withMaxCallerSize(maxCallerSize)
+          .withMaxCalleeSize(maxCalleeSize)
+          .withSmallFunctionSize(smallFunctionSize))
         .withCompileOptions(config.compileOptions ++ compile ++ extraCompile)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }

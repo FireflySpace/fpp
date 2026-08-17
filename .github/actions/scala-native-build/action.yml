@@ -26,6 +26,22 @@ inputs:
     description: Merged profile file to consume during PGO application
     required: false
     default: ''
+  max-inline-depth:
+    description: Scala Native optimizer maximum inline depth
+    required: false
+    default: '256'
+  max-caller-size:
+    description: Scala Native optimizer maximum caller size in NIR instructions
+    required: false
+    default: '8192'
+  max-callee-size:
+    description: Scala Native optimizer maximum callee size in NIR instructions
+    required: false
+    default: '8192'
+  small-function-size:
+    description: NIR instruction count that is always considered for inlining
+    required: false
+    default: '8'
 
 runs:
   using: composite
@@ -38,6 +54,10 @@ runs:
         FPP_PGO: ${{ inputs.pgo-mode }}
         FPP_PGO_DIR: ${{ inputs.profile-directory }}
         FPP_PGO_PROFILE: ${{ inputs.profile-file }}
+        FPP_MAX_INLINE_DEPTH: ${{ inputs.max-inline-depth }}
+        FPP_MAX_CALLER_SIZE: ${{ inputs.max-caller-size }}
+        FPP_MAX_CALLEE_SIZE: ${{ inputs.max-callee-size }}
+        FPP_SMALL_FUNCTION_SIZE: ${{ inputs.small-function-size }}
         SBT_JVM_HEAP: ${{ inputs.jvm-heap }}
       run: |
         sbt_args=(--batch)
