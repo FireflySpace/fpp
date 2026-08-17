@@ -23,9 +23,9 @@ jobs:
             wheel_tag: macosx_14_0_arm64
             jvm_heap: 6G
             pgo: true
-            max_inline_depth: 256
+            max_inline_depth: 64
             max_caller_size: 8192
-            max_callee_size: 8192
+            max_callee_size: 512
             small_function_size: 8
           - runner: macos-15-intel
             artifact: darwin-x86_64
@@ -33,9 +33,9 @@ jobs:
             wheel_tag: macosx_15_0_x86_64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 256
+            max_inline_depth: 64
             max_caller_size: 8192
-            max_callee_size: 8192
+            max_callee_size: 512
             small_function_size: 8
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
@@ -44,9 +44,9 @@ jobs:
             wheel_tag: manylinux_2_28_x86_64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 256
+            max_inline_depth: 64
             max_caller_size: 8192
-            max_callee_size: 8192
+            max_callee_size: 512
             small_function_size: 8
           - runner: ubuntu-22.04-arm
             artifact: manylinux_2_28_aarch64
@@ -55,9 +55,9 @@ jobs:
             wheel_tag: manylinux_2_28_aarch64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 256
+            max_inline_depth: 64
             max_caller_size: 8192
-            max_callee_size: 8192
+            max_callee_size: 512
             small_function_size: 8
     runs-on: ${{ matrix.runner }}
     container:

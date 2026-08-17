@@ -29,11 +29,11 @@ inputs:
   max-inline-depth:
     description: Scala Native optimizer maximum inline depth
     required: false
-    default: '256'
+    default: '64'
   max-caller-size:
     description: Scala Native optimizer maximum caller size in NIR instructions
     required: false
-    default: '8192'
+    default: '512'
   max-callee-size:
     description: Scala Native optimizer maximum callee size in NIR instructions
     required: false

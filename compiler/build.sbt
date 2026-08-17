@@ -137,10 +137,11 @@ lazy val nativeFpp = (project in file("tools/fpp"))
             sys.error(s"$name must be a non-negative integer, got '$value'")
           )
         }.getOrElse(default)
-      // Scala Native 0.4.17 esque defaults
-      val maxInlineDepth = optimizerInt("FPP_MAX_INLINE_DEPTH", 256)
+      // Restore 0.4's larger caller budget and small-function threshold while
+      // retaining 0.5's protection against exploding large virtual callees.
+      val maxInlineDepth = optimizerInt("FPP_MAX_INLINE_DEPTH", 64)
       val maxCallerSize = optimizerInt("FPP_MAX_CALLER_SIZE", 8192)
-      val maxCalleeSize = optimizerInt("FPP_MAX_CALLEE_SIZE", 8192)
+      val maxCalleeSize = optimizerInt("FPP_MAX_CALLEE_SIZE", 512)
       val smallFunctionSize = optimizerInt("FPP_SMALL_FUNCTION_SIZE", 8)
       val extraCompile = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
         .map(m => Seq("-march=" + m)).getOrElse(Seq.empty)
