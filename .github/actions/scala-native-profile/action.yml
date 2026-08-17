@@ -25,7 +25,7 @@ runs:
       shell: bash
       working-directory: compiler
       env:
-        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%p.profraw
+        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%m-%p.profraw
       run: ./test
 
     - name: Build matching F Prime revision
@@ -34,7 +34,7 @@ runs:
         FPRIME_DIR: ${{ inputs.fprime-directory }}
         FPRIME_VENV: ${{ inputs.fprime-venv }}
         FPRIME_PYTHON: ${{ inputs.python }}
-        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%p.profraw
+        LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%m-%p.profraw
       run: |
         FPP_VERSION=$("$GITHUB_WORKSPACE/compiler/bin/fpp" --version | \
           sed -n 's/^fpp v//p')
@@ -73,7 +73,7 @@ runs:
           uv pip install --python "$FPRIME_VENV/bin/python" -r requirements.txt
           if (
             cd TestDeploymentsProject
-            fprime-util generate
+            fprime-util generate --force
             fprime-util build -j4
           ); then
             selected=$commit

@@ -130,6 +130,13 @@ lazy val nativeFpp = (project in file("tools/fpp"))
         case        Some("none") => LTO.none
         case Some(v) => sys.error(s"Unsupported FPP_LTO '$v'; use none|thin|full")
       }
+      val gc = sys.env.get("FPP_GC").map(_.trim.toLowerCase).filter(_.nonEmpty) match {
+        case None | Some("none") => GC.none
+        case Some("immix")       => GC.immix
+        case Some("commix")      => GC.commix
+        case Some("boehm")       => GC.boehm
+        case Some(v) => sys.error(s"Unsupported FPP_GC '$v'; use none|immix|commix|boehm")
+      }
       val config = nativeConfig.value
       def optimizerInt(name: String, default: Int) =
         sys.env.get(name).map(_.trim).filter(_.nonEmpty).map { value =>
@@ -143,17 +150,17 @@ lazy val nativeFpp = (project in file("tools/fpp"))
       val maxCallerSize = optimizerInt("FPP_MAX_CALLER_SIZE", 8192)
       val maxCalleeSize = optimizerInt("FPP_MAX_CALLEE_SIZE", 512)
       val smallFunctionSize = optimizerInt("FPP_SMALL_FUNCTION_SIZE", 8)
-      val extraCompile = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
+      val targetOptions = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
         .map(m => Seq("-march=" + m)).getOrElse(Seq.empty)
-      config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
+      config.withMode(mode).withLTO(lto).withGC(gc).withLinkStubs(true)
         .withMultithreading(false)
         .withSemanticsConfig(_.withFinalFields(JVMMemoryModelCompliance.None).withStrictExternCallSemantics(false))
         .withOptimizerConfig(_.withMaxInlineDepth(maxInlineDepth)
           .withMaxCallerSize(maxCallerSize)
           .withMaxCalleeSize(maxCalleeSize)
           .withSmallFunctionSize(smallFunctionSize))
-        .withCompileOptions(config.compileOptions ++ compile ++ extraCompile)
-        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
+        .withCompileOptions(config.compileOptions ++ compile ++ targetOptions)
+        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link ++ targetOptions)
     }
   )
   .dependsOn(nativeLib)
