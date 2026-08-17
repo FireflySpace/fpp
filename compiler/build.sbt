@@ -131,9 +131,13 @@ lazy val nativeFpp = (project in file("tools/fpp"))
         case Some(v) => sys.error(s"Unsupported FPP_LTO '$v'; use none|thin|full")
       }
       val config = nativeConfig.value
+      val extraCompile = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
+        .map(m => Seq("-march=" + m)).getOrElse(Seq.empty)
       config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
         .withMultithreading(false)
-        .withCompileOptions(config.compileOptions ++ compile)
+        .withSemanticsConfig(_.withFinalFields(JVMMemoryModelCompliance.None).withStrictExternCallSemantics(false))
+        .withOptimizerConfig(_.withMaxInlineDepth(64).withMaxCallerSize(65536).withMaxCalleeSize(4096).withSmallFunctionSize(24))
+        .withCompileOptions(config.compileOptions ++ compile ++ extraCompile)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }
   )
