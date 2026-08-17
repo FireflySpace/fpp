@@ -132,6 +132,7 @@ lazy val nativeFpp = (project in file("tools/fpp"))
       }
       val config = nativeConfig.value
       config.withMode(mode).withLTO(lto).withGC(GC.none).withLinkStubs(true)
+        .withMultithreading(false)
         .withCompileOptions(config.compileOptions ++ compile)
         .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link)
     }
