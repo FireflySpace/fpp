@@ -14,12 +14,13 @@ sealed trait File {
   /** Open the file for reading */
   def openRead(locOpt: Option[Location] = None): Result.Result[Array[Char]] = {
     try {
-      val r = this match {
-        case File.Path(p) => scala.io.Source.fromFile(p.toFile)
-        case File.StdIn => scala.io.Source.fromInputStream(System.in)
+      this match {
+        case File.Path(p) =>
+          val source = scala.io.Source.fromFile(p.toFile)
+          try Right(source.toArray) finally source.close()
+        case File.StdIn =>
+          Right(scala.io.Source.fromInputStream(System.in).toArray)
       }
-
-      Right(r.toArray)
     }
     catch {
       case e: Exception => Left(FileError.CannotOpen(locOpt, this.toString))
