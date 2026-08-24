@@ -152,6 +152,14 @@ lazy val nativeFpp = (project in file("tools/fpp"))
       val smallFunctionSize = optimizerInt("FPP_SMALL_FUNCTION_SIZE", 8)
       val targetOptions = sys.env.get("FPP_MARCH").map(_.trim).filter(_.nonEmpty)
         .map(m => Seq("-march=" + m)).getOrElse(Seq.empty)
+      // Select the final native linker without applying a Linux-specific flag
+      // to the macOS artifacts.
+      val linkerOptions = sys.env.get("FPP_LINKER").map(_.trim.toLowerCase).filter(_.nonEmpty) match {
+        case None | Some("system") => Seq.empty[String]
+        case Some("lld")           => Seq("-fuse-ld=lld")
+        case Some(v) => sys.error(s"Unsupported FPP_LINKER '$v'; use system|lld")
+      }
+      val noInterpositionOptions = Seq("-fno-semantic-interposition", "-fno-plt")
       config.withMode(mode).withLTO(lto).withGC(gc).withLinkStubs(true)
         .withMultithreading(false)
         .withSemanticsConfig(_.withFinalFields(JVMMemoryModelCompliance.None).withStrictExternCallSemantics(false))
@@ -159,8 +167,8 @@ lazy val nativeFpp = (project in file("tools/fpp"))
           .withMaxCallerSize(maxCallerSize)
           .withMaxCalleeSize(maxCalleeSize)
           .withSmallFunctionSize(smallFunctionSize))
-        .withCompileOptions(config.compileOptions ++ compile ++ targetOptions)
-        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link ++ targetOptions)
+        .withCompileOptions(config.compileOptions ++ compile ++ targetOptions ++ noInterpositionOptions)
+        .withLinkingOptions(config.linkingOptions ++ macOSUnwindLinkerOptions ++ link ++ targetOptions ++ linkerOptions)
     }
   )
   .dependsOn(nativeLib)

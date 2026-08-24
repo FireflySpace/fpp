@@ -23,20 +23,24 @@ jobs:
             wheel_tag: macosx_14_0_arm64
             jvm_heap: 6G
             pgo: true
-            max_inline_depth: 64
-            max_caller_size: 8192
-            max_callee_size: 512
-            small_function_size: 8
+            gc: immix
+            linker: system
+            max_inline_depth: 32
+            max_caller_size: 2048
+            max_callee_size: 256
+            small_function_size: 12
           - runner: macos-15-intel
             artifact: darwin-x86_64
             python: '3.10'
             wheel_tag: macosx_15_0_x86_64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 64
-            max_caller_size: 8192
-            max_callee_size: 512
-            small_function_size: 8
+            gc: immix
+            linker: system
+            max_inline_depth: 32
+            max_caller_size: 2048
+            max_callee_size: 256
+            small_function_size: 12
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
@@ -44,10 +48,12 @@ jobs:
             wheel_tag: manylinux_2_28_x86_64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 64
-            max_caller_size: 8192
-            max_callee_size: 512
-            small_function_size: 8
+            gc: immix
+            linker: lld
+            max_inline_depth: 32
+            max_caller_size: 2048
+            max_callee_size: 256
+            small_function_size: 12
           - runner: ubuntu-22.04-arm
             artifact: manylinux_2_28_aarch64
             container: quay.io/pypa/manylinux_2_28_aarch64
@@ -55,10 +61,12 @@ jobs:
             wheel_tag: manylinux_2_28_aarch64
             jvm_heap: 10G
             pgo: true
-            max_inline_depth: 64
-            max_caller_size: 8192
-            max_callee_size: 512
-            small_function_size: 8
+            gc: immix
+            linker: lld
+            max_inline_depth: 32
+            max_caller_size: 2048
+            max_callee_size: 256
+            small_function_size: 12
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
@@ -84,7 +92,7 @@ jobs:
       - if: runner.os == 'Linux'
         name: Install Linux build tools
         run: |
-          dnf install --assumeyes clang llvm
+          dnf install --assumeyes clang llvm lld
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
       - name: Show toolchain versions
@@ -158,6 +166,8 @@ jobs:
           jvm-heap: ${{ matrix.jvm_heap }}
           mode: releasefull
           lto: full
+          gc: ${{ matrix.gc }}
+          linker: ${{ matrix.linker }}
           pgo-mode: generate
           profile-directory: ${{ runner.temp }}/fpp-pgo
           max-inline-depth: ${{ matrix.max_inline_depth }}
@@ -185,6 +195,8 @@ jobs:
           jvm-heap: ${{ matrix.jvm_heap }}
           mode: releasefull
           lto: full
+          gc: ${{ matrix.gc }}
+          linker: ${{ matrix.linker }}
           max-inline-depth: ${{ matrix.max_inline_depth }}
           max-caller-size: ${{ matrix.max_caller_size }}
           max-callee-size: ${{ matrix.max_callee_size }}
@@ -198,6 +210,8 @@ jobs:
           jvm-heap: ${{ matrix.jvm_heap }}
           mode: releasefull
           lto: full
+          gc: ${{ matrix.gc }}
+          linker: ${{ matrix.linker }}
       - name: Restore Version.scala
         if: always()
         working-directory: compiler

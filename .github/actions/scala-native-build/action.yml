@@ -26,22 +26,30 @@ inputs:
     description: Merged profile file to consume during PGO application
     required: false
     default: ''
+  gc:
+    description: Scala Native garbage collector (none|immix|commix|boehm)
+    required: false
+    default: 'immix'
+  linker:
+    description: Native linker selection (system|lld); lld requires an installed lld executable
+    required: false
+    default: 'system'
   max-inline-depth:
     description: Scala Native optimizer maximum inline depth
     required: false
-    default: '64'
+    default: '32'
   max-caller-size:
     description: Scala Native optimizer maximum caller size in NIR instructions
     required: false
-    default: '8192'
+    default: '2048'
   max-callee-size:
     description: Scala Native optimizer maximum callee size in NIR instructions
     required: false
-    default: '512'
+    default: '256'
   small-function-size:
     description: NIR instruction count that is always considered for inlining
     required: false
-    default: '8'
+    default: '12'
 
 runs:
   using: composite
@@ -54,6 +62,8 @@ runs:
         FPP_PGO: ${{ inputs.pgo-mode }}
         FPP_PGO_DIR: ${{ inputs.profile-directory }}
         FPP_PGO_PROFILE: ${{ inputs.profile-file }}
+        FPP_GC: ${{ inputs.gc }}
+        FPP_LINKER: ${{ inputs.linker }}
         FPP_MAX_INLINE_DEPTH: ${{ inputs.max-inline-depth }}
         FPP_MAX_CALLER_SIZE: ${{ inputs.max-caller-size }}
         FPP_MAX_CALLEE_SIZE: ${{ inputs.max-callee-size }}
