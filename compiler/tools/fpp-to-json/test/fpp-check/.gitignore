@@ -1,1 +1,4 @@
 fpp-check-tests.sh
+fpp-ast.json
+fpp-loc-map.json
+fpp-analysis.json
