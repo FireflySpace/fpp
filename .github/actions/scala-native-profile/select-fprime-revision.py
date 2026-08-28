@@ -38,8 +38,10 @@ def has_pin(commit: str, pin: str) -> bool:
 def successful_fprime_revisions():
     repository_url = "https://api.github.com/repos/nasa/fprime"
     default_branch = json.loads(github_get(repository_url))["default_branch"]
+    # framework.yml is red on the 3.3.0 line; coverage-update still builds there.
+    workflow = os.environ.get("FPRIME_CI_WORKFLOW", "coverage-update.yml")
     runs_url = (
-        f"{repository_url}/actions/workflows/framework.yml/runs"
+        f"{repository_url}/actions/workflows/{workflow}/runs"
         f"?branch={default_branch}&status=success&per_page=100"
     )
     seen = set()
