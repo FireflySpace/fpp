@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import os
 import subprocess
 import sys
 import urllib.request
@@ -18,6 +19,10 @@ def github_get(url: str):
         "User-Agent": "fpp-scala-native-profile",
         "X-GitHub-Api-Version": "2022-11-28",
     }
+    # Authenticate when a token is available
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
         return response.read()
 

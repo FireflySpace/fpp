@@ -35,54 +35,7 @@ runs:
         FPRIME_VENV: ${{ inputs.fprime-venv }}
         FPRIME_PYTHON: ${{ inputs.python }}
         LLVM_PROFILE_FILE: ${{ inputs.profile-directory }}/fpp-%m-%p.profraw
-      run: |
-        FPP_VERSION=$("$GITHUB_WORKSPACE/compiler/bin/fpp" --version | \
-          sed -n 's/^fpp v//p')
-        test -n "$FPP_VERSION"
-        echo "Selecting a CI-tested F Prime revision for fprime-fpp==$FPP_VERSION"
-        git clone https://github.com/nasa/fprime.git "$FPRIME_DIR"
-        cd "$FPRIME_DIR"
-        pin="fprime-fpp==$FPP_VERSION"
-        # The matrix may supply either an absolute interpreter path (manylinux)
-        # or a uv version request such as "3.10" (macOS). Materialize it before
-        # invoking the revision selector so a version request is never mistaken
-        # for a command name.
-        uv venv --clear "$FPRIME_VENV" --python "$FPRIME_PYTHON"
-        resolved_python="$FPRIME_VENV/bin/python"
-        export PATH="$GITHUB_WORKSPACE/compiler/bin:$FPRIME_VENV/bin:$PATH"
-        test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
-        fpp --version
-        # GCC 14's -Woverloaded-virtual + F Prime's -Werror errors on
-        # Svc/BufferAccumulator
-        export CFLAGS="-Wno-error=overloaded-virtual"
-        export CXXFLAGS="$CFLAGS"
-
-        candidates=$("$resolved_python" \
-          "$GITHUB_ACTION_PATH/select-fprime-revision.py" "$FPP_VERSION")
-        selected=
-        for commit in $candidates; do
-          echo "Testing F Prime $commit with the staged FPP"
-          git checkout --force "$commit"
-          git clean -ffdX
-          grep -Fqx "$pin" requirements.txt
-          git submodule sync --recursive
-          git submodule update --init --recursive
-          git show -s --format='Candidate F Prime %H (%cs): %s'
-
-          uv venv --clear "$FPRIME_VENV" --python '${{ inputs.python }}'
-          uv pip install --python "$FPRIME_VENV/bin/python" -r requirements.txt
-          if (
-            cd TestDeploymentsProject
-            fprime-util generate --force
-            fprime-util build -j4
-          ); then
-            selected=$commit
-            break
-          fi
-          echo "F Prime $commit is incompatible with the staged FPP"
-        done
-        test -n "$selected"
-        echo "Profiling completed with compatible F Prime revision $selected"
+      run: "$GITHUB_ACTION_PATH/build-matching-fprime.sh"
 
     - name: Merge profiles
       shell: bash
