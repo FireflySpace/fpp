@@ -14,7 +14,7 @@ jobs:
   build:
     if: github.event.pull_request.draft == false
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           - runner: macos-14

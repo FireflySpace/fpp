@@ -71,7 +71,7 @@ runs:
         SBT_JVM_ARGS: ${{ inputs.jvm-args }}
       run: |
         sbt_args=(--batch)
-        for arg in "${SBT_JVM_ARGS[@]}"; do
+        for arg in "${SBT_JVM_ARGS}"; do
           echo "Adding JVM Arg: $arg"
           sbt_args+=("-J$arg")
         done
