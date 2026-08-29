@@ -7,6 +7,10 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -51,10 +55,10 @@ jobs:
             pgo: true
             gc: none
             linker: lld
-            max_inline_depth: 256
-            max_caller_size: 8192
-            max_callee_size: 1536
-            small_function_size: 36
+            max_inline_depth: 128
+            max_caller_size: 4096
+            max_callee_size: 1024
+            small_function_size: 24
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
