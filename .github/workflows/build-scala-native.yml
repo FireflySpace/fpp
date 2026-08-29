@@ -173,7 +173,7 @@ jobs:
         if: matrix.pgo
         uses: ./.github/actions/scala-native-build
         with:
-          jvm-heap: ${{ matrix.jvm_args }}
+          jvm-args: ${{ matrix.jvm_args }}
           mode: releasefull
           lto: full
           gc: ${{ matrix.gc }}
