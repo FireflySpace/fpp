@@ -29,18 +29,6 @@ jobs:
             max_caller_size: 4906
             max_callee_size: 1024
             small_function_size: 24
-          - runner: macos-15-intel
-            artifact: darwin-x86_64
-            python: '3.10'
-            wheel_tag: macosx_15_0_x86_64
-            jvm_heap: 10G
-            pgo: true
-            gc: immix
-            linker: system
-            max_inline_depth: 32
-            max_caller_size: 2048
-            max_callee_size: 256
-            small_function_size: 12
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
