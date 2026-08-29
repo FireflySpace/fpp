@@ -97,18 +97,7 @@ jobs:
       - name: Embed version in Version.scala
         working-directory: compiler
         run: |
-          # Embed the nearest release tag (v3.3.0a9 on this branch) so `fpp --help`
-          # reports a clean version F Prime's tool version check can match against
-          # its pinned requirement. `--abbrev=0` drops the `-<n>-g<sha>` suffix a
-          # plain describe adds on commits past the tag; `--match 'v*'` ignores the
-          # rolling CI release tag (fpp-scala-native-*) so it never gets embedded.
-          # Fall back to $VERSION from version.sh when no matching tag is found.
-          #
-          # The manylinux leg runs as root in a container while the checkout is
-          # owned by another uid, so git refuses with "detected dubious ownership"
-          # and `git describe` exits non-zero -> the fallback silently hides the
-          # real tag. Mark the workspace safe so describe works in the container
-          # exactly as it does on the bare macOS runner.
+          # Embed the nearest release tag
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           . ../version.sh
           if git describe --tags --abbrev=0 --match 'v*' > /dev/null 2>&1
@@ -285,7 +274,7 @@ jobs:
   publish:
     if: github.event_name != 'pull_request'
     needs: build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-slim
     permissions:
       contents: write
 
