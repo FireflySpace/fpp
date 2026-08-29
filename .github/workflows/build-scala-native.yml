@@ -23,12 +23,12 @@ jobs:
             wheel_tag: macosx_14_0_arm64
             jvm_heap: 6G
             pgo: true
-            gc: immix
+            gc: none
             linker: system
-            max_inline_depth: 32
-            max_caller_size: 2048
-            max_callee_size: 256
-            small_function_size: 12
+            max_inline_depth: 128
+            max_caller_size: 4906
+            max_callee_size: 1024
+            small_function_size: 24
           - runner: macos-15-intel
             artifact: darwin-x86_64
             python: '3.10'
@@ -361,68 +361,3 @@ jobs:
             release/*.tar.gz \
             release/overrides.txt \
             --clobber
-
-  pages:
-    # GitHub Pages allows a single deployment per repo, so only the main line
-    # publishes the PEP 503 simple index. Other branches (release/**) still get
-    # their wheels + direct-URL overrides.txt from the publish job above.
-    if: >-
-      github.event_name != 'pull_request' &&
-      github.ref == 'refs/heads/main'
-    needs: publish
-    runs-on: ubuntu-22.04
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Download native build artifacts
-        uses: actions/download-artifact@v7
-        with:
-          pattern: fpp-scala-native-*
-          path: release
-          merge-multiple: true
-      - name: Generate PEP 503 simple index
-        run: |
-          tag=fpp-scala-native-latest
-          base_url="https://github.com/${{ github.repository }}/releases/download/$tag"
-          mkdir -p site/simple/fprime-fpp
-          cat > site/simple/index.html <<'EOF'
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta name="pypi:repository-version" content="1.0">
-              <title>Simple index</title>
-            </head>
-            <body>
-              <a href="fprime-fpp/">fprime-fpp</a>
-            </body>
-          </html>
-          EOF
-          {
-            printf '<!DOCTYPE html>\n<html>\n  <head>\n'
-            printf '    <meta name="pypi:repository-version" content="1.0">\n'
-            printf '    <title>Links for fprime-fpp</title>\n'
-            printf '  </head>\n  <body>\n'
-            # Emit one anchor per real wheel, pointing at its release download URL.
-            find release -type f -name '*.whl' -printf '%f\n' | sort -u | \
-              while IFS= read -r wheel
-              do
-                printf '    <a href="%s/%s">%s</a>\n' \
-                  "$base_url" "$wheel" "$wheel"
-              done
-            printf '  </body>\n</html>\n'
-          } > site/simple/fprime-fpp/index.html
-          # Fail loudly if no wheels were found instead of publishing an empty index.
-          grep -q '\.whl' site/simple/fprime-fpp/index.html
-          cat site/simple/index.html site/simple/fprime-fpp/index.html
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
