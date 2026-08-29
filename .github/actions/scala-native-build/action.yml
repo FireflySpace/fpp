@@ -2,8 +2,8 @@ name: Build Scala Native FPP
 description: Link the Scala Native FPP binary with an optional PGO mode
 
 inputs:
-  jvm-heap:
-    description: Maximum sbt JVM heap, such as 12G; empty uses JVM ergonomics
+  jvm-args:
+    description: JVM arg list to pass
     required: false
     default: ''
   mode:
@@ -68,20 +68,14 @@ runs:
         FPP_MAX_CALLER_SIZE: ${{ inputs.max-caller-size }}
         FPP_MAX_CALLEE_SIZE: ${{ inputs.max-callee-size }}
         FPP_SMALL_FUNCTION_SIZE: ${{ inputs.small-function-size }}
-        SBT_JVM_HEAP: ${{ inputs.jvm-heap }}
+        SBT_JVM_ARGS: ${{ inputs.jvm-args }}
       run: |
         sbt_args=(--batch)
-        if [[ -n "$SBT_JVM_HEAP" ]]
-        then
-          sbt_args+=("-J-Xmx$SBT_JVM_HEAP")
-        fi
-        # Serialize Scala Native's per-.ll clang compiles (it otherwise spawns
-        # one clang per processor). On the 16 GB free runner, releaseFull's
-        # concurrent clang -flto processes (~1.6-3.7 GB each) stack on top of the
-        # resident JVM heap and OOM-kill the job at the optimize->codegen
-        # transition. Capping processors to 1 compiles one .ll at a time
-        # (~3.7 GB peak instead of ~10.5 GB); the optimize phase is
-        # single-threaded so this doesn't slow it.
+        for arg in "${SBT_JVM_ARGS[@]}"; do
+          echo "Adding JVM Arg: $arg"
+          sbt_args+=("-J$arg")
+        done
+        # Serialize Scala Native's per-.ll clang compiles
         sbt_args+=("-J-XX:ActiveProcessorCount=1")
         if [[ "$FPP_PGO" == generate ]]
         then
@@ -90,9 +84,7 @@ runs:
           find "$FPP_PGO_DIR" -maxdepth 1 -type f -name '*.profraw' -delete
         fi
 
-        # Locate this shell's cgroup v2 dir so we can read the memory
-        # high-water mark and OOM-kill counter after the build (works inside the
-        # manylinux container without privilege, unlike dmesg).
+        # Locate this shell's cgroup v2 dir so we can read the memory usage & OOM
         cg=/sys/fs/cgroup
         rel=
         if [[ -r /proc/self/cgroup ]]
