@@ -155,9 +155,26 @@ jobs:
           max-caller-size: ${{ matrix.max_caller_size }}
           max-callee-size: ${{ matrix.max_callee_size }}
           small-function-size: ${{ matrix.small_function_size }}
-      - name: Stage instrumented Scala Native tools
-        if: matrix.pgo
+      - name: Build unprofiled Scala Native tools
+        if: ${{ !matrix.pgo }}
+        uses: ./.github/actions/scala-native-build
+        with:
+          jvm-args: ${{ matrix.jvm_args }}
+          mode: releasefull
+          lto: full
+          gc: ${{ matrix.gc }}
+          linker: ${{ matrix.linker }}
+      - name: Stage initial Scala Native tools
         uses: ./.github/actions/scala-native-stage
+      - name: Prepare matching F Prime revision
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          FPRIME_DIR: ${{ runner.temp }}/fprime
+          FPRIME_VENV: ${{ runner.temp }}/fprime-venv
+          FPRIME_PYTHON: ${{ matrix.python }}
+          FPRIME_PREPARE_ONLY: true
+        run: .github/actions/scala-native-profile/build-matching-fprime.sh
       - name: Profile instrumented Scala Native tools
         if: matrix.pgo
         uses: ./.github/actions/scala-native-profile
@@ -184,15 +201,6 @@ jobs:
           small-function-size: ${{ matrix.small_function_size }}
           pgo-mode: apply
           profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
-      - name: Build unprofiled Scala Native tools
-        if: ${{ !matrix.pgo }}
-        uses: ./.github/actions/scala-native-build
-        with:
-          jvm-args: ${{ matrix.jvm_args }}
-          mode: releasefull
-          lto: full
-          gc: ${{ matrix.gc }}
-          linker: ${{ matrix.linker }}
       - name: Restore Version.scala
         if: always()
         working-directory: compiler
@@ -203,7 +211,8 @@ jobs:
           echo "Restoring Version.scala"
           sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
             $util/Version.scala
-      - name: Stage Scala Native tools
+      - name: Stage profile-guided Scala Native tools
+        if: matrix.pgo
         uses: ./.github/actions/scala-native-stage
       - name: Benchmark F Prime compile
         shell: bash

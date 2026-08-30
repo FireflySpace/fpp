@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 #
-# Build a CI-tested F Prime revision matching the staged FPP so the instrumented
-# (PGO) fpp emits profiles. Picks candidates via find-matching-fprime.sh and
-# builds the first that succeeds. Invoked by the scala-native-profile action.
-#
-# Env (set by the action step): GITHUB_WORKSPACE, FPRIME_DIR, FPRIME_VENV,
+# Build a CI-tested F Prime revision matching the staged FPP
+# Env: GITHUB_WORKSPACE, FPRIME_DIR, FPRIME_VENV,
 # FPRIME_PYTHON, LLVM_PROFILE_FILE. Matches GitHub's default bash (-e, pipefail).
 set -eo pipefail
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
@@ -42,6 +39,11 @@ do
 
   uv venv --clear "$FPRIME_VENV" --python "$FPRIME_PYTHON"
   uv pip install --python "$FPRIME_VENV/bin/python" -r requirements.txt
+  if [[ "${FPRIME_PREPARE_ONLY:-false}" == true ]]
+  then
+    echo "Prepared matching F Prime revision $commit"
+    exit 0
+  fi
   if (
     cd TestDeploymentsProject
     fprime-util generate --force
