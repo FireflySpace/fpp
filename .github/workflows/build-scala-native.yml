@@ -205,8 +205,7 @@ jobs:
             $util/Version.scala
       - name: Stage Scala Native tools
         uses: ./.github/actions/scala-native-stage
-      - name: Benchmark optimized F Prime compile
-        if: matrix.pgo
+      - name: Benchmark F Prime compile
         shell: bash
         env:
           FPRIME_DIR: ${{ runner.temp }}/fprime
@@ -218,10 +217,7 @@ jobs:
           test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
           cd "$FPRIME_DIR/TestDeploymentsProject"
 
-          # Recreate the build cache, then compile the deployment just as the
-          # PGO training workload does. Report the phases separately so FPP
-          # code-generation performance is not confused with the downstream
-          # C/C++ compile, while the sum remains the user-visible build cost.
+          # Recreate the build cache, then compile the deployment
           TIMEFORMAT='FPP_GENERATE_SECONDS=%3R'
           { time fprime-util generate --force; } 2>&1 | tee "$RUNNER_TEMP/fpp-generate-benchmark.log"
           TIMEFORMAT='FPP_BUILD_SECONDS=%3R'
