@@ -318,7 +318,6 @@ jobs:
           done <<'EOF'
           *manylinux_*_x86_64.whl|linux|x86_64
           *manylinux_*_aarch64.whl|linux|aarch64
-          *macosx_*_x86_64.whl|darwin|x86_64
           *macosx_*_arm64.whl|darwin|arm64
           EOF
           # Fail loudly if the flattened assets the publish step uploads are
