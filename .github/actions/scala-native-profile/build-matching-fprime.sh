@@ -7,6 +7,11 @@ set -eo pipefail
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
 fpp_version=$("$GITHUB_WORKSPACE/compiler/bin/fpp" --version | sed -n 's/^fpp v//p')
+if [ -z "$fpp_version" ]
+then
+  fpp_version=$(git -C "$GITHUB_WORKSPACE" describe \
+    --tags --abbrev=0 --match 'v*' | sed 's/^v//')
+fi
 test -n "$fpp_version"
 pin="fprime-fpp==$fpp_version"
 
