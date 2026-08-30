@@ -215,34 +215,11 @@ jobs:
         if: matrix.pgo
         uses: ./.github/actions/scala-native-stage
       - name: Benchmark F Prime compile
-        shell: bash
-        env:
-          FPRIME_DIR: ${{ runner.temp }}/fprime
-          FPRIME_VENV: ${{ runner.temp }}/fprime-venv
-        run: |
-          export PATH="$GITHUB_WORKSPACE/compiler/bin:$FPRIME_VENV/bin:$PATH"
-          export CFLAGS="-Wno-error=overloaded-virtual"
-          export CXXFLAGS="$CFLAGS"
-          test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
-          cd "$FPRIME_DIR/TestDeploymentsProject"
-
-          # Recreate the build cache, then compile the deployment
-          TIMEFORMAT='FPP_GENERATE_SECONDS=%3R'
-          { time fprime-util generate --force; } 2>&1 | tee "$RUNNER_TEMP/fpp-generate-benchmark.log"
-          TIMEFORMAT='FPP_BUILD_SECONDS=%3R'
-          { time fprime-util build -j4; } 2>&1 | tee "$RUNNER_TEMP/fpp-build-benchmark.log"
-
-          generate=$(sed -n 's/^FPP_GENERATE_SECONDS=//p' "$RUNNER_TEMP/fpp-generate-benchmark.log" | tail -1)
-          build=$(sed -n 's/^FPP_BUILD_SECONDS=//p' "$RUNNER_TEMP/fpp-build-benchmark.log" | tail -1)
-          test -n "$generate"
-          test -n "$build"
-          total=$(awk -v generate="$generate" -v build="$build" 'BEGIN { printf "%.3f", generate + build }')
-          {
-            printf '### %s\n\n' '${{ matrix.artifact }}'
-            printf '| Phase | Seconds |\n|---|---:|\n'
-            printf '| Generate | %s |\n| Build (`-j4`) | %s |\n| Total | %s |\n' \
-              "$generate" "$build" "$total"
-          } >> "$GITHUB_STEP_SUMMARY"
+        uses: ./.github/actions/benchmark-fprime
+        with:
+          fprime-directory: ${{ runner.temp }}/fprime
+          fprime-venv: ${{ runner.temp }}/fprime-venv
+          summary-label: ${{ matrix.artifact }}
       - name: Test Scala Native tools
         working-directory: compiler
         run: ./test

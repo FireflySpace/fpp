@@ -93,17 +93,25 @@ jobs:
             "run": [
               {
                 "runner": "macos-14",
-                "tag": "macosx_14_0_arm64"
+                "tag": "macosx_14_0_arm64",
+                "python": "3.10"
+              },
+              {
+                "runner": "macos-15-intel",
+                "tag": "macosx_15_0_x86_64",
+                "python": "3.10"
               },
               {
                 "runner": "ubuntu-22.04",
                 "tag": "manylinux_2_28_x86_64",
-                "container": "quay.io/pypa/manylinux_2_28_x86_64"
+                "container": "quay.io/pypa/manylinux_2_28_x86_64",
+                "python": "/opt/python/cp310-cp310/bin/python"
               },
               {
                 "runner": "ubuntu-22.04-arm",
                 "tag": "manylinux_2_28_aarch64",
-                "container": "quay.io/pypa/manylinux_2_28_aarch64"
+                "container": "quay.io/pypa/manylinux_2_28_aarch64",
+                "python": "/opt/python/cp310-cp310/bin/python"
               }
 
             ]
@@ -143,6 +151,23 @@ jobs:
         with:
           binary-directory: ${{ inputs.output-directory }}
           trace-directory: ${{ inputs.trace-directory }}
+      - name: "Set up uv"
+        uses: astral-sh/setup-uv@v6
+      - name: "Prepare matching F Prime revision"
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          FPRIME_DIR: ${{ runner.temp }}/fprime
+          FPRIME_VENV: ${{ runner.temp }}/fprime-venv
+          FPRIME_PYTHON: ${{ matrix.run.python }}
+          FPRIME_PREPARE_ONLY: true
+        run: .github/actions/scala-native-profile/build-matching-fprime.sh
+      - name: "Benchmark F Prime compile"
+        uses: ./.github/actions/benchmark-fprime
+        with:
+          fprime-directory: ${{ runner.temp }}/fprime
+          fprime-venv: ${{ runner.temp }}/fprime-venv
+          summary-label: ${{ matrix.run.tag }}
       - name: "Archive Native Images"
         uses: actions/upload-artifact@v7
         with:

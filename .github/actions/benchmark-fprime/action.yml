@@ -1,0 +1,46 @@
+name: Benchmark F Prime Compile
+description: Benchmark FPP generation and the downstream F Prime build
+
+inputs:
+  fprime-directory:
+    description: Prepared F Prime checkout path
+    required: true
+  fprime-venv:
+    description: Prepared F Prime virtual environment path
+    required: true
+  summary-label:
+    description: Platform label for the GitHub step summary
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        FPRIME_DIR: ${{ inputs.fprime-directory }}
+        FPRIME_VENV: ${{ inputs.fprime-venv }}
+        SUMMARY_LABEL: ${{ inputs.summary-label }}
+      run: |
+        export PATH="$GITHUB_WORKSPACE/compiler/bin:$FPRIME_VENV/bin:$PATH"
+        export CFLAGS="-Wno-error=overloaded-virtual"
+        export CXXFLAGS="$CFLAGS"
+        test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
+        cd "$FPRIME_DIR/TestDeploymentsProject"
+
+        # Recreate the build cache, then compile the deployment
+        TIMEFORMAT='FPP_GENERATE_SECONDS=%3R'
+        { time fprime-util generate --force; } 2>&1 | tee "$RUNNER_TEMP/fpp-generate-benchmark.log"
+        TIMEFORMAT='FPP_BUILD_SECONDS=%3R'
+        { time fprime-util build -j4; } 2>&1 | tee "$RUNNER_TEMP/fpp-build-benchmark.log"
+
+        generate=$(sed -n 's/^FPP_GENERATE_SECONDS=//p' "$RUNNER_TEMP/fpp-generate-benchmark.log" | tail -1)
+        build=$(sed -n 's/^FPP_BUILD_SECONDS=//p' "$RUNNER_TEMP/fpp-build-benchmark.log" | tail -1)
+        test -n "$generate"
+        test -n "$build"
+        total=$(awk -v generate="$generate" -v build="$build" 'BEGIN { printf "%.3f", generate + build }')
+        {
+          printf '### %s\n\n' "$SUMMARY_LABEL"
+          printf '| Phase | Seconds |\n|---|---:|\n'
+          printf '| Generate | %s |\n| Build (`-j4`) | %s |\n| Total | %s |\n' \
+            "$generate" "$build" "$total"
+        } >> "$GITHUB_STEP_SUMMARY"
