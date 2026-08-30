@@ -55,10 +55,10 @@ jobs:
             pgo: true
             gc: none
             linker: lld
-            max_inline_depth: 128
-            max_caller_size: 4096
-            max_callee_size: 1024
-            small_function_size: 24
+            max_inline_depth: 172
+            max_caller_size: 6144
+            max_callee_size: 1536
+            small_function_size: 30
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
