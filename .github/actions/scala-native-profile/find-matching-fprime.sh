@@ -39,7 +39,6 @@ trap '[ -n "$cleanup" ] && rm -rf "$cleanup"' EXIT
 if [ ! -d "$fprime_dir/.git" ]
 then
   git clone --quiet https://github.com/nasa/fprime.git "$fprime_dir" >&2
-  git config --global --add safe.directory "$fprime_dir"
 fi
 
 ( cd "$fprime_dir" && "${PYTHON:-python3}" "$script_dir/select-fprime-revision.py" "$fpp_version" )

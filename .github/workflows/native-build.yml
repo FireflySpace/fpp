@@ -154,6 +154,9 @@ jobs:
           trace-directory: ${{ inputs.trace-directory }}
       - name: "Set up uv"
         uses: astral-sh/setup-uv@v6
+      - name: "Git Mark Safe"
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: "Prepare matching F Prime revision"
         shell: bash
         env:
