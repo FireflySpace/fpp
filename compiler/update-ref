@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+# Ensure the script can be run from any directory
+wd=`dirname $0`
+cd $wd
+
+export COMPILER_ROOT=`pwd`
+
+for file in tools/*/test/update-ref
+do
+  dir=`dirname $file`
+  echo "[ $dir ]"
+  (cd $dir; ./update-ref)
+done
