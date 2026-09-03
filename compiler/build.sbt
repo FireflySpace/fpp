@@ -3,9 +3,9 @@ import scala.scalanative.build._
 
 name := "fpp-compiler"
 ThisBuild / organization := "gov.nasa.jpl"
-ThisBuild / scalaVersion := "3.3.6"
+ThisBuild / scalaVersion := "3.3.4"
 ThisBuild / dependencyOverrides +=
-  "org.scala-lang" %% "scala3-library" % "3.3.6"
+  "org.scala-lang" %% "scala3-library" % "3.3.4"
 
 lazy val settings = Seq(
   scalacOptions ++= Seq(
@@ -25,11 +25,11 @@ lazy val settings = Seq(
 // Shared (org, artifact, version); JVM cross-builds with %%, Scala Native with %%%.
 lazy val sharedDependencies = Seq(
   ("com.github.scopt", "scopt", "4.1.0"),
-  ("io.circe", "circe-core", "0.14.16"),
-  ("io.circe", "circe-generic", "0.14.16"),
-  ("io.circe", "circe-parser", "0.14.16"),
+  ("io.circe", "circe-core", "0.14.10"),
+  ("io.circe", "circe-generic", "0.14.10"),
+  ("io.circe", "circe-parser", "0.14.10"),
   ("org.scala-lang.modules", "scala-parser-combinators", "2.4.0"),
-  ("org.scala-lang.modules", "scala-xml", "2.4.0"),
+  ("org.scala-lang.modules", "scala-xml", "2.3.0"),
 )
 
 lazy val jvmDependencies =
