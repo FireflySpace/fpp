@@ -26,7 +26,7 @@ jobs:
             python: '3.10'
             wheel_tag: macosx_14_0_arm64
             jvm_args: -Xmx6G -XX:+UseG1GC
-            pgo: false
+            pgo: true
             gc: immix
             linker: system
             max_inline_depth: 128
@@ -39,7 +39,7 @@ jobs:
             python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_x86_64
             jvm_args: -Xmx10G -XX:+UseG1GC
-            pgo: false
+            pgo: true
             gc: immix
             linker: lld
             max_inline_depth: 256
@@ -52,7 +52,7 @@ jobs:
             python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_aarch64
             jvm_args: -Xmx10G -XX:+UseG1GC
-            pgo: false
+            pgo: true
             gc: immix
             linker: lld
             max_inline_depth: 128
