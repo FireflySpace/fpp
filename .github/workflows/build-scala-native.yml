@@ -46,19 +46,6 @@ jobs:
             max_caller_size: 8192
             max_callee_size: 1536
             small_function_size: 36
-          - runner: ubuntu-22.04-arm
-            artifact: manylinux_2_28_aarch64
-            container: quay.io/pypa/manylinux_2_28_aarch64
-            python: /opt/python/cp310-cp310/bin/python
-            wheel_tag: manylinux_2_28_aarch64
-            jvm_args: -Xmx10G -XX:+UseG1GC
-            pgo: true
-            gc: immix
-            linker: lld
-            max_inline_depth: 128
-            max_caller_size: 4096
-            max_callee_size: 1024
-            small_function_size: 24
     runs-on: ${{ matrix.runner }}
     container:
       image: ${{ matrix.container || '' }}
@@ -299,7 +286,6 @@ jobs:
               >> release/overrides.txt
           done <<'EOF'
           *manylinux_*_x86_64.whl|linux|x86_64
-          *manylinux_*_aarch64.whl|linux|aarch64
           *macosx_*_arm64.whl|darwin|arm64
           EOF
           # Fail loudly if the flattened assets the publish step uploads are
