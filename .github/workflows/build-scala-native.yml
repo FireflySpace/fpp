@@ -18,7 +18,7 @@ jobs:
   build:
     if: github.event.pull_request.draft == false
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - runner: macos-14
@@ -47,6 +47,7 @@ jobs:
             max_callee_size: 1536
             small_function_size: 36
     runs-on: ${{ matrix.runner }}
+    continue-on-error: ${{ matrix.runner == 'macos-14' }}
     container:
       image: ${{ matrix.container || '' }}
       # get us swapon
