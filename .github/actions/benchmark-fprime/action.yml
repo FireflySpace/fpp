@@ -25,6 +25,16 @@ runs:
         export CFLAGS="-Wno-error=overloaded-virtual"
         export CXXFLAGS="$CFLAGS"
         test "$(command -v fpp)" = "$GITHUB_WORKSPACE/compiler/bin/fpp"
+        # nasa/fprime #5386 (2026-09-08) added Rust component Svc.WasmSequencer
+        # to Ref's topology; without cargo CMake drops the module and fpp-to-dict
+        # errors "symbol WasmSequencer is not defined". macOS runners ship Rust;
+        # the manylinux container does not. MSRV is 1.87 (Rust 2024 edition).
+        if ! command -v cargo >/dev/null 2>&1
+        then
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --profile minimal --default-toolchain 1.87.0
+        fi
+        export PATH="$HOME/.cargo/bin:$PATH"
         cd "$FPRIME_DIR/TestDeploymentsProject"
 
         # Recreate the build cache, then compile the deployment
