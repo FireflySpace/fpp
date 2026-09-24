@@ -39,7 +39,7 @@ jobs:
             python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_x86_64
             jvm_args: -Xmx10G -XX:+UseG1GC
-            pgo: true
+            pgo: false
             gc: immix
             linker: lld
             max_inline_depth: 256
