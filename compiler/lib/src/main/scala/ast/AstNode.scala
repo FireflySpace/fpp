@@ -1,7 +1,10 @@
 package fpp.compiler.ast
 
 /** An AST node with an identifier */
-final case class AstNode[+T] private(data: T, id: AstNode.Id)
+final case class AstNode[+T] private(data: T, id: AstNode.Id) {
+  // Recursive productHash is ~25% of to-json CPU; memoize the identical value.
+  override lazy val hashCode: Int = scala.runtime.ScalaRunTime._hashCode(this)
+}
 
 object AstNode {
 
