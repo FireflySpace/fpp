@@ -2126,22 +2126,17 @@ void ActiveSerialComponentBase ::
 
   FwPrmIdType _id{};
   Fw::ParamBuffer _paramBuffer;
+  Fw::ParamValid _dbValid{};
 
   _id = _baseId + PARAMID_PARAMU32;
-
-  // Get serialized parameter ParamU32
-  this->m_param_ParamU32_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  if (this->m_param_ParamU32_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamU32);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
+    }
+    else {
       this->m_param_ParamU32_valid = Fw::ParamValid::INVALID;
     }
   }
@@ -2149,20 +2144,14 @@ void ActiveSerialComponentBase ::
   this->m_paramLock.unlock();
 
   _id = _baseId + PARAMID_PARAMF64;
-
-  // Get serialized parameter ParamF64
-  this->m_param_ParamF64_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  if (this->m_param_ParamF64_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamF64);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
+    }
+    else {
       this->m_param_ParamF64_valid = Fw::ParamValid::INVALID;
     }
   }
@@ -2170,47 +2159,33 @@ void ActiveSerialComponentBase ::
   this->m_paramLock.unlock();
 
   _id = _baseId + PARAMID_PARAMSTRING;
-
-  // Get serialized parameter ParamString
-  this->m_param_ParamString_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter or use default value
-  if (this->m_param_ParamString_valid == Fw::ParamValid::VALID) {
-    _stat = _paramBuffer.deserializeTo(this->m_ParamString);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamString_valid = Fw::ParamValid::DEFAULT;
-    }
-  }
-  else {
+  if (this->m_param_ParamString_valid == Fw::ParamValid::UNINIT) {
+    this->m_ParamString = Fw::String("default");
     this->m_param_ParamString_valid = Fw::ParamValid::DEFAULT;
   }
-  if (this->m_param_ParamString_valid == Fw::ParamValid::DEFAULT) {
-    this->m_ParamString = Fw::String("default");
+  if (_dbValid == Fw::ParamValid::VALID) {
+    _stat = _paramBuffer.deserializeTo(this->m_ParamString);
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamString_valid = Fw::ParamValid::VALID;
+    }
+    else {
+      this->m_param_ParamString_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
 
   _id = _baseId + PARAMID_PARAMENUM;
-
-  // Get serialized parameter ParamEnum
-  this->m_param_ParamEnum_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  if (this->m_param_ParamEnum_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamEnum);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
+    }
+    else {
       this->m_param_ParamEnum_valid = Fw::ParamValid::INVALID;
     }
   }
@@ -2218,47 +2193,33 @@ void ActiveSerialComponentBase ::
   this->m_paramLock.unlock();
 
   _id = _baseId + PARAMID_PARAMARRAY;
-
-  // Get serialized parameter ParamArray
-  this->m_param_ParamArray_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter or use default value
-  if (this->m_param_ParamArray_valid == Fw::ParamValid::VALID) {
-    _stat = _paramBuffer.deserializeTo(this->m_ParamArray);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamArray_valid = Fw::ParamValid::DEFAULT;
-    }
-  }
-  else {
+  if (this->m_param_ParamArray_valid == Fw::ParamValid::UNINIT) {
+    this->m_ParamArray = A({1, 2, 3});
     this->m_param_ParamArray_valid = Fw::ParamValid::DEFAULT;
   }
-  if (this->m_param_ParamArray_valid == Fw::ParamValid::DEFAULT) {
-    this->m_ParamArray = A({1, 2, 3});
+  if (_dbValid == Fw::ParamValid::VALID) {
+    _stat = _paramBuffer.deserializeTo(this->m_ParamArray);
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
+    }
+    else {
+      this->m_param_ParamArray_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
 
   _id = _baseId + PARAMID_PARAMSTRUCT;
-
-  // Get serialized parameter ParamStruct
-  this->m_param_ParamStruct_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  if (this->m_param_ParamStruct_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamStruct);
-    if (_stat != Fw::FW_SERIALIZE_OK) {
+    if (_stat == Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
+    }
+    else {
       this->m_param_ParamStruct_valid = Fw::ParamValid::INVALID;
     }
   }
