@@ -133,14 +133,6 @@ jobs:
         working-directory: compiler
         shell: bash
         run: |
-          # madvise(MADV_HUGEPAGE) the immix GC heap mmaps so the large,
-          # short-lived AST/analysis working set is backed by 2 MiB pages
-          # (fewer TLB misses). Advisory-only and semantically null; the C
-          # hunks are __linux__-guarded so macOS is unaffected.
-          #
-          # Resolve deps first so the nativelib jar is in the coursier cache,
-          # then patch the jar in place. Scala Native re-extracts the C on the
-          # next link because the jar's SHA-1 (its `jarhash`) changed.
           sbt --batch "nativeFpp/update" >/dev/null
           "$GITHUB_WORKSPACE/.github/scripts/patch-nativelib-jar.sh" \
             "$GITHUB_WORKSPACE/.github/scripts/patch-hugepages.py"
@@ -175,13 +167,6 @@ jobs:
         working-directory: compiler
         shell: bash
         run: |
-          # The MADV_HUGEPAGE nativelib patch is advisory and easy to lose
-          # silently (a cache mismatch, or the jar not re-extracted), which
-          # would ship a Linux wheel with none of the huge-page win and no
-          # error. The patched binary imports `madvise`; the unpatched one does
-          # not. Fail loudly rather than regress silently.
-          # nm prints the versioned name (madvise@GLIBC_2.2.5); strip the
-          # @version and match exactly so posix_madvise cannot false-positive.
           if nm -D bin/fpp 2>/dev/null | awk '{ s = $NF; sub(/@.*/, "", s); if (s == "madvise") found = 1 } END { exit !found }'
           then
             echo "huge-pages confirmed: bin/fpp imports madvise"
