@@ -35,6 +35,29 @@ runs:
             | sh -s -- -y --profile minimal --default-toolchain 1.87.0
         fi
         export PATH="$HOME/.cargo/bin:$PATH"
+
+        export FPP_REAL_BIN="$GITHUB_WORKSPACE/compiler/bin"
+        export FPP_TOOL_LOG="$RUNNER_TEMP/fpp-tool-timing.log"
+        SHIM="$RUNNER_TEMP/fpp-shim"
+        mkdir -p "$SHIM"
+        : > "$FPP_TOOL_LOG"
+        {
+          printf '#!/usr/bin/env bash\n'
+          printf 'tool=$(basename "$0")\n'
+          printf 's=$(date +%%s.%%N)\n'
+          printf '"$FPP_REAL_BIN/$tool" "$@"; rc=$?\n'
+          printf 'e=$(date +%%s.%%N)\n'
+          printf 'awk -v a="$s" -v b="$e" -v t="$tool" '\''BEGIN { printf "%%s %%.3f\\n", t, b - a }'\'' >> "$FPP_TOOL_LOG"\n'
+          printf 'exit $rc\n'
+        } > "$SHIM/fpp-tool-wrapper"
+        chmod +x "$SHIM/fpp-tool-wrapper"
+        for tool in fpp-depend fpp-to-cpp fpp-to-dict fpp-locate-defs \
+          fpp-locate-uses fpp-filenames
+        do
+          ln -sf fpp-tool-wrapper "$SHIM/$tool"
+        done
+        export PATH="$SHIM:$PATH"
+
         cd "$FPRIME_DIR/TestDeploymentsProject"
 
         # Recreate the build cache, then compile the deployment
@@ -54,3 +77,17 @@ runs:
           printf '| Generate | %s |\n| Build (`-j4`) | %s |\n| Total | %s |\n' \
             "$generate" "$build" "$total"
         } >> "$GITHUB_STEP_SUMMARY"
+
+        if [ -s "$FPP_TOOL_LOG" ]
+        then
+          {
+            printf '\n#### %s - per-fpp-tool (sum of invocations)\n\n' \
+              "$SUMMARY_LABEL"
+            printf '| Tool | Calls | Total s |\n|---|---:|---:|\n'
+            awk '{ c[$1]++; s[$1] += $2 }
+                 END { for (t in s) printf "| %s | %d | %.3f |\n", t, c[t], s[t] }' \
+              "$FPP_TOOL_LOG" | sort
+          } >> "$GITHUB_STEP_SUMMARY"
+        else
+          printf '::warning::no fpp-tool timings captured (shim not on PATH?)\n'
+        fi
