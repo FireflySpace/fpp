@@ -70,9 +70,36 @@ object FPPtoJson {
         val a = Analysis(inputFileSet = options.files.toSet)
         for {
           a <- CheckSemantics.tuList(a, tul)
-          _ <- writeJson(options, "fpp-analysis.json", AnalysisJsonEncoder.analysisToJson(a))
+          _ <- writeAnalysisJson (options) (a)
         } yield ()
       case true => Right(())
+    }
+
+  def writeAnalysisJson (options: Options) (a: Analysis):
+    Result.Result[Unit] =
+    if options.format then
+      writeJson(options, "fpp-analysis.json", AnalysisJsonEncoder.analysisToJson(a))
+    else {
+      val path =
+        java.nio.file.Paths.get(options.dir.getOrElse("."), "fpp-analysis.json")
+      val file = File.Path(path)
+      for (writer <- file.openWrite()) yield {
+        writer.print("{\"fppVersion\":")
+        writer.print(io.circe.Json.fromString(Version.v).noSpaces)
+        writer.print(",\"analysis\":{")
+        var first = true
+        AnalysisJsonEncoder.analysisFieldThunks(a).foreach { case (key, thunk) =>
+          if !first then writer.print(",")
+          first = false
+          writer.print("\"")
+          writer.print(key)
+          writer.print("\":")
+          writer.print(thunk().noSpaces)
+        }
+        writer.print("}}")
+        writer.println()
+        writer.close()
+      }
     }
 
   val builder = OParser.builder[Options]

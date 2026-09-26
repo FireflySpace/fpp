@@ -323,4 +323,23 @@ object AnalysisJsonEncoder extends JsonEncoder{
     )
   }
 
+  def analysisFieldThunks(a: Analysis): List[(String, () => Json)] = List(
+    "componentInstanceMap" -> (() => a.componentInstanceMap.asJson),
+    "componentMap" -> (() => a.componentMap.asJson),
+    "frameworkDefinitions" -> (() => a.frameworkDefinitions.asJson),
+    "includedFileSet" -> (() => a.includedFileSet.asJson),
+    "inputFileSet" -> (() => a.inputFileSet.asJson),
+    "locationSpecifierMap" -> (() => a.locationSpecifierMap.asJson),
+    "parentSymbolMap" -> (() => a.parentSymbolMap.asJson),
+    "symbolScopeMap" -> (() => a.symbolScopeMap.asJson),
+    "topologyMap" -> (() => a.topologyMap.asJson),
+    "typeMap" -> (() => a.typeMap.asJson),
+    "useDefMap" -> (() => a.useDefMap.asJson),
+    "valueMap" -> (() => a.valueMap.asJson),
+    "stateMachineMap" -> (() => a.stateMachineMap.asJson),
+    "dictionarySymbolSet" -> (() => a.dictionarySymbolSet.asJson),
+    "interfaceMap" -> (() => a.interfaceMap.asJson),
+    "dictionaryMap" -> (() => a.dictionaryMap.asJson)
+  )
+
 }
