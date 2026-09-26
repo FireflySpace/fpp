@@ -36,27 +36,16 @@ runs:
         fi
         export PATH="$HOME/.cargo/bin:$PATH"
 
-        export FPP_REAL_BIN="$GITHUB_WORKSPACE/compiler/bin"
         export FPP_TOOL_LOG="$RUNNER_TEMP/fpp-tool-timing.log"
-        SHIM="$RUNNER_TEMP/fpp-shim"
-        mkdir -p "$SHIM"
+        export FPP_SHIM="$RUNNER_TEMP/fpp-shim"
+        mkdir -p "$FPP_SHIM"
         : > "$FPP_TOOL_LOG"
-        {
-          printf '#!/usr/bin/env bash\n'
-          printf 'tool=$(basename "$0")\n'
-          printf 's=$(date +%%s.%%N)\n'
-          printf '"$FPP_REAL_BIN/$tool" "$@"; rc=$?\n'
-          printf 'e=$(date +%%s.%%N)\n'
-          printf 'awk -v a="$s" -v b="$e" -v t="$tool" '\''BEGIN { printf "%%s %%.3f\\n", t, b - a }'\'' >> "$FPP_TOOL_LOG"\n'
-          printf 'exit $rc\n'
-        } > "$SHIM/fpp-tool-wrapper"
-        chmod +x "$SHIM/fpp-tool-wrapper"
         for tool in fpp-depend fpp-to-cpp fpp-to-dict fpp-locate-defs \
           fpp-locate-uses fpp-filenames
         do
-          ln -sf fpp-tool-wrapper "$SHIM/$tool"
+          ln -sf "$GITHUB_WORKSPACE/.github/scripts/fpp-timing-wrapper.sh" "$FPP_SHIM/$tool"
         done
-        export PATH="$SHIM:$PATH"
+        export PATH="$FPP_SHIM:$PATH"
 
         cd "$FPRIME_DIR/TestDeploymentsProject"
 
