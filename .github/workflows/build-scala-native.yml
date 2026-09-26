@@ -223,6 +223,9 @@ jobs:
           cp compiler/bin/fpp python/fprime_fpp/fpp
           chmod +x python/fprime_fpp/fpp
           touch python/fprime_fpp/fpp-native-all-tools
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          tag=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo v0.0.0)
+          export SETUPTOOLS_SCM_PRETEND_VERSION="${tag#v}+g$(git rev-parse --short=9 HEAD)"
           uv run --python ${{ matrix.python }} --with build python -m build \
             --wheel --outdir dist \
             --config-setting=--build-option=--plat-name=${{ matrix.wheel_tag }} .
