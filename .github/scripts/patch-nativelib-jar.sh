@@ -12,16 +12,18 @@ if [ "$cache" = "$default_cache" ] && [ "${CI:-}" != "true" ]; then
   exit 2
 fi
 
-rel="v1/https/repo1.maven.org/maven2/org/scala-native/nativelib_native0.5_3/$sn_version"
-dir="$cache/$rel"
 name="nativelib_native0.5_3-$sn_version.jar"
-jar="$dir/$name"
-
-if [ ! -f "$jar" ]; then
-  echo "error: nativelib jar not resolved in this cache: $jar" >&2
-  echo "run an sbt resolve (e.g. 'sbt --batch update') into this cache first" >&2
+jar=$(find "$cache" -type f -name "$name" 2>/dev/null | head -1)
+if [ -z "$jar" ]; then
+  jar=$(find "$HOME/.cache/coursier" "$HOME/.sbt" "$HOME/.ivy2" /root/.cache/coursier \
+    -type f -name "$name" 2>/dev/null | head -1)
+fi
+if [ -z "$jar" ]; then
+  echo "error: nativelib jar not found in any cache; run an sbt resolve first" >&2
+  find "$HOME" -type f -name "$name" 2>/dev/null | head >&2
   exit 1
 fi
+dir=$(dirname "$jar")
 
 mm=scala-native/gc/shared/MemoryMap.c
 
