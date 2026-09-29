@@ -1,4 +1,4 @@
-name: Build Graal CE Native Images
+name: Build Native Images
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
   release:
     types: [ published ]
-  workflow_dispatch:
 
 jobs:
   run:
