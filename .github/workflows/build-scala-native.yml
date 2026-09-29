@@ -26,26 +26,16 @@ jobs:
             python: '3.10'
             wheel_tag: macosx_14_0_arm64
             jvm_args: -Xmx6G -XX:+UseG1GC
-            pgo: true
             gc: immix
             linker: system
-            max_inline_depth: 128
-            max_caller_size: 4096
-            max_callee_size: 1024
-            small_function_size: 24
           - runner: ubuntu-22.04
             artifact: manylinux_2_28_x86_64
             container: quay.io/pypa/manylinux_2_28_x86_64
             python: /opt/python/cp310-cp310/bin/python
             wheel_tag: manylinux_2_28_x86_64
             jvm_args: -Xmx10G -XX:+UseG1GC
-            pgo: false
             gc: immix
             linker: lld
-            max_inline_depth: 128
-            max_caller_size: 8192
-            max_callee_size: 1536
-            small_function_size: 36
     runs-on: ${{ matrix.runner }}
     continue-on-error: ${{ matrix.runner == 'macos-14' }}
     container:
@@ -128,8 +118,7 @@ jobs:
           echo "Enabled ${gib} GiB swap at $sw"
           swapon --show || true
           free -m || true
-      - name: Build instrumented Scala Native tools
-        if: matrix.pgo
+      - name: Build Scala Native tools
         uses: ./.github/actions/scala-native-build
         with:
           jvm-args: ${{ matrix.jvm_args }}
@@ -137,58 +126,8 @@ jobs:
           lto: full
           gc: ${{ matrix.gc }}
           linker: ${{ matrix.linker }}
-          pgo-mode: generate
-          profile-directory: ${{ runner.temp }}/fpp-pgo
-          max-inline-depth: ${{ matrix.max_inline_depth }}
-          max-caller-size: ${{ matrix.max_caller_size }}
-          max-callee-size: ${{ matrix.max_callee_size }}
-          small-function-size: ${{ matrix.small_function_size }}
-      - name: Build unprofiled Scala Native tools
-        if: ${{ !matrix.pgo }}
-        uses: ./.github/actions/scala-native-build
-        with:
-          jvm-args: ${{ matrix.jvm_args }}
-          mode: releasefull
-          lto: full
-          gc: ${{ matrix.gc }}
-          linker: ${{ matrix.linker }}
-      - name: Stage initial Scala Native tools
+      - name: Stage Scala Native tools
         uses: ./.github/actions/scala-native-stage
-      - name: Prepare matching F Prime revision
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          FPRIME_DIR: ${{ runner.temp }}/fprime
-          FPRIME_VENV: ${{ runner.temp }}/fprime-venv
-          FPRIME_PYTHON: ${{ matrix.python }}
-          FPRIME_PREPARE_ONLY: true
-        run: .github/actions/scala-native-profile/build-matching-fprime.sh
-      - name: Profile instrumented Scala Native tools
-        if: matrix.pgo
-        uses: ./.github/actions/scala-native-profile
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          profile-directory: ${{ runner.temp }}/fpp-pgo
-          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
-          python: ${{ matrix.python }}
-          fprime-directory: ${{ runner.temp }}/fprime
-          fprime-venv: ${{ runner.temp }}/fprime-venv
-      - name: Build profile-guided Scala Native tools
-        if: matrix.pgo
-        uses: ./.github/actions/scala-native-build
-        with:
-          jvm-args: ${{ matrix.jvm_args }}
-          mode: releasefull
-          lto: full
-          gc: ${{ matrix.gc }}
-          linker: ${{ matrix.linker }}
-          max-inline-depth: ${{ matrix.max_inline_depth }}
-          max-caller-size: ${{ matrix.max_caller_size }}
-          max-callee-size: ${{ matrix.max_callee_size }}
-          small-function-size: ${{ matrix.small_function_size }}
-          pgo-mode: apply
-          profile-file: ${{ github.workspace }}/compiler/pgo/fpp.profdata
       - name: Restore Version.scala
         if: always()
         working-directory: compiler
@@ -199,15 +138,6 @@ jobs:
           echo "Restoring Version.scala"
           sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
             $util/Version.scala
-      - name: Stage profile-guided Scala Native tools
-        if: matrix.pgo
-        uses: ./.github/actions/scala-native-stage
-      - name: Benchmark F Prime compile
-        uses: ./.github/actions/benchmark-fprime
-        with:
-          fprime-directory: ${{ runner.temp }}/fprime
-          fprime-venv: ${{ runner.temp }}/fprime-venv
-          summary-label: ${{ matrix.artifact }}
       - name: Test Scala Native tools
         working-directory: compiler
         run: ./test
@@ -225,7 +155,7 @@ jobs:
           touch python/fprime_fpp/fpp-native-all-tools
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           tag=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo v0.0.0)
-          export SETUPTOOLS_SCM_PRETEND_VERSION="${tag#v}+g$(git rev-parse --short=9 HEAD)"
+          export SETUPTOOLS_SCM_PRETEND_VERSION="${tag#v}+min.g$(git rev-parse --short=9 HEAD)"
           uv run --python ${{ matrix.python }} --with build python -m build \
             --wheel --outdir dist \
             --config-setting=--build-option=--plat-name=${{ matrix.wheel_tag }} .

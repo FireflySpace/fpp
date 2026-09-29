@@ -32,7 +32,6 @@ For example, on Mac OS:
 To install in the `bin` directory, run `./install`.
 This step also runs all the Scala unit tests.
 To install to a different directory, run `./install` _dir-name_.
-To build and install the Scala Native tools, run `./install --scala-native`.
 
 *Setting the shell path:*
 Once you have installed the FPP compiler to a directory `FPP_INSTALL_DIR`, you
@@ -92,6 +91,10 @@ unit tests that exercise the command-line tools.
 . Run `./test` to run all command-line unit tests.
 Do this after running `./install`.
 If you update the build, rerun `./install` before running `./test`.
+
+Some of the command-line unit tests run `scalac` (the Scala compiler).
+To run these tests successfully, you will need Scala 2.13.1 or greater
+installed and available on the command line.
 
 == Development
 
