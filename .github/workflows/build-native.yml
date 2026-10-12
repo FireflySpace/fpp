@@ -2,7 +2,7 @@ name: Build Native Images
 
 on:
   push:
-    branches: [ "main", "release/**" ]
+    branches: [ "main", "release/**", "thorax" ]
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   release:
