@@ -48,6 +48,8 @@ jobs:
           submodules: recursive
       - name: "Setup Native Image Tools"
         uses: ./.github/actions/native-tools-setup
+      - name: "Set up sbt"
+        uses: ./.github/actions/setup-sbt
       - name: "Building JAR files"
         run: |
           cd ${{ inputs.working-directory }}
@@ -142,6 +144,8 @@ jobs:
           path: ${{ inputs.trace-directory }}
       - name: "Setting up GraalVM/Java Environment"
         uses: ./.github/actions/native-tools-setup
+      - name: "Set up sbt"
+        uses: ./.github/actions/setup-sbt
       - name: "Build Native Images"
         uses: ./.github/actions/build-native-images
         with:
