@@ -158,6 +158,14 @@ jobs:
           path:  ${{ inputs.output-directory }}/fpp
           retention-days: 5
           if-no-files-found: error
+      - name: "Set up JDK for sbt"
+        # sbt (CppWriter lib test) resolves java via JAVA_HOME; the job otherwise
+        # only has GraalVM as FPP_GRAALVM_JAVA_HOME. Added after the native-image
+        # build so it doesn't shadow GraalVM during that step.
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
       - name: "Testing Native Images via Unit-Tests"
         run: |
           # Generate wrappers for tools
