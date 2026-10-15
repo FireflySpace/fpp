@@ -36,6 +36,14 @@ jobs:
             jvm_args: -Xmx10G -XX:+UseG1GC
             gc: immix
             linker: lld
+          - runner: ubuntu-22.04-arm
+            artifact: manylinux_2_28_aarch64
+            container: quay.io/pypa/manylinux_2_28_aarch64
+            python: /opt/python/cp310-cp310/bin/python
+            wheel_tag: manylinux_2_28_aarch64
+            jvm_args: -Xmx10G -XX:+UseG1GC
+            gc: immix
+            linker: lld
     runs-on: ${{ matrix.runner }}
     continue-on-error: ${{ matrix.runner == 'macos-14' }}
     container:
@@ -220,6 +228,7 @@ jobs:
               >> release/overrides.txt
           done <<'EOF'
           *manylinux_*_x86_64.whl|linux|x86_64
+          *manylinux_*_aarch64.whl|linux|aarch64
           *macosx_*_arm64.whl|darwin|arm64
           EOF
           # Fail loudly if the flattened assets the publish step uploads are
