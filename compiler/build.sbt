@@ -3,14 +3,16 @@ import scala.scalanative.build._
 
 name := "fpp-compiler"
 ThisBuild / organization := "gov.nasa.jpl"
-ThisBuild / scalaVersion := "3.3.4"
+ThisBuild / scalaVersion := "3.7.1"
 ThisBuild / dependencyOverrides +=
-  "org.scala-lang" %% "scala3-library" % "3.3.4"
+  "org.scala-lang" %% "scala3-library" % "3.7.1"
 
 lazy val settings = Seq(
   scalacOptions ++= Seq(
     "-deprecation",
     "-unchecked",
+    // runtimeChecked (irrefutable-binding checks in the 3.4.0 sources) is @experimental on 3.7.x
+    "-experimental",
     // Language level 3.2: the FPP compiler has ~60 irrefutable `val Pattern =
     // expr` bindings that Scala 3.3 rejects
     "-source:3.2",
