@@ -154,12 +154,13 @@ jobs:
         continue-on-error: true
         run: |
           export COMPILER_ROOT="$PWD"
+          # Each test group has its own `update-ref` entry (fpp-to-dict's delegates
+          # to top/update-ref). Running those is sufficient; do NOT also invoke
+          # scripts/update-ref.sh directly — from the wrong cwd it deletes refs
+          # without regenerating them.
           find tools -type f -name update-ref | while read -r u; do
             ( cd "$(dirname "$u")" && sh ./update-ref ) || echo "rebless failed: $(dirname "$u")"
           done
-          if [ -f tools/fpp-to-dict/test/scripts/update-ref.sh ]; then
-            ( cd tools/fpp-to-dict/test && sh scripts/update-ref.sh ) || echo "rebless failed: fpp-to-dict"
-          fi
       - name: Upload regenerated refs (TEMP)
         if: always() && matrix.wheel_tag == 'manylinux_2_28_x86_64'
         uses: actions/upload-artifact@v7
