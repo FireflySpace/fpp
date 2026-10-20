@@ -146,6 +146,28 @@ jobs:
           echo "Restoring Version.scala"
           sed -i.restore.bak -e "s/val v = .*/val v = \"[unknown version]\"/" \
             $util/Version.scala
+      # TEMP (remove after committing the regenerated refs): rebless the test
+      # reference files against the native 3.7.1 binary and upload them for review.
+      - name: Regenerate test refs against native binary (TEMP)
+        if: matrix.wheel_tag == 'manylinux_2_28_x86_64'
+        working-directory: compiler
+        continue-on-error: true
+        run: |
+          export COMPILER_ROOT="$PWD"
+          find tools -type f -name update-ref | while read -r u; do
+            ( cd "$(dirname "$u")" && sh ./update-ref ) || echo "rebless failed: $(dirname "$u")"
+          done
+          if [ -f tools/fpp-to-dict/test/scripts/update-ref.sh ]; then
+            ( cd tools/fpp-to-dict/test && sh scripts/update-ref.sh ) || echo "rebless failed: fpp-to-dict"
+          fi
+      - name: Upload regenerated refs (TEMP)
+        if: always() && matrix.wheel_tag == 'manylinux_2_28_x86_64'
+        uses: actions/upload-artifact@v7
+        with:
+          name: regenerated-refs
+          path: |
+            compiler/tools/**/*.ref.txt
+            compiler/tools/**/*.ref.json
       - name: Test Scala Native tools
         working-directory: compiler
         run: ./test
