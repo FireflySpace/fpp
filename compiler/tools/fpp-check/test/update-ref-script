@@ -39,7 +39,7 @@ done > default-update-ref.sh
 
 if test -f update-ref.sh
 then
-  . update-ref.sh
+  . ./update-ref.sh
 fi
 
 for t in $tests
