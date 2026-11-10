@@ -7100,9 +7100,7 @@ void QueuedSerialComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -7122,6 +7120,13 @@ U32 QueuedSerialComponentBase ::
   return _local;
 }
 
+U32 QueuedSerialComponentBase ::
+  paramGet_ParamU32()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamU32(_valid);
+}
+
 F64 QueuedSerialComponentBase ::
   paramGet_ParamF64(Fw::ParamValid& valid)
 {
@@ -7133,6 +7138,13 @@ F64 QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 QueuedSerialComponentBase ::
+  paramGet_ParamF64()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64(_valid);
 }
 
 Fw::ParamString QueuedSerialComponentBase ::
@@ -7148,6 +7160,13 @@ Fw::ParamString QueuedSerialComponentBase ::
   return _local;
 }
 
+Fw::ParamString QueuedSerialComponentBase ::
+  paramGet_ParamString()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamString(_valid);
+}
+
 E QueuedSerialComponentBase ::
   paramGet_ParamEnum(Fw::ParamValid& valid)
 {
@@ -7159,6 +7178,13 @@ E QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E QueuedSerialComponentBase ::
+  paramGet_ParamEnum()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnum(_valid);
 }
 
 A QueuedSerialComponentBase ::
@@ -7174,6 +7200,13 @@ A QueuedSerialComponentBase ::
   return _local;
 }
 
+A QueuedSerialComponentBase ::
+  paramGet_ParamArray()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArray(_valid);
+}
+
 S QueuedSerialComponentBase ::
   paramGet_ParamStruct(Fw::ParamValid& valid)
 {
@@ -7185,6 +7218,13 @@ S QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S QueuedSerialComponentBase ::
+  paramGet_ParamStruct()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStruct(_valid);
 }
 
 I32 QueuedSerialComponentBase ::
@@ -7212,6 +7252,13 @@ I32 QueuedSerialComponentBase ::
   return _local;
 }
 
+I32 QueuedSerialComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 QueuedSerialComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -7235,6 +7282,13 @@ F64 QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 QueuedSerialComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString QueuedSerialComponentBase ::
@@ -7262,6 +7316,13 @@ Fw::ParamString QueuedSerialComponentBase ::
   return _local;
 }
 
+Fw::ParamString QueuedSerialComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E QueuedSerialComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -7285,6 +7346,13 @@ E QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E QueuedSerialComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A QueuedSerialComponentBase ::
@@ -7312,6 +7380,13 @@ A QueuedSerialComponentBase ::
   return _local;
 }
 
+A QueuedSerialComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S QueuedSerialComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -7335,6 +7410,13 @@ S QueuedSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S QueuedSerialComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------

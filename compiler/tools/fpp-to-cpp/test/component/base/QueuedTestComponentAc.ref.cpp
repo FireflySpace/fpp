@@ -6930,9 +6930,7 @@ void QueuedTestComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -6952,6 +6950,13 @@ U32 QueuedTestComponentBase ::
   return _local;
 }
 
+U32 QueuedTestComponentBase ::
+  paramGet_ParamU32()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamU32(_valid);
+}
+
 F64 QueuedTestComponentBase ::
   paramGet_ParamF64(Fw::ParamValid& valid)
 {
@@ -6963,6 +6968,13 @@ F64 QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 QueuedTestComponentBase ::
+  paramGet_ParamF64()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64(_valid);
 }
 
 Fw::ParamString QueuedTestComponentBase ::
@@ -6978,6 +6990,13 @@ Fw::ParamString QueuedTestComponentBase ::
   return _local;
 }
 
+Fw::ParamString QueuedTestComponentBase ::
+  paramGet_ParamString()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamString(_valid);
+}
+
 E QueuedTestComponentBase ::
   paramGet_ParamEnum(Fw::ParamValid& valid)
 {
@@ -6989,6 +7008,13 @@ E QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E QueuedTestComponentBase ::
+  paramGet_ParamEnum()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnum(_valid);
 }
 
 A QueuedTestComponentBase ::
@@ -7004,6 +7030,13 @@ A QueuedTestComponentBase ::
   return _local;
 }
 
+A QueuedTestComponentBase ::
+  paramGet_ParamArray()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArray(_valid);
+}
+
 S QueuedTestComponentBase ::
   paramGet_ParamStruct(Fw::ParamValid& valid)
 {
@@ -7015,6 +7048,13 @@ S QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S QueuedTestComponentBase ::
+  paramGet_ParamStruct()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStruct(_valid);
 }
 
 I32 QueuedTestComponentBase ::
@@ -7042,6 +7082,13 @@ I32 QueuedTestComponentBase ::
   return _local;
 }
 
+I32 QueuedTestComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 QueuedTestComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -7065,6 +7112,13 @@ F64 QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 QueuedTestComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString QueuedTestComponentBase ::
@@ -7092,6 +7146,13 @@ Fw::ParamString QueuedTestComponentBase ::
   return _local;
 }
 
+Fw::ParamString QueuedTestComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E QueuedTestComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -7115,6 +7176,13 @@ E QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E QueuedTestComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A QueuedTestComponentBase ::
@@ -7142,6 +7210,13 @@ A QueuedTestComponentBase ::
   return _local;
 }
 
+A QueuedTestComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S QueuedTestComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -7165,6 +7240,13 @@ S QueuedTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S QueuedTestComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------

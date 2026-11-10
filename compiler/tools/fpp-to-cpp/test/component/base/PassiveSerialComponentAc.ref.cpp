@@ -5006,9 +5006,7 @@ void PassiveSerialComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -5028,6 +5026,13 @@ U32 PassiveSerialComponentBase ::
   return _local;
 }
 
+U32 PassiveSerialComponentBase ::
+  paramGet_ParamU32()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamU32(_valid);
+}
+
 F64 PassiveSerialComponentBase ::
   paramGet_ParamF64(Fw::ParamValid& valid)
 {
@@ -5039,6 +5044,13 @@ F64 PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 PassiveSerialComponentBase ::
+  paramGet_ParamF64()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64(_valid);
 }
 
 Fw::ParamString PassiveSerialComponentBase ::
@@ -5054,6 +5066,13 @@ Fw::ParamString PassiveSerialComponentBase ::
   return _local;
 }
 
+Fw::ParamString PassiveSerialComponentBase ::
+  paramGet_ParamString()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamString(_valid);
+}
+
 E PassiveSerialComponentBase ::
   paramGet_ParamEnum(Fw::ParamValid& valid)
 {
@@ -5065,6 +5084,13 @@ E PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E PassiveSerialComponentBase ::
+  paramGet_ParamEnum()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnum(_valid);
 }
 
 A PassiveSerialComponentBase ::
@@ -5080,6 +5106,13 @@ A PassiveSerialComponentBase ::
   return _local;
 }
 
+A PassiveSerialComponentBase ::
+  paramGet_ParamArray()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArray(_valid);
+}
+
 S PassiveSerialComponentBase ::
   paramGet_ParamStruct(Fw::ParamValid& valid)
 {
@@ -5091,6 +5124,13 @@ S PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S PassiveSerialComponentBase ::
+  paramGet_ParamStruct()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStruct(_valid);
 }
 
 I32 PassiveSerialComponentBase ::
@@ -5118,6 +5158,13 @@ I32 PassiveSerialComponentBase ::
   return _local;
 }
 
+I32 PassiveSerialComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 PassiveSerialComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -5141,6 +5188,13 @@ F64 PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 PassiveSerialComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString PassiveSerialComponentBase ::
@@ -5168,6 +5222,13 @@ Fw::ParamString PassiveSerialComponentBase ::
   return _local;
 }
 
+Fw::ParamString PassiveSerialComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E PassiveSerialComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -5191,6 +5252,13 @@ E PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E PassiveSerialComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A PassiveSerialComponentBase ::
@@ -5218,6 +5286,13 @@ A PassiveSerialComponentBase ::
   return _local;
 }
 
+A PassiveSerialComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S PassiveSerialComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -5241,6 +5316,13 @@ S PassiveSerialComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S PassiveSerialComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------
