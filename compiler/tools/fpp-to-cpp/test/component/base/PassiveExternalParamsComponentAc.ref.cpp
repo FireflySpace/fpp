@@ -2554,9 +2554,7 @@ void PassiveExternalParamsComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -2588,6 +2586,13 @@ I32 PassiveExternalParamsComponentBase ::
   return _local;
 }
 
+I32 PassiveExternalParamsComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 PassiveExternalParamsComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -2611,6 +2616,13 @@ F64 PassiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 PassiveExternalParamsComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString PassiveExternalParamsComponentBase ::
@@ -2638,6 +2650,13 @@ Fw::ParamString PassiveExternalParamsComponentBase ::
   return _local;
 }
 
+Fw::ParamString PassiveExternalParamsComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E PassiveExternalParamsComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -2661,6 +2680,13 @@ E PassiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E PassiveExternalParamsComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A PassiveExternalParamsComponentBase ::
@@ -2688,6 +2714,13 @@ A PassiveExternalParamsComponentBase ::
   return _local;
 }
 
+A PassiveExternalParamsComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S PassiveExternalParamsComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -2711,6 +2744,13 @@ S PassiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S PassiveExternalParamsComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------

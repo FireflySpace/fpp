@@ -118,11 +118,31 @@ case class ComponentParameters (
       writeGetterFunctionBody(param)
     )
 
+  private def getGetterFunctionNoValidForParam(param: Param) =
+    functionClassMember(
+      Some(
+        addSeparatedString(
+          s"Get parameter ${param.getName}\n\n\\return The parameter value",
+          AnnotationCppWriter.asStringOpt(param.aNode)
+        )
+      ),
+      paramGetterName(param.getName),
+      Nil,
+      CppDoc.Type(writeParamType(param.paramType, "Fw::ParamString")),
+      lines(
+        s"""|Fw::ParamValid _valid{};
+            |return this->${paramGetterName(param.getName)}(_valid);"""
+      )
+    )
+
   private def getGetterFunctions: List[CppDoc.Class.Member] =
     addAccessTagAndComment(
       "protected",
       "Parameter get functions",
-      sortedParams.map((_, param) => getGetterFunctionForParam(param))
+      sortedParams.flatMap((_, param) => List(
+        getGetterFunctionForParam(param),
+        getGetterFunctionNoValidForParam(param)
+      ))
     )
 
   private def getHookFunctions: List[CppDoc.Class.Member] = {
@@ -243,9 +263,9 @@ case class ComponentParameters (
     Some(
       s"""|\\brief Called for each parameter when parameters are loaded
           |
-          |By default this notifies the component via parameterUpdated when
-          |the parameter loaded successfully (valid or default). You may
-          |override it, for example to distinguish load from update.
+          |By default this notifies the component via parameterUpdated for
+          |every parameter, regardless of validity. You may override it, for
+          |example to suppress notification for invalid parameters.
           |"""
     ),
     "parameterLoaded",
@@ -262,10 +282,7 @@ case class ComponentParameters (
       )
     ),
     CppDoc.Type("void"),
-    wrapInIf(
-      "FW_PARAM_OK(valid)",
-      lines("this->parameterUpdated(id);")
-    ),
+    lines("this->parameterUpdated(id);"),
     CppDoc.Function.Virtual
   )
 

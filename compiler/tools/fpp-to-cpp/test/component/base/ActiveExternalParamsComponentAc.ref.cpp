@@ -3508,9 +3508,7 @@ void ActiveExternalParamsComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -3542,6 +3540,13 @@ I32 ActiveExternalParamsComponentBase ::
   return _local;
 }
 
+I32 ActiveExternalParamsComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 ActiveExternalParamsComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -3565,6 +3570,13 @@ F64 ActiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 ActiveExternalParamsComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString ActiveExternalParamsComponentBase ::
@@ -3592,6 +3604,13 @@ Fw::ParamString ActiveExternalParamsComponentBase ::
   return _local;
 }
 
+Fw::ParamString ActiveExternalParamsComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E ActiveExternalParamsComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -3615,6 +3634,13 @@ E ActiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E ActiveExternalParamsComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A ActiveExternalParamsComponentBase ::
@@ -3642,6 +3668,13 @@ A ActiveExternalParamsComponentBase ::
   return _local;
 }
 
+A ActiveExternalParamsComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S ActiveExternalParamsComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -3665,6 +3698,13 @@ S ActiveExternalParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S ActiveExternalParamsComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------

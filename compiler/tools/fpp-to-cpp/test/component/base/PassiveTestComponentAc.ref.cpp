@@ -5186,9 +5186,7 @@ void PassiveTestComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -5208,6 +5206,13 @@ U32 PassiveTestComponentBase ::
   return _local;
 }
 
+U32 PassiveTestComponentBase ::
+  paramGet_ParamU32()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamU32(_valid);
+}
+
 F64 PassiveTestComponentBase ::
   paramGet_ParamF64(Fw::ParamValid& valid)
 {
@@ -5219,6 +5224,13 @@ F64 PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 PassiveTestComponentBase ::
+  paramGet_ParamF64()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64(_valid);
 }
 
 Fw::ParamString PassiveTestComponentBase ::
@@ -5234,6 +5246,13 @@ Fw::ParamString PassiveTestComponentBase ::
   return _local;
 }
 
+Fw::ParamString PassiveTestComponentBase ::
+  paramGet_ParamString()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamString(_valid);
+}
+
 E PassiveTestComponentBase ::
   paramGet_ParamEnum(Fw::ParamValid& valid)
 {
@@ -5245,6 +5264,13 @@ E PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E PassiveTestComponentBase ::
+  paramGet_ParamEnum()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnum(_valid);
 }
 
 A PassiveTestComponentBase ::
@@ -5260,6 +5286,13 @@ A PassiveTestComponentBase ::
   return _local;
 }
 
+A PassiveTestComponentBase ::
+  paramGet_ParamArray()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArray(_valid);
+}
+
 S PassiveTestComponentBase ::
   paramGet_ParamStruct(Fw::ParamValid& valid)
 {
@@ -5271,6 +5304,13 @@ S PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S PassiveTestComponentBase ::
+  paramGet_ParamStruct()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStruct(_valid);
 }
 
 I32 PassiveTestComponentBase ::
@@ -5298,6 +5338,13 @@ I32 PassiveTestComponentBase ::
   return _local;
 }
 
+I32 PassiveTestComponentBase ::
+  paramGet_ParamI32Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamI32Ext(_valid);
+}
+
 F64 PassiveTestComponentBase ::
   paramGet_ParamF64Ext(Fw::ParamValid& valid)
 {
@@ -5321,6 +5368,13 @@ F64 PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 PassiveTestComponentBase ::
+  paramGet_ParamF64Ext()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64Ext(_valid);
 }
 
 Fw::ParamString PassiveTestComponentBase ::
@@ -5348,6 +5402,13 @@ Fw::ParamString PassiveTestComponentBase ::
   return _local;
 }
 
+Fw::ParamString PassiveTestComponentBase ::
+  paramGet_ParamStringExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStringExt(_valid);
+}
+
 E PassiveTestComponentBase ::
   paramGet_ParamEnumExt(Fw::ParamValid& valid)
 {
@@ -5371,6 +5432,13 @@ E PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E PassiveTestComponentBase ::
+  paramGet_ParamEnumExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnumExt(_valid);
 }
 
 A PassiveTestComponentBase ::
@@ -5398,6 +5466,13 @@ A PassiveTestComponentBase ::
   return _local;
 }
 
+A PassiveTestComponentBase ::
+  paramGet_ParamArrayExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArrayExt(_valid);
+}
+
 S PassiveTestComponentBase ::
   paramGet_ParamStructExt(Fw::ParamValid& valid)
 {
@@ -5421,6 +5496,13 @@ S PassiveTestComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S PassiveTestComponentBase ::
+  paramGet_ParamStructExt()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStructExt(_valid);
 }
 
 // ----------------------------------------------------------------------

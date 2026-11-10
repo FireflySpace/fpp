@@ -3415,9 +3415,7 @@ void ActiveParamsComponentBase ::
       Fw::ParamValid valid
   )
 {
-  if (FW_PARAM_OK(valid)) {
-    this->parameterUpdated(id);
-  }
+  this->parameterUpdated(id);
 }
 
 // ----------------------------------------------------------------------
@@ -3437,6 +3435,13 @@ U32 ActiveParamsComponentBase ::
   return _local;
 }
 
+U32 ActiveParamsComponentBase ::
+  paramGet_ParamU32()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamU32(_valid);
+}
+
 F64 ActiveParamsComponentBase ::
   paramGet_ParamF64(Fw::ParamValid& valid)
 {
@@ -3448,6 +3453,13 @@ F64 ActiveParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+F64 ActiveParamsComponentBase ::
+  paramGet_ParamF64()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamF64(_valid);
 }
 
 Fw::ParamString ActiveParamsComponentBase ::
@@ -3463,6 +3475,13 @@ Fw::ParamString ActiveParamsComponentBase ::
   return _local;
 }
 
+Fw::ParamString ActiveParamsComponentBase ::
+  paramGet_ParamString()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamString(_valid);
+}
+
 E ActiveParamsComponentBase ::
   paramGet_ParamEnum(Fw::ParamValid& valid)
 {
@@ -3474,6 +3493,13 @@ E ActiveParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+E ActiveParamsComponentBase ::
+  paramGet_ParamEnum()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamEnum(_valid);
 }
 
 A ActiveParamsComponentBase ::
@@ -3489,6 +3515,13 @@ A ActiveParamsComponentBase ::
   return _local;
 }
 
+A ActiveParamsComponentBase ::
+  paramGet_ParamArray()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamArray(_valid);
+}
+
 S ActiveParamsComponentBase ::
   paramGet_ParamStruct(Fw::ParamValid& valid)
 {
@@ -3500,6 +3533,13 @@ S ActiveParamsComponentBase ::
   }
   this->m_paramLock.unlock();
   return _local;
+}
+
+S ActiveParamsComponentBase ::
+  paramGet_ParamStruct()
+{
+  Fw::ParamValid _valid{};
+  return this->paramGet_ParamStruct(_valid);
 }
 
 // ----------------------------------------------------------------------

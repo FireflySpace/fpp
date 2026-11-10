@@ -2495,9 +2495,9 @@ class QueuedTestComponentBase :
 
     //! \brief Called for each parameter when parameters are loaded
     //!
-    //! By default this notifies the component via parameterUpdated when
-    //! the parameter loaded successfully (valid or default). You may
-    //! override it, for example to distinguish load from update.
+    //! By default this notifies the component via parameterUpdated for
+    //! every parameter, regardless of validity. You may override it, for
+    //! example to suppress notification for invalid parameters.
     virtual void parameterLoaded(
         FwPrmIdType id, //!< The parameter ID
         Fw::ParamValid valid //!< The parameter validity status
@@ -2519,6 +2519,14 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamU32
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with U32 data
+    //! Second line of annotation
+    U32 paramGet_ParamU32();
+
     //! Get parameter ParamF64
     //!
     //! \return The parameter value
@@ -2527,6 +2535,13 @@ class QueuedTestComponentBase :
     F64 paramGet_ParamF64(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamF64
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with F64 data
+    F64 paramGet_ParamF64();
 
     //! Get parameter ParamString
     //!
@@ -2537,6 +2552,13 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamString
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with string data and default value
+    Fw::ParamString paramGet_ParamString();
+
     //! Get parameter ParamEnum
     //!
     //! \return The parameter value
@@ -2545,6 +2567,13 @@ class QueuedTestComponentBase :
     E paramGet_ParamEnum(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamEnum
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with enum data
+    E paramGet_ParamEnum();
 
     //! Get parameter ParamArray
     //!
@@ -2555,6 +2584,13 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamArray
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with array data, default value, and save opcode
+    A paramGet_ParamArray();
+
     //! Get parameter ParamStruct
     //!
     //! \return The parameter value
@@ -2563,6 +2599,13 @@ class QueuedTestComponentBase :
     S paramGet_ParamStruct(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamStruct
+    //!
+    //! \return The parameter value
+    //!
+    //! A parameter with struct data and set/save opcodes
+    S paramGet_ParamStruct();
 
     //! Get parameter ParamI32Ext
     //!
@@ -2574,6 +2617,14 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamI32Ext
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with I32 data
+    //! Second line of annotation
+    I32 paramGet_ParamI32Ext();
+
     //! Get parameter ParamF64Ext
     //!
     //! \return The parameter value
@@ -2582,6 +2633,13 @@ class QueuedTestComponentBase :
     F64 paramGet_ParamF64Ext(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamF64Ext
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with F64 data
+    F64 paramGet_ParamF64Ext();
 
     //! Get parameter ParamStringExt
     //!
@@ -2592,6 +2650,13 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamStringExt
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with string data and default value
+    Fw::ParamString paramGet_ParamStringExt();
+
     //! Get parameter ParamEnumExt
     //!
     //! \return The parameter value
@@ -2600,6 +2665,13 @@ class QueuedTestComponentBase :
     E paramGet_ParamEnumExt(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamEnumExt
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with enum data
+    E paramGet_ParamEnumExt();
 
     //! Get parameter ParamArrayExt
     //!
@@ -2610,6 +2682,13 @@ class QueuedTestComponentBase :
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
 
+    //! Get parameter ParamArrayExt
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with array data, default value, and save opcode
+    A paramGet_ParamArrayExt();
+
     //! Get parameter ParamStructExt
     //!
     //! \return The parameter value
@@ -2618,6 +2697,13 @@ class QueuedTestComponentBase :
     S paramGet_ParamStructExt(
         Fw::ParamValid& valid //!< Whether the parameter is valid
     );
+
+    //! Get parameter ParamStructExt
+    //!
+    //! \return The parameter value
+    //!
+    //! An externally stored parameter with struct data and set/save opcodes
+    S paramGet_ParamStructExt();
 
   protected:
 
