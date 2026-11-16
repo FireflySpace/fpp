@@ -381,7 +381,6 @@ case class ComponentParameters (
     if param.isExternal
     then
       val cppType = TypeCppWriter.getName(s, value.getType, "Fw::String")
-      val validityFlagName = paramValidityFlagName(param.getName)
       List.concat(
         lines(
           s"""|$cppType _val = $cppValue;
@@ -389,11 +388,9 @@ case class ComponentParameters (
               |_stat = $paramBufferName.serializeFrom(_val);
               |FW_ASSERT(_stat == Fw::FW_SERIALIZE_OK, static_cast<FwAssertArgType>(_stat));"""
         ),
+        // Seeding the default must succeed; a usable param is required post-load.
         deserializeParam(param),
-        wrapInIf(
-          "_stat != Fw::FW_SERIALIZE_OK",
-          lines(s"this->$validityFlagName = Fw::ParamValid::INVALID;")
-        )
+        assertDeserializeOk(param)
       )
     else
       lines(s"this->$varName = $cppValue;")
@@ -432,6 +429,16 @@ case class ComponentParameters (
     then writeLoadForExternalParam(param)
     else writeLoadForInternalParam(param)
 
+  // Fail fast on a failed prm DB deserialize, reporting the param and why.
+  private def assertDeserializeOk(param: Param) =
+    lines(
+      s"""|FW_ASSERT(
+          |  _stat == Fw::FW_SERIALIZE_OK,
+          |  static_cast<FwAssertArgType>(${paramIdConstantName(param.getName)}),
+          |  static_cast<FwAssertArgType>(_stat)
+          |);"""
+    )
+
   // Shared load tail: unlock, assert, & notify.
   private def writeLoadEpilogue(param: Param) =
     lines(
@@ -439,6 +446,7 @@ case class ComponentParameters (
           |this->m_paramLock.unlock();
           |FW_ASSERT(
           |  ${checkValidityFlagValidOrDefault(param)},
+          |  static_cast<FwAssertArgType>(${paramIdConstantName(param.getName)}),
           |  static_cast<FwAssertArgType>(this->${paramValidityFlagName(param.getName)})
           |);
           |this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"""
@@ -469,11 +477,8 @@ case class ComponentParameters (
         checkValidityFlag("_dbValid", "VALID"),
         List.concat(
           deserializeParam(param),
-          wrapInIfElse(
-            "_stat == Fw::FW_SERIALIZE_OK",
-            setValidityFlagLines(param, "VALID"),
-            setValidityFlagLines(param, "INVALID")
-          )
+          assertDeserializeOk(param),
+          setValidityFlagLines(param, "VALID")
         )
       ),
       writeLoadEpilogue(param)
@@ -494,10 +499,7 @@ case class ComponentParameters (
           // Delegate stores the value under this validity; set it first.
           setValidityFlagLines(param, "VALID"),
           deserializeParam(param),
-          wrapInIf(
-            "_stat != Fw::FW_SERIALIZE_OK",
-            setValidityFlagLines(param, "INVALID")
-          )
+          assertDeserializeOk(param)
         )
       ),
       // Seed the default into the external store iff UNINIT
