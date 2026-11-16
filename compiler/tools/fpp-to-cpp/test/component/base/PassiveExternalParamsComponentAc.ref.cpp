@@ -1380,72 +1380,53 @@ void PassiveExternalParamsComponentBase ::
 
   FwPrmIdType _id{};
   Fw::ParamBuffer _paramBuffer;
+  Fw::ParamValid _dbValid{};
 
   _id = _baseId + PARAMID_PARAMI32EXT;
-
-  // Get serialized parameter ParamI32Ext
-  this->m_param_ParamI32Ext_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  FW_ASSERT(this->paramDelegatePtr != nullptr);
-  _stat = this->paramDelegatePtr->deserializeParam(
-    _baseId,
-    PARAMID_PARAMI32EXT,
-    this->m_param_ParamI32Ext_valid,
-    _paramBuffer
-  );
-  if (_stat != Fw::FW_SERIALIZE_OK) {
-    this->m_param_ParamI32Ext_valid = Fw::ParamValid::INVALID;
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamI32Ext_valid = Fw::ParamValid::VALID;
+    FW_ASSERT(this->paramDelegatePtr != nullptr);
+    _stat = this->paramDelegatePtr->deserializeParam(
+      _baseId,
+      PARAMID_PARAMI32EXT,
+      this->m_param_ParamI32Ext_valid,
+      _paramBuffer
+    );
+    if (_stat != Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamI32Ext_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
   this->parameterLoaded(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
 
   _id = _baseId + PARAMID_PARAMF64EXT;
-
-  // Get serialized parameter ParamF64Ext
-  this->m_param_ParamF64Ext_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  FW_ASSERT(this->paramDelegatePtr != nullptr);
-  _stat = this->paramDelegatePtr->deserializeParam(
-    _baseId,
-    PARAMID_PARAMF64EXT,
-    this->m_param_ParamF64Ext_valid,
-    _paramBuffer
-  );
-  if (_stat != Fw::FW_SERIALIZE_OK) {
-    this->m_param_ParamF64Ext_valid = Fw::ParamValid::INVALID;
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamF64Ext_valid = Fw::ParamValid::VALID;
+    FW_ASSERT(this->paramDelegatePtr != nullptr);
+    _stat = this->paramDelegatePtr->deserializeParam(
+      _baseId,
+      PARAMID_PARAMF64EXT,
+      this->m_param_ParamF64Ext_valid,
+      _paramBuffer
+    );
+    if (_stat != Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamF64Ext_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
   this->parameterLoaded(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
 
   _id = _baseId + PARAMID_PARAMSTRINGEXT;
-
-  // Get serialized parameter ParamStringExt
-  this->m_param_ParamStringExt_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter or use default value
-  if (this->m_param_ParamStringExt_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamStringExt_valid = Fw::ParamValid::VALID;
     FW_ASSERT(this->paramDelegatePtr != nullptr);
     _stat = this->paramDelegatePtr->deserializeParam(
       _baseId,
@@ -1454,13 +1435,11 @@ void PassiveExternalParamsComponentBase ::
       _paramBuffer
     );
     if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamStringExt_valid = Fw::ParamValid::DEFAULT;
+      this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
     }
   }
-  else {
+  if (this->m_param_ParamStringExt_valid == Fw::ParamValid::UNINIT) {
     this->m_param_ParamStringExt_valid = Fw::ParamValid::DEFAULT;
-  }
-  if (this->m_param_ParamStringExt_valid == Fw::ParamValid::DEFAULT) {
     Fw::String _val = Fw::String("external default");
     _paramBuffer.resetSer();
     _stat = _paramBuffer.serializeFrom(_val);
@@ -1481,44 +1460,30 @@ void PassiveExternalParamsComponentBase ::
   this->parameterLoaded(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
 
   _id = _baseId + PARAMID_PARAMENUMEXT;
-
-  // Get serialized parameter ParamEnumExt
-  this->m_param_ParamEnumExt_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  FW_ASSERT(this->paramDelegatePtr != nullptr);
-  _stat = this->paramDelegatePtr->deserializeParam(
-    _baseId,
-    PARAMID_PARAMENUMEXT,
-    this->m_param_ParamEnumExt_valid,
-    _paramBuffer
-  );
-  if (_stat != Fw::FW_SERIALIZE_OK) {
-    this->m_param_ParamEnumExt_valid = Fw::ParamValid::INVALID;
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamEnumExt_valid = Fw::ParamValid::VALID;
+    FW_ASSERT(this->paramDelegatePtr != nullptr);
+    _stat = this->paramDelegatePtr->deserializeParam(
+      _baseId,
+      PARAMID_PARAMENUMEXT,
+      this->m_param_ParamEnumExt_valid,
+      _paramBuffer
+    );
+    if (_stat != Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamEnumExt_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
   this->parameterLoaded(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
 
   _id = _baseId + PARAMID_PARAMARRAYEXT;
-
-  // Get serialized parameter ParamArrayExt
-  this->m_param_ParamArrayExt_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter or use default value
-  if (this->m_param_ParamArrayExt_valid == Fw::ParamValid::VALID) {
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamArrayExt_valid = Fw::ParamValid::VALID;
     FW_ASSERT(this->paramDelegatePtr != nullptr);
     _stat = this->paramDelegatePtr->deserializeParam(
       _baseId,
@@ -1527,13 +1492,11 @@ void PassiveExternalParamsComponentBase ::
       _paramBuffer
     );
     if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamArrayExt_valid = Fw::ParamValid::DEFAULT;
+      this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
     }
   }
-  else {
+  if (this->m_param_ParamArrayExt_valid == Fw::ParamValid::UNINIT) {
     this->m_param_ParamArrayExt_valid = Fw::ParamValid::DEFAULT;
-  }
-  if (this->m_param_ParamArrayExt_valid == Fw::ParamValid::DEFAULT) {
     A _val = A({1, 2, 3});
     _paramBuffer.resetSer();
     _stat = _paramBuffer.serializeFrom(_val);
@@ -1554,26 +1517,20 @@ void PassiveExternalParamsComponentBase ::
   this->parameterLoaded(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
 
   _id = _baseId + PARAMID_PARAMSTRUCTEXT;
-
-  // Get serialized parameter ParamStructExt
-  this->m_param_ParamStructExt_valid = this->prmGetOut_out(
-    0,
-    _id,
-    _paramBuffer
-  );
-
+  _dbValid = this->prmGetOut_out(0, _id, _paramBuffer);
   this->m_paramLock.lock();
-
-  // Deserialize parameter
-  FW_ASSERT(this->paramDelegatePtr != nullptr);
-  _stat = this->paramDelegatePtr->deserializeParam(
-    _baseId,
-    PARAMID_PARAMSTRUCTEXT,
-    this->m_param_ParamStructExt_valid,
-    _paramBuffer
-  );
-  if (_stat != Fw::FW_SERIALIZE_OK) {
-    this->m_param_ParamStructExt_valid = Fw::ParamValid::INVALID;
+  if (_dbValid == Fw::ParamValid::VALID) {
+    this->m_param_ParamStructExt_valid = Fw::ParamValid::VALID;
+    FW_ASSERT(this->paramDelegatePtr != nullptr);
+    _stat = this->paramDelegatePtr->deserializeParam(
+      _baseId,
+      PARAMID_PARAMSTRUCTEXT,
+      this->m_param_ParamStructExt_valid,
+      _paramBuffer
+    );
+    if (_stat != Fw::FW_SERIALIZE_OK) {
+      this->m_param_ParamStructExt_valid = Fw::ParamValid::INVALID;
+    }
   }
 
   this->m_paramLock.unlock();
