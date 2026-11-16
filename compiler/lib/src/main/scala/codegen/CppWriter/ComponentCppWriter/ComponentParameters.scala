@@ -432,6 +432,18 @@ case class ComponentParameters (
     then writeLoadForExternalParam(param)
     else writeLoadForInternalParam(param)
 
+  // Shared load tail: unlock, assert, & notify.
+  private def writeLoadEpilogue(param: Param) =
+    lines(
+      s"""|
+          |this->m_paramLock.unlock();
+          |FW_ASSERT(
+          |  ${checkValidityFlagValidOrDefault(param)},
+          |  static_cast<FwAssertArgType>(this->${paramValidityFlagName(param.getName)})
+          |);
+          |this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"""
+    )
+
   private def writeLoadForInternalParam(param: Param) =
     List.concat(
       lines(
@@ -464,13 +476,7 @@ case class ComponentParameters (
           )
         )
       ),
-      lines(
-        """|
-           |this->m_paramLock.unlock();"""
-      ),
-      lines(
-        s"this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"
-      )
+      writeLoadEpilogue(param)
     )
 
   private def writeLoadForExternalParam(param: Param) =
@@ -506,13 +512,7 @@ case class ComponentParameters (
           )
         case None => Nil
       },
-      lines(
-        """|
-           |this->m_paramLock.unlock();"""
-      ),
-      lines(
-        s"this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"
-      )
+      writeLoadEpilogue(param)
     )
 
   private def writeLoadFunctionBody = {
