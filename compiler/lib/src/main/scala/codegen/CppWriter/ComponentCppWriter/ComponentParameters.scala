@@ -218,24 +218,6 @@ case class ComponentParameters (
       lines(s"_local = this->$variableName;")
   }
 
-  private def getParamFromPort(param: Param) = {
-    val paramName = param.getName
-    val idConstantName = paramIdConstantName(paramName)
-    val prmGetPortInvokerName = outputPortInvokerName(prmGetPort.get)
-    val validityFlagName = paramValidityFlagName(param.getName)
-    lines(
-      s"""|
-          |_id = _baseId + $idConstantName;
-          |
-          |// Get serialized parameter $paramName
-          |this->$validityFlagName = this->$prmGetPortInvokerName(
-          |  0,
-          |  _id,
-          |  $paramBufferName
-          |);"""
-    )
-  }
-
   private def getParamIds = linesClassMember(
     List.concat(
       Line.blank :: lines(s"//! Parameter IDs"),
@@ -491,48 +473,36 @@ case class ComponentParameters (
       )
     )
 
-  private def writeLoadForExternalParam(param: Param) = {
-    def writeCondition(
-      condition: => String,
-      ifBlock: List[Line],
-      elseBlock: => List[Line]
-    ) =
-      if !param.default.isDefined
-      then ifBlock
-      else wrapInIfElse(condition, ifBlock, elseBlock)
+  private def writeLoadForExternalParam(param: Param) =
     List.concat(
-      getParamFromPort(param),
-      {
-        val orUseDefaultValue = param.default match {
-          case Some(_) => " or use default value"
-          case None => ""
-        }
-        lines(
-          s"""|
-              |this->m_paramLock.lock();
-              |
-              |// Deserialize parameter$orUseDefaultValue"""
-        )
-      },
-      writeCondition(
-        checkValidityFlag(param, "VALID"),
+      lines(
+        s"""|
+            |_id = _baseId + ${paramIdConstantName(param.getName)};
+            |_dbValid = this->${outputPortInvokerName(prmGetPort.get)}(0, _id, $paramBufferName);
+            |this->m_paramLock.lock();"""
+      ),
+      // Override from the prm DB iff present
+      wrapInIf(
+        checkValidityFlag("_dbValid", "VALID"),
         List.concat(
+          // Delegate stores the value under this validity; set it first.
+          setValidityFlagLines(param, "VALID"),
           deserializeParam(param),
           wrapInIf(
             "_stat != Fw::FW_SERIALIZE_OK",
-            setValidityFlagLines(
-              param,
-              if param.default.isDefined then "DEFAULT" else "INVALID"
-            )
+            setValidityFlagLines(param, "INVALID")
           )
-        ),
-        setValidityFlagLines(param, "DEFAULT")
+        )
       ),
+      // Seed the default into the external store iff UNINIT
       param.default match {
         case Some(value) =>
           wrapInIf(
-            checkValidityFlag(param, "DEFAULT"),
-            setDefaultValue(param, value)
+            checkValidityFlag(param, "UNINIT"),
+            List.concat(
+              setValidityFlagLines(param, "DEFAULT"),
+              setDefaultValue(param, value)
+            )
           )
         case None => Nil
       },
@@ -544,14 +514,13 @@ case class ComponentParameters (
         s"this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"
       )
     )
-  }
 
   private def writeLoadFunctionBody = {
     val prmGetPortName = prmGetPort.get.getUnqualifiedName
     val prmGetIsConnected = outputPortIsConnectedName(prmGetPortName)
-    // Holds the pre-lock prm DB read result for internal params
+    // Holds the pre-lock prm DB read result
     val dbValidDecl =
-      if sortedParams.exists((_, param) => !param.isExternal)
+      if sortedParams.nonEmpty
       then lines("Fw::ParamValid _dbValid{};")
       else Nil
     List.concat(
