@@ -20,8 +20,9 @@ update()
 move_layout_files()
 {
   topDir=$1
+  shift
   mkdir -p $topDir'Layout.ref'
-  for file in ${@: 2}
+  for file in "$@"
     do
       mv $topDir'Layout'/$file'.txt' $topDir'Layout.ref'/$file'.txt'
     done
