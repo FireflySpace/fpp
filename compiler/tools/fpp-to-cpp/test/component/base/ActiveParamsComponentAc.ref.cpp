@@ -1681,6 +1681,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamU32_valid == Fw::ParamValid::VALID) || (this->m_param_ParamU32_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamU32_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
 
   _id = _baseId + PARAMID_PARAMF64;
@@ -1697,6 +1701,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamF64_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamF64_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
 
   _id = _baseId + PARAMID_PARAMSTRING;
@@ -1717,6 +1725,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamString_valid == Fw::ParamValid::VALID) || (this->m_param_ParamString_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamString_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRING, this->m_param_ParamString_valid);
 
   _id = _baseId + PARAMID_PARAMENUM;
@@ -1733,6 +1745,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamEnum_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnum_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamEnum_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
 
   _id = _baseId + PARAMID_PARAMARRAY;
@@ -1753,6 +1769,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamArray_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArray_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamArray_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMARRAY, this->m_param_ParamArray_valid);
 
   _id = _baseId + PARAMID_PARAMSTRUCT;
@@ -1769,6 +1789,10 @@ void ActiveParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStruct_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStruct_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStruct_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
 
   // Call notifier

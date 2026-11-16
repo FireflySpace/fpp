@@ -1685,6 +1685,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamI32Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamI32Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamI32Ext_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
 
   _id = _baseId + PARAMID_PARAMF64EXT;
@@ -1705,6 +1709,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamF64Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamF64Ext_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
 
   _id = _baseId + PARAMID_PARAMSTRINGEXT;
@@ -1742,6 +1750,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStringExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStringExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStringExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
 
   _id = _baseId + PARAMID_PARAMENUMEXT;
@@ -1762,6 +1774,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamEnumExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnumExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamEnumExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
 
   _id = _baseId + PARAMID_PARAMARRAYEXT;
@@ -1799,6 +1815,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamArrayExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArrayExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamArrayExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
 
   _id = _baseId + PARAMID_PARAMSTRUCTEXT;
@@ -1819,6 +1839,10 @@ void QueuedExternalParamsComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStructExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStructExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStructExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRUCTEXT, this->m_param_ParamStructExt_valid);
 
   // Call notifier

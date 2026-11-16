@@ -2219,6 +2219,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamU32_valid == Fw::ParamValid::VALID) || (this->m_param_ParamU32_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamU32_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
 
   _id = _baseId + PARAMID_PARAMF64;
@@ -2235,6 +2239,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamF64_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamF64_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
 
   _id = _baseId + PARAMID_PARAMSTRING;
@@ -2255,6 +2263,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamString_valid == Fw::ParamValid::VALID) || (this->m_param_ParamString_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamString_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRING, this->m_param_ParamString_valid);
 
   _id = _baseId + PARAMID_PARAMENUM;
@@ -2271,6 +2283,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamEnum_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnum_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamEnum_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
 
   _id = _baseId + PARAMID_PARAMARRAY;
@@ -2291,6 +2307,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamArray_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArray_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamArray_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMARRAY, this->m_param_ParamArray_valid);
 
   _id = _baseId + PARAMID_PARAMSTRUCT;
@@ -2307,6 +2327,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStruct_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStruct_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStruct_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
 
   _id = _baseId + PARAMID_PARAMI32EXT;
@@ -2327,6 +2351,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamI32Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamI32Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamI32Ext_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
 
   _id = _baseId + PARAMID_PARAMF64EXT;
@@ -2347,6 +2375,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamF64Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamF64Ext_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
 
   _id = _baseId + PARAMID_PARAMSTRINGEXT;
@@ -2384,6 +2416,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStringExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStringExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStringExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
 
   _id = _baseId + PARAMID_PARAMENUMEXT;
@@ -2404,6 +2440,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamEnumExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnumExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamEnumExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
 
   _id = _baseId + PARAMID_PARAMARRAYEXT;
@@ -2441,6 +2481,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamArrayExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArrayExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamArrayExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
 
   _id = _baseId + PARAMID_PARAMSTRUCTEXT;
@@ -2461,6 +2505,10 @@ void QueuedTestComponentBase ::
   }
 
   this->m_paramLock.unlock();
+  FW_ASSERT(
+    (this->m_param_ParamStructExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStructExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(this->m_param_ParamStructExt_valid)
+  );
   this->parameterLoaded(PARAMID_PARAMSTRUCTEXT, this->m_param_ParamStructExt_valid);
 
   // Call notifier
