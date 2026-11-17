@@ -245,9 +245,10 @@ case class ComponentParameters (
     Some(
       s"""|\\brief Called for each parameter when parameters are loaded
           |
-          |By default this notifies the component via parameterUpdated for
-          |every parameter, regardless of validity. You may override it, for
-          |example to suppress notification for invalid parameters.
+          |By default this asserts that the parameter is usable (VALID or
+          |DEFAULT) and then notifies the component via parameterUpdated.
+          |Override it to relax that contract, e.g. to tolerate UNINIT or
+          |INVALID parameters.
           |"""
     ),
     "parameterLoaded",
@@ -264,7 +265,14 @@ case class ComponentParameters (
       )
     ),
     CppDoc.Type("void"),
-    lines("this->parameterUpdated(id);"),
+    lines(
+      """|FW_ASSERT(
+         |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
+         |  static_cast<FwAssertArgType>(id),
+         |  static_cast<FwAssertArgType>(valid)
+         |);
+         |this->parameterUpdated(id);"""
+    ),
     CppDoc.Function.Virtual
   )
 
@@ -439,16 +447,11 @@ case class ComponentParameters (
           |);"""
     )
 
-  // Shared load tail: unlock, assert, & notify.
+  // Shared load tail: unlock & notify
   private def writeLoadEpilogue(param: Param) =
     lines(
       s"""|
           |this->m_paramLock.unlock();
-          |FW_ASSERT(
-          |  ${checkValidityFlagValidOrDefault(param)},
-          |  static_cast<FwAssertArgType>(${paramIdConstantName(param.getName)}),
-          |  static_cast<FwAssertArgType>(this->${paramValidityFlagName(param.getName)})
-          |);
           |this->parameterLoaded(${paramIdConstantName(param.getName)}, this->${paramValidityFlagName(param.getName)});"""
     )
 
