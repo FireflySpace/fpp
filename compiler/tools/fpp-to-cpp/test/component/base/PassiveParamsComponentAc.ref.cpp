@@ -1387,17 +1387,18 @@ void PassiveParamsComponentBase ::
   this->m_paramLock.lock();
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamU32);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamU32_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMU32),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamU32_valid == Fw::ParamValid::VALID) || (this->m_param_ParamU32_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMU32),
     static_cast<FwAssertArgType>(this->m_param_ParamU32_valid)
   );
   this->parameterLoaded(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
@@ -1407,17 +1408,18 @@ void PassiveParamsComponentBase ::
   this->m_paramLock.lock();
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamF64);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamF64_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMF64),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamF64_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMF64),
     static_cast<FwAssertArgType>(this->m_param_ParamF64_valid)
   );
   this->parameterLoaded(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
@@ -1431,17 +1433,18 @@ void PassiveParamsComponentBase ::
   }
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamString);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamString_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamString_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMSTRING),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamString_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamString_valid == Fw::ParamValid::VALID) || (this->m_param_ParamString_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMSTRING),
     static_cast<FwAssertArgType>(this->m_param_ParamString_valid)
   );
   this->parameterLoaded(PARAMID_PARAMSTRING, this->m_param_ParamString_valid);
@@ -1451,17 +1454,18 @@ void PassiveParamsComponentBase ::
   this->m_paramLock.lock();
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamEnum);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamEnum_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMENUM),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamEnum_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnum_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMENUM),
     static_cast<FwAssertArgType>(this->m_param_ParamEnum_valid)
   );
   this->parameterLoaded(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
@@ -1475,17 +1479,18 @@ void PassiveParamsComponentBase ::
   }
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamArray);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamArray_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMARRAY),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamArray_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArray_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMARRAY),
     static_cast<FwAssertArgType>(this->m_param_ParamArray_valid)
   );
   this->parameterLoaded(PARAMID_PARAMARRAY, this->m_param_ParamArray_valid);
@@ -1495,17 +1500,18 @@ void PassiveParamsComponentBase ::
   this->m_paramLock.lock();
   if (_dbValid == Fw::ParamValid::VALID) {
     _stat = _paramBuffer.deserializeTo(this->m_ParamStruct);
-    if (_stat == Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
-    }
-    else {
-      this->m_param_ParamStruct_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMSTRUCT),
+      static_cast<FwAssertArgType>(_stat)
+    );
+    this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamStruct_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStruct_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMSTRUCT),
     static_cast<FwAssertArgType>(this->m_param_ParamStruct_valid)
   );
   this->parameterLoaded(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);

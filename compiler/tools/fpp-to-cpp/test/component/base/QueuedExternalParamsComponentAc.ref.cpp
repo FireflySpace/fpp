@@ -1679,14 +1679,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamI32Ext_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamI32Ext_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMI32EXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamI32Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamI32Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMI32EXT),
     static_cast<FwAssertArgType>(this->m_param_ParamI32Ext_valid)
   );
   this->parameterLoaded(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
@@ -1703,14 +1706,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamF64Ext_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamF64Ext_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMF64EXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamF64Ext_valid == Fw::ParamValid::VALID) || (this->m_param_ParamF64Ext_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMF64EXT),
     static_cast<FwAssertArgType>(this->m_param_ParamF64Ext_valid)
   );
   this->parameterLoaded(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
@@ -1727,9 +1733,11 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamStringExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMSTRINGEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
   if (this->m_param_ParamStringExt_valid == Fw::ParamValid::UNINIT) {
     this->m_param_ParamStringExt_valid = Fw::ParamValid::DEFAULT;
@@ -1744,14 +1752,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamStringExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMSTRINGEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamStringExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStringExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMSTRINGEXT),
     static_cast<FwAssertArgType>(this->m_param_ParamStringExt_valid)
   );
   this->parameterLoaded(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
@@ -1768,14 +1779,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamEnumExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamEnumExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMENUMEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamEnumExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamEnumExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMENUMEXT),
     static_cast<FwAssertArgType>(this->m_param_ParamEnumExt_valid)
   );
   this->parameterLoaded(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
@@ -1792,9 +1806,11 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamArrayExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMARRAYEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
   if (this->m_param_ParamArrayExt_valid == Fw::ParamValid::UNINIT) {
     this->m_param_ParamArrayExt_valid = Fw::ParamValid::DEFAULT;
@@ -1809,14 +1825,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamArrayExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMARRAYEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamArrayExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamArrayExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMARRAYEXT),
     static_cast<FwAssertArgType>(this->m_param_ParamArrayExt_valid)
   );
   this->parameterLoaded(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
@@ -1833,14 +1852,17 @@ void QueuedExternalParamsComponentBase ::
       this->m_param_ParamStructExt_valid,
       _paramBuffer
     );
-    if (_stat != Fw::FW_SERIALIZE_OK) {
-      this->m_param_ParamStructExt_valid = Fw::ParamValid::INVALID;
-    }
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(PARAMID_PARAMSTRUCTEXT),
+      static_cast<FwAssertArgType>(_stat)
+    );
   }
 
   this->m_paramLock.unlock();
   FW_ASSERT(
     (this->m_param_ParamStructExt_valid == Fw::ParamValid::VALID) || (this->m_param_ParamStructExt_valid == Fw::ParamValid::DEFAULT),
+    static_cast<FwAssertArgType>(PARAMID_PARAMSTRUCTEXT),
     static_cast<FwAssertArgType>(this->m_param_ParamStructExt_valid)
   );
   this->parameterLoaded(PARAMID_PARAMSTRUCTEXT, this->m_param_ParamStructExt_valid);
