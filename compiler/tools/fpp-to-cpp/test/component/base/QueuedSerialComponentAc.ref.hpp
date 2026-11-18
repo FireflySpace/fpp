@@ -2557,9 +2557,10 @@ class QueuedSerialComponentBase :
 
     //! \brief Called for each parameter when parameters are loaded
     //!
-    //! By default this notifies the component via parameterUpdated for
-    //! every parameter, regardless of validity. You may override it, for
-    //! example to suppress notification for invalid parameters.
+    //! By default this asserts that the parameter is usable (VALID or
+    //! DEFAULT) and then notifies the component via parameterUpdated.
+    //! Override it to relax that contract, e.g. to tolerate UNINIT or
+    //! INVALID parameters.
     virtual void parameterLoaded(
         FwPrmIdType id, //!< The parameter ID
         Fw::ParamValid valid //!< The parameter validity status
