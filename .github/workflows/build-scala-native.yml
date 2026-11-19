@@ -229,7 +229,12 @@ jobs:
           while IFS='|' read -r pattern platform machine
           do
             wheel=$(find release -maxdepth 1 -type f -name "$pattern" -print -quit)
-            test -n "$wheel"
+            # A platform (e.g. flaky macOS runner) may be absent; omit it rather
+            # than fail the whole release. The ls below still fails if none built.
+            if [ -z "$wheel" ]; then
+              echo "::warning::no wheel for $platform/$machine ($pattern); omitting from release"
+              continue
+            fi
             url="$base_url/$(basename "$wheel")"
             printf 'fprime-fpp @ %s ; sys_platform == "%s" and platform_machine == "%s"\n' \
               "$url" "$platform" "$machine" \
@@ -243,8 +248,8 @@ jobs:
           *macosx_*_arm64.whl|darwin|arm64
           EOF
           echo ']' >> release/pyproject-snippet.toml
-          # Fail loudly if the flattened assets the publish step uploads are
-          # missing, instead of letting a glob silently match nothing.
+          # Fail loudly only if nothing built at all (no wheel/tarball), rather
+          # than letting the publish globs silently match nothing.
           ls release/*.whl release/*.tar.gz release/overrides.txt release/pyproject-snippet.toml
       - name: Publish rolling prerelease
         env:
