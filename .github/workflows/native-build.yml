@@ -120,6 +120,8 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate-run-matricies.outputs.native) }}
     runs-on: ${{ matrix.run.runner }}
+    # macOS arm64 runners flake on capacity; don't block Linux wheels/release.
+    continue-on-error: ${{ startsWith(matrix.run.runner, 'macos') }}
     container:
       image:  ${{ matrix.run.container || '' }}
     steps:
@@ -179,6 +181,8 @@ jobs:
   build-wheels:
     needs: [build-jars, build-native-images, generate-run-matricies]
     runs-on: ubuntu-22.04
+    # Drop the macOS wheel if its native image never built.
+    continue-on-error: ${{ startsWith(matrix.tag, 'macosx') }}
     strategy:
       matrix: ${{ fromJson(needs.generate-run-matricies.outputs.tags) }}
     steps:
@@ -228,6 +232,8 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate-run-matricies.outputs.native) }}
     runs-on: ${{ matrix.run.runner }}
+    # macOS leg optional — mirror build-native-images.
+    continue-on-error: ${{ startsWith(matrix.run.runner, 'macos') }}
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v6
@@ -262,6 +268,8 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     needs: [test-wheels, generate-run-matricies]
     runs-on: ubuntu-22.04
+    # Publish whatever built; macOS wheel may be absent.
+    continue-on-error: ${{ startsWith(matrix.tag, 'macosx') }}
     strategy:
       matrix: ${{ fromJson(needs.generate-run-matricies.outputs.tags) }}
     steps:
