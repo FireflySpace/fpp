@@ -222,21 +222,30 @@ jobs:
           find release -mindepth 2 -type f -name '*.whl' -exec cp -t release/ {} +
           find release -mindepth 2 -type f -name '*.tar.gz' -exec cp -t release/ {} +
           : > release/overrides.txt
+          {
+            echo '[tool.uv.sources]'
+            echo 'fprime-fpp = ['
+          } > release/pyproject-snippet.toml
           while IFS='|' read -r pattern platform machine
           do
             wheel=$(find release -maxdepth 1 -type f -name "$pattern" -print -quit)
             test -n "$wheel"
-            printf 'fprime-fpp @ %s/%s ; sys_platform == "%s" and platform_machine == "%s"\n' \
-              "$base_url" "$(basename "$wheel")" "$platform" "$machine" \
+            url="$base_url/$(basename "$wheel")"
+            printf 'fprime-fpp @ %s ; sys_platform == "%s" and platform_machine == "%s"\n' \
+              "$url" "$platform" "$machine" \
               >> release/overrides.txt
+            printf '  { url = "%s", marker = "sys_platform == '\''%s'\'' and platform_machine == '\''%s'\''" },\n' \
+              "$url" "$platform" "$machine" \
+              >> release/pyproject-snippet.toml
           done <<'EOF'
           *manylinux_*_x86_64.whl|linux|x86_64
           *manylinux_*_aarch64.whl|linux|aarch64
           *macosx_*_arm64.whl|darwin|arm64
           EOF
+          echo ']' >> release/pyproject-snippet.toml
           # Fail loudly if the flattened assets the publish step uploads are
           # missing, instead of letting a glob silently match nothing.
-          ls release/*.whl release/*.tar.gz release/overrides.txt
+          ls release/*.whl release/*.tar.gz release/overrides.txt release/pyproject-snippet.toml
       - name: Publish rolling prerelease
         env:
           GH_TOKEN: ${{ github.token }}
@@ -254,4 +263,5 @@ jobs:
             release/*.whl \
             release/*.tar.gz \
             release/overrides.txt \
+            release/pyproject-snippet.toml \
             --clobber
