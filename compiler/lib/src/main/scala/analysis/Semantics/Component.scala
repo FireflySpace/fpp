@@ -497,7 +497,8 @@ case class Component(
         c.tlmChannelNameMap.get(param.getName) match {
           case None =>
             c.addTlmChannel(None, Component.makeImplicitTlmChannel(param))
-          case Some(existing) if existing.channelType == param.paramType =>
+          case Some(existing)
+            if Component.sameMirrorType(existing.channelType, param.paramType) =>
             Right(c)
           case Some(existing) =>
             Left(
@@ -575,6 +576,16 @@ case class Component(
 }
 
 object Component {
+
+  /** Whether a pre-existing channel's type matches a parameter's for mirroring. */
+  private def sameMirrorType(t1: Type, t2: Type): Boolean = {
+    val u1 = t1.getUnderlyingType
+    val u2 = t2.getUnderlyingType
+    Type.areIdentical(u1, u2) || ((u1, u2) match {
+      case (_: Type.String, _: Type.String) => true
+      case _ => false
+    })
+  }
 
   /** Build the implicit telemetry channel that mirrors a parameter. */
   private def makeImplicitTlmChannel(param: Param): TlmChannel = {
