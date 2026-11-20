@@ -1626,9 +1626,11 @@ class ActiveParamsComponentBase :
     //! \brief Called whenever a parameter is updated, to mirror it into telemetry
     //!
     //! Every parameter has an identically named telemetry channel. By
-    //! default this writes that channel with the parameter's current value,
-    //! skipping it if the parameter is not usable (not VALID or DEFAULT).
-    //! You may override it, for example to suppress or reshape the mirror.
+    //! default this writes that channel with the parameter's current value.
+    //! It does not re-check validity: callers invoke it only once the
+    //! parameter is usable (the setters on a successful update, and
+    //! parameterLoaded after it asserts VALID or DEFAULT). You may
+    //! override it, for example to suppress or reshape the mirror.
     virtual void parameterTelemeter(
         FwPrmIdType id //!< The parameter ID
     );
