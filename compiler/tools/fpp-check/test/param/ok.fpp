@@ -10,6 +10,9 @@ module Fw {
   port PrmGet
   port PrmSet
 
+  port Tlm
+  port Time
+
 }
 
 array U32x3 = [3] U32
@@ -22,6 +25,9 @@ passive component C {
 
   param get port prmGetOut
   param set port prmSetOut
+
+  telemetry port tlmOut
+  time get port timeGetOut
 
   @ Parameter P1
   param P1: U32 \
