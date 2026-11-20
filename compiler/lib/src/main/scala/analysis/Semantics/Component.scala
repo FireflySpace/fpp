@@ -288,12 +288,23 @@ case class Component(
             Left(SemanticError.MissingPort(loc, specMsg, portMsg))
           }
          else Right(())
+      def requireParamMirrorPorts = if (this.hasParameters) Result.map(
+        List(Telemetry, TimeGet),
+        (portKind: Ast.SpecPortInstance.SpecialKind) =>
+          this.specialPortMap.get(portKind) match {
+            case Some(_) => Right(())
+            case None =>
+              val loc = Locations.get(this.aNode._2.id)
+              Left(SemanticError.MissingPortForParamMirror(loc, s"${portKind.toString} port"))
+          }
+      ) else Right(())
       for {
         _ <- requirePorts(
           this.hasParameters,
           "parameter specifiers",
           List(ParamGet, ParamSet, CommandRecv, CommandReg, CommandResp)
         )
+        _ <- requireParamMirrorPorts
         _ <- requirePorts(
           this.hasCommands,
           "command specifiers",
