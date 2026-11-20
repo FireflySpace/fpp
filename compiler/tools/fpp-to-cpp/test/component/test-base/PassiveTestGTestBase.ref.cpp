@@ -1052,6 +1052,510 @@ void PassiveTestGTestBase ::
     << "  Actual:   " << _e.arg << "\n";
 }
 
+void PassiveTestGTestBase ::
+  assertTlm_ParamU32_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamU32->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamU32\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamU32->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamU32(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const U32 val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamU32->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamU32\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamU32->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamU32& _e =
+    this->tlmHistory_ParamU32->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamU32\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamF64_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamF64->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamF64\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamF64->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamF64(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const F64 val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamF64->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamF64\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamF64->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamF64& _e =
+    this->tlmHistory_ParamF64->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamF64\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamString_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamString->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamString\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamString->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamString(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const char* const val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamString->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamString\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamString->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamString& _e =
+    this->tlmHistory_ParamString->at(__index);
+  ASSERT_STREQ(val, _e.arg.toChar())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamString\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamEnum_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamEnum->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamEnum\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamEnum->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamEnum(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const E& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamEnum->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamEnum\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamEnum->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamEnum& _e =
+    this->tlmHistory_ParamEnum->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamEnum\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamArray_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamArray->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamArray\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamArray->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamArray(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const A& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamArray->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamArray\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamArray->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamArray& _e =
+    this->tlmHistory_ParamArray->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamArray\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStruct_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamStruct->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamStruct\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamStruct->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStruct(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const S& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamStruct->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamStruct\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamStruct->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamStruct& _e =
+    this->tlmHistory_ParamStruct->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamStruct\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamI32Ext_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamI32Ext->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamI32Ext\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamI32Ext->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamI32Ext(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const I32 val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamI32Ext->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamI32Ext\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamI32Ext->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamI32Ext& _e =
+    this->tlmHistory_ParamI32Ext->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamI32Ext\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamF64Ext_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamF64Ext->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamF64Ext\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamF64Ext->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamF64Ext(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const F64 val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamF64Ext->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamF64Ext\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamF64Ext->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamF64Ext& _e =
+    this->tlmHistory_ParamF64Ext->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamF64Ext\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStringExt_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamStringExt->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamStringExt\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamStringExt->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStringExt(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const char* const val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamStringExt->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamStringExt\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamStringExt->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamStringExt& _e =
+    this->tlmHistory_ParamStringExt->at(__index);
+  ASSERT_STREQ(val, _e.arg.toChar())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamStringExt\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamEnumExt_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamEnumExt->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamEnumExt\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamEnumExt->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamEnumExt(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const E& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamEnumExt->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamEnumExt\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamEnumExt->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamEnumExt& _e =
+    this->tlmHistory_ParamEnumExt->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamEnumExt\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamArrayExt_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamArrayExt->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamArrayExt\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamArrayExt->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamArrayExt(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const A& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamArrayExt->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamArrayExt\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamArrayExt->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamArrayExt& _e =
+    this->tlmHistory_ParamArrayExt->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamArrayExt\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStructExt_size(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 size
+  ) const
+{
+  ASSERT_EQ(this->tlmHistory_ParamStructExt->size(), size)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Size of history for telemetry channel ParamStructExt\n"
+    << "  Expected: " << size << "\n"
+    << "  Actual:   " << this->tlmHistory_ParamStructExt->size() << "\n";
+}
+
+void PassiveTestGTestBase ::
+  assertTlm_ParamStructExt(
+      const char* const __callSiteFileName,
+      const U32 __callSiteLineNumber,
+      const U32 __index,
+      const S& val
+  ) const
+{
+  ASSERT_LT(__index, this->tlmHistory_ParamStructExt->size())
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Index into history of telemetry channel ParamStructExt\n"
+    << "  Expected: Less than size of history ("
+    << this->tlmHistory_ParamStructExt->size() << ")\n"
+    << "  Actual:   " << __index << "\n";
+  const TlmEntry_ParamStructExt& _e =
+    this->tlmHistory_ParamStructExt->at(__index);
+  ASSERT_EQ(val, _e.arg)
+    << "\n"
+    << __callSiteFileName << ":" << __callSiteLineNumber << "\n"
+    << "  Value:    Value at index "
+    << __index
+    << " on telemetry channel ParamStructExt\n"
+    << "  Expected: " << val << "\n"
+    << "  Actual:   " << _e.arg << "\n";
+}
+
 // ----------------------------------------------------------------------
 // Data Product Request
 // ----------------------------------------------------------------------

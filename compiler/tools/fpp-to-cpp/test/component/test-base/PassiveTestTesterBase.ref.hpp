@@ -333,6 +333,78 @@ class PassiveTestTesterBase :
       bool arg;
     };
 
+    //! A history entry for telemetry channel ParamU32
+    struct TlmEntry_ParamU32 {
+      Fw::Time timeTag;
+      U32 arg;
+    };
+
+    //! A history entry for telemetry channel ParamF64
+    struct TlmEntry_ParamF64 {
+      Fw::Time timeTag;
+      F64 arg;
+    };
+
+    //! A history entry for telemetry channel ParamString
+    struct TlmEntry_ParamString {
+      Fw::Time timeTag;
+      Fw::TlmString arg;
+    };
+
+    //! A history entry for telemetry channel ParamEnum
+    struct TlmEntry_ParamEnum {
+      Fw::Time timeTag;
+      E arg;
+    };
+
+    //! A history entry for telemetry channel ParamArray
+    struct TlmEntry_ParamArray {
+      Fw::Time timeTag;
+      A arg;
+    };
+
+    //! A history entry for telemetry channel ParamStruct
+    struct TlmEntry_ParamStruct {
+      Fw::Time timeTag;
+      S arg;
+    };
+
+    //! A history entry for telemetry channel ParamI32Ext
+    struct TlmEntry_ParamI32Ext {
+      Fw::Time timeTag;
+      I32 arg;
+    };
+
+    //! A history entry for telemetry channel ParamF64Ext
+    struct TlmEntry_ParamF64Ext {
+      Fw::Time timeTag;
+      F64 arg;
+    };
+
+    //! A history entry for telemetry channel ParamStringExt
+    struct TlmEntry_ParamStringExt {
+      Fw::Time timeTag;
+      Fw::TlmString arg;
+    };
+
+    //! A history entry for telemetry channel ParamEnumExt
+    struct TlmEntry_ParamEnumExt {
+      Fw::Time timeTag;
+      E arg;
+    };
+
+    //! A history entry for telemetry channel ParamArrayExt
+    struct TlmEntry_ParamArrayExt {
+      Fw::Time timeTag;
+      A arg;
+    };
+
+    //! A history entry for telemetry channel ParamStructExt
+    struct TlmEntry_ParamStructExt {
+      Fw::Time timeTag;
+      S arg;
+    };
+
     //! A type representing a data product request
     struct DpRequest {
       FwDpIdType id;
@@ -1583,6 +1655,78 @@ class PassiveTestTesterBase :
         const bool val //!< The channel value
     );
 
+    //! Handle channel ParamU32
+    void tlmInput_ParamU32(
+        const Fw::Time& timeTag, //!< The time
+        const U32 val //!< The channel value
+    );
+
+    //! Handle channel ParamF64
+    void tlmInput_ParamF64(
+        const Fw::Time& timeTag, //!< The time
+        const F64 val //!< The channel value
+    );
+
+    //! Handle channel ParamString
+    void tlmInput_ParamString(
+        const Fw::Time& timeTag, //!< The time
+        const Fw::StringBase& val //!< The channel value
+    );
+
+    //! Handle channel ParamEnum
+    void tlmInput_ParamEnum(
+        const Fw::Time& timeTag, //!< The time
+        const E& val //!< The channel value
+    );
+
+    //! Handle channel ParamArray
+    void tlmInput_ParamArray(
+        const Fw::Time& timeTag, //!< The time
+        const A& val //!< The channel value
+    );
+
+    //! Handle channel ParamStruct
+    void tlmInput_ParamStruct(
+        const Fw::Time& timeTag, //!< The time
+        const S& val //!< The channel value
+    );
+
+    //! Handle channel ParamI32Ext
+    void tlmInput_ParamI32Ext(
+        const Fw::Time& timeTag, //!< The time
+        const I32 val //!< The channel value
+    );
+
+    //! Handle channel ParamF64Ext
+    void tlmInput_ParamF64Ext(
+        const Fw::Time& timeTag, //!< The time
+        const F64 val //!< The channel value
+    );
+
+    //! Handle channel ParamStringExt
+    void tlmInput_ParamStringExt(
+        const Fw::Time& timeTag, //!< The time
+        const Fw::StringBase& val //!< The channel value
+    );
+
+    //! Handle channel ParamEnumExt
+    void tlmInput_ParamEnumExt(
+        const Fw::Time& timeTag, //!< The time
+        const E& val //!< The channel value
+    );
+
+    //! Handle channel ParamArrayExt
+    void tlmInput_ParamArrayExt(
+        const Fw::Time& timeTag, //!< The time
+        const A& val //!< The channel value
+    );
+
+    //! Handle channel ParamStructExt
+    void tlmInput_ParamStructExt(
+        const Fw::Time& timeTag, //!< The time
+        const S& val //!< The channel value
+    );
+
   protected:
 
     // ----------------------------------------------------------------------
@@ -2239,6 +2383,42 @@ class PassiveTestTesterBase :
 
     //! The history of ChannelBoolOnChange values
     History<TlmEntry_ChannelBoolOnChange>* tlmHistory_ChannelBoolOnChange;
+
+    //! The history of ParamU32 values
+    History<TlmEntry_ParamU32>* tlmHistory_ParamU32;
+
+    //! The history of ParamF64 values
+    History<TlmEntry_ParamF64>* tlmHistory_ParamF64;
+
+    //! The history of ParamString values
+    History<TlmEntry_ParamString>* tlmHistory_ParamString;
+
+    //! The history of ParamEnum values
+    History<TlmEntry_ParamEnum>* tlmHistory_ParamEnum;
+
+    //! The history of ParamArray values
+    History<TlmEntry_ParamArray>* tlmHistory_ParamArray;
+
+    //! The history of ParamStruct values
+    History<TlmEntry_ParamStruct>* tlmHistory_ParamStruct;
+
+    //! The history of ParamI32Ext values
+    History<TlmEntry_ParamI32Ext>* tlmHistory_ParamI32Ext;
+
+    //! The history of ParamF64Ext values
+    History<TlmEntry_ParamF64Ext>* tlmHistory_ParamF64Ext;
+
+    //! The history of ParamStringExt values
+    History<TlmEntry_ParamStringExt>* tlmHistory_ParamStringExt;
+
+    //! The history of ParamEnumExt values
+    History<TlmEntry_ParamEnumExt>* tlmHistory_ParamEnumExt;
+
+    //! The history of ParamArrayExt values
+    History<TlmEntry_ParamArrayExt>* tlmHistory_ParamArrayExt;
+
+    //! The history of ParamStructExt values
+    History<TlmEntry_ParamStructExt>* tlmHistory_ParamStructExt;
 
     //! The data product request history
     History<DpRequest>* productRequestHistory;

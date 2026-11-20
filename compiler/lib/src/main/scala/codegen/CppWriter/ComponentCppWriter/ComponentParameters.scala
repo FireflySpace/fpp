@@ -151,6 +151,7 @@ case class ComponentParameters (
       "Parameter hook functions",
       List(
         getParamUpdateHookFunction,
+        getParamTelemeterHookFunction,
         getParamLoadHookFunction,
         getParamsLoadHookFunction
       )
@@ -265,13 +266,15 @@ case class ComponentParameters (
       )
     ),
     CppDoc.Type("void"),
-    lines(
-      """|FW_ASSERT(
-         |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
-         |  static_cast<FwAssertArgType>(id),
-         |  static_cast<FwAssertArgType>(valid)
-         |);
-         |this->parameterUpdated(id);"""
+    List.concat(
+      lines(
+        """|FW_ASSERT(
+           |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
+           |  static_cast<FwAssertArgType>(id),
+           |  static_cast<FwAssertArgType>(valid)
+           |);"""
+      ),
+      writeParamNotify("id")
     ),
     CppDoc.Function.Virtual
   )
@@ -295,6 +298,41 @@ case class ComponentParameters (
     lines("// Do nothing by default"),
     CppDoc.Function.Virtual
   )
+
+  private def getParamTelemeterHookFunction = functionClassMember(
+    Some(
+      s"""|\\brief Called whenever a parameter is updated, to mirror it into telemetry
+          |
+          |Every parameter has an identically named telemetry channel. By
+          |default this writes that channel with the parameter's current value.
+          |It does not re-check validity: callers invoke it only once the
+          |parameter is usable (the setters on a successful update, and
+          |parameterLoaded after it asserts VALID or DEFAULT). You may
+          |override it, for example to suppress or reshape the mirror.
+          |"""
+    ),
+    "parameterTelemeter",
+    List(
+      CppDoc.Function.Param(
+        CppDoc.Type("FwPrmIdType"),
+        "id",
+        Some("The parameter ID")
+      )
+    ),
+    CppDoc.Type("void"),
+    wrapInSwitch(
+      "id",
+      sortedParams.flatMap((_, param) => writeParamTelemeterCase(param))
+    ),
+    CppDoc.Function.Virtual
+  )
+
+  private def writeParamTelemeterCase(param: Param): List[Line] =
+    lines(
+      s"""|case ${paramIdConstantName(param.getName)}:
+          |  this->tlmWrite_${param.getName}(this->${paramGetterName(param.getName)}());
+          |  break;"""
+    )
 
   private def getParamVarForParam(param: Param) =
     val paramType = writeParamType(param.paramType, "Fw::ParamString")
@@ -588,13 +626,14 @@ case class ComponentParameters (
         )
       ),
       lines(
-        s"""|
-            |// Call notifier
-            |if (_response == Fw::CmdResponse::OK) {
-            |  this->parameterUpdated($idConstantName);
-            |}
-            |return _response;"""
-      )
+        """|
+           |// Call notifier"""
+      ),
+      wrapInIf(
+        "_response == Fw::CmdResponse::OK",
+        writeParamNotify(idConstantName)
+      ),
+      lines("return _response;")
     )
   }
 
@@ -620,12 +659,19 @@ case class ComponentParameters (
         )
       ),
       lines(
-        s"""|
-            |// Call notifier
-            |this->parameterUpdated($idConstantName);
-            |return Fw::CmdResponse::OK;"""
-      )
+        """|
+           |// Call notifier"""
+      ),
+      writeParamNotify(idConstantName),
+      lines("return Fw::CmdResponse::OK;")
     )
   }
+
+  /** Emit the post-update notification for a parameter */
+  private def writeParamNotify(idExpr: String): List[Line] =
+    lines(
+      s"""|this->parameterTelemeter($idExpr);
+          |this->parameterUpdated($idExpr);"""
+    )
 
 }

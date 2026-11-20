@@ -47,6 +47,11 @@ void PassiveExternalParamsTester ::
     this->get_from_timeGetOut(0)
   );
 
+  this->component.set_tlmOut_OutputPort(
+    0,
+    this->get_from_tlmOut(0)
+  );
+
   // Connect typed input ports
 
   this->connect_to_noArgsAliasStringReturnSync(

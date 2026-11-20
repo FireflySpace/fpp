@@ -279,6 +279,9 @@ sealed trait Error {
         Error.print (Some(loc)) ("unmatched connection must go from or to a matched port")
       case SemanticError.MissingPort(loc, specMsg, portMsg) =>
         Error.print (Some(loc)) (s"component with $specMsg must have $portMsg")
+      case SemanticError.MissingPortForParamMirror(loc, portMsg) =>
+        Error.print (Some(loc)) (s"component with parameters must have $portMsg")
+        printNote("each parameter is mirrored into a telemetry channel of the same name, so a component with parameters must be able to emit telemetry")
       case SemanticError.NoPortAvailableForMatchedNumbering(loc1, loc2, matchingLoc) =>
         Error.print (None) (s"no port available for matched numbering")
         System.err.println("matched connections are specified here:")
@@ -737,6 +740,10 @@ object SemanticError {
     loc: Location,
     specMsg: String,
     portmsg: String
+  ) extends Error
+  final case class MissingPortForParamMirror(
+    loc: Location,
+    portMsg: String
   ) extends Error
   final case class MissingPortMatching(
     loc: Location

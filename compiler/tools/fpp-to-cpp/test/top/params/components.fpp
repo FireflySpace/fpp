@@ -14,6 +14,10 @@ module M {
 
     param set port prmSetOut
 
+    telemetry port tlmOut
+
+    time get port timeGetOut
+
   }
 
   passive component NoParams {

@@ -1627,6 +1627,18 @@ QueuedSerialTesterBase ::
   this->tlmHistory_ChannelU32OnChange = new History<TlmEntry_ChannelU32OnChange>(maxHistorySize);
   this->tlmHistory_ChannelEnumOnChange = new History<TlmEntry_ChannelEnumOnChange>(maxHistorySize);
   this->tlmHistory_ChannelBoolOnChange = new History<TlmEntry_ChannelBoolOnChange>(maxHistorySize);
+  this->tlmHistory_ParamU32 = new History<TlmEntry_ParamU32>(maxHistorySize);
+  this->tlmHistory_ParamF64 = new History<TlmEntry_ParamF64>(maxHistorySize);
+  this->tlmHistory_ParamString = new History<TlmEntry_ParamString>(maxHistorySize);
+  this->tlmHistory_ParamEnum = new History<TlmEntry_ParamEnum>(maxHistorySize);
+  this->tlmHistory_ParamArray = new History<TlmEntry_ParamArray>(maxHistorySize);
+  this->tlmHistory_ParamStruct = new History<TlmEntry_ParamStruct>(maxHistorySize);
+  this->tlmHistory_ParamI32Ext = new History<TlmEntry_ParamI32Ext>(maxHistorySize);
+  this->tlmHistory_ParamF64Ext = new History<TlmEntry_ParamF64Ext>(maxHistorySize);
+  this->tlmHistory_ParamStringExt = new History<TlmEntry_ParamStringExt>(maxHistorySize);
+  this->tlmHistory_ParamEnumExt = new History<TlmEntry_ParamEnumExt>(maxHistorySize);
+  this->tlmHistory_ParamArrayExt = new History<TlmEntry_ParamArrayExt>(maxHistorySize);
+  this->tlmHistory_ParamStructExt = new History<TlmEntry_ParamStructExt>(maxHistorySize);
 
   // Clear history
   this->clearHistory();
@@ -1668,6 +1680,18 @@ QueuedSerialTesterBase ::
   delete this->tlmHistory_ChannelU32OnChange;
   delete this->tlmHistory_ChannelEnumOnChange;
   delete this->tlmHistory_ChannelBoolOnChange;
+  delete this->tlmHistory_ParamU32;
+  delete this->tlmHistory_ParamF64;
+  delete this->tlmHistory_ParamString;
+  delete this->tlmHistory_ParamEnum;
+  delete this->tlmHistory_ParamArray;
+  delete this->tlmHistory_ParamStruct;
+  delete this->tlmHistory_ParamI32Ext;
+  delete this->tlmHistory_ParamF64Ext;
+  delete this->tlmHistory_ParamStringExt;
+  delete this->tlmHistory_ParamEnumExt;
+  delete this->tlmHistory_ParamArrayExt;
+  delete this->tlmHistory_ParamStructExt;
 }
 
 // ----------------------------------------------------------------------
@@ -4065,6 +4089,162 @@ void QueuedSerialTesterBase ::
       break;
     }
 
+    case QueuedSerialComponentBase::CHANNELID_PARAMU32: {
+      U32 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamU32: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamU32(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMF64: {
+      F64 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamF64: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamF64(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMSTRING: {
+      Fw::TlmString arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamString: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamString(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMENUM: {
+      E arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamEnum: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamEnum(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMARRAY: {
+      A arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamArray: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamArray(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMSTRUCT: {
+      S arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamStruct: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamStruct(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMI32EXT: {
+      I32 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamI32Ext: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamI32Ext(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMF64EXT: {
+      F64 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamF64Ext: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamF64Ext(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMSTRINGEXT: {
+      Fw::TlmString arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamStringExt: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamStringExt(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMENUMEXT: {
+      E arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamEnumExt: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamEnumExt(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMARRAYEXT: {
+      A arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamArrayExt: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamArrayExt(timeTag, arg);
+      break;
+    }
+
+    case QueuedSerialComponentBase::CHANNELID_PARAMSTRUCTEXT: {
+      S arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamStructExt: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamStructExt(timeTag, arg);
+      break;
+    }
+
     default: {
       FW_ASSERT(false, static_cast<FwAssertArgType>(id));
       break;
@@ -4201,6 +4381,138 @@ void QueuedSerialTesterBase ::
 {
   TlmEntry_ChannelBoolOnChange e = { timeTag, val };
   this->tlmHistory_ChannelBoolOnChange->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamU32(
+      const Fw::Time& timeTag,
+      const U32 val
+  )
+{
+  TlmEntry_ParamU32 e = { timeTag, val };
+  this->tlmHistory_ParamU32->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamF64(
+      const Fw::Time& timeTag,
+      const F64 val
+  )
+{
+  TlmEntry_ParamF64 e = { timeTag, val };
+  this->tlmHistory_ParamF64->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamString(
+      const Fw::Time& timeTag,
+      const Fw::StringBase& val
+  )
+{
+  TlmEntry_ParamString e = { timeTag, val };
+  this->tlmHistory_ParamString->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamEnum(
+      const Fw::Time& timeTag,
+      const E& val
+  )
+{
+  TlmEntry_ParamEnum e = { timeTag, val };
+  this->tlmHistory_ParamEnum->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamArray(
+      const Fw::Time& timeTag,
+      const A& val
+  )
+{
+  TlmEntry_ParamArray e = { timeTag, val };
+  this->tlmHistory_ParamArray->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamStruct(
+      const Fw::Time& timeTag,
+      const S& val
+  )
+{
+  TlmEntry_ParamStruct e = { timeTag, val };
+  this->tlmHistory_ParamStruct->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamI32Ext(
+      const Fw::Time& timeTag,
+      const I32 val
+  )
+{
+  TlmEntry_ParamI32Ext e = { timeTag, val };
+  this->tlmHistory_ParamI32Ext->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamF64Ext(
+      const Fw::Time& timeTag,
+      const F64 val
+  )
+{
+  TlmEntry_ParamF64Ext e = { timeTag, val };
+  this->tlmHistory_ParamF64Ext->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamStringExt(
+      const Fw::Time& timeTag,
+      const Fw::StringBase& val
+  )
+{
+  TlmEntry_ParamStringExt e = { timeTag, val };
+  this->tlmHistory_ParamStringExt->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamEnumExt(
+      const Fw::Time& timeTag,
+      const E& val
+  )
+{
+  TlmEntry_ParamEnumExt e = { timeTag, val };
+  this->tlmHistory_ParamEnumExt->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamArrayExt(
+      const Fw::Time& timeTag,
+      const A& val
+  )
+{
+  TlmEntry_ParamArrayExt e = { timeTag, val };
+  this->tlmHistory_ParamArrayExt->push_back(e);
+  this->tlmSize++;
+}
+
+void QueuedSerialTesterBase ::
+  tlmInput_ParamStructExt(
+      const Fw::Time& timeTag,
+      const S& val
+  )
+{
+  TlmEntry_ParamStructExt e = { timeTag, val };
+  this->tlmHistory_ParamStructExt->push_back(e);
   this->tlmSize++;
 }
 
@@ -5184,6 +5496,18 @@ void QueuedSerialTesterBase ::
   this->tlmHistory_ChannelU32OnChange->clear();
   this->tlmHistory_ChannelEnumOnChange->clear();
   this->tlmHistory_ChannelBoolOnChange->clear();
+  this->tlmHistory_ParamU32->clear();
+  this->tlmHistory_ParamF64->clear();
+  this->tlmHistory_ParamString->clear();
+  this->tlmHistory_ParamEnum->clear();
+  this->tlmHistory_ParamArray->clear();
+  this->tlmHistory_ParamStruct->clear();
+  this->tlmHistory_ParamI32Ext->clear();
+  this->tlmHistory_ParamF64Ext->clear();
+  this->tlmHistory_ParamStringExt->clear();
+  this->tlmHistory_ParamEnumExt->clear();
+  this->tlmHistory_ParamArrayExt->clear();
+  this->tlmHistory_ParamStructExt->clear();
 }
 
 // ----------------------------------------------------------------------

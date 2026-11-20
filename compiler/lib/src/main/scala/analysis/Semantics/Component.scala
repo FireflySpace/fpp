@@ -288,12 +288,23 @@ case class Component(
             Left(SemanticError.MissingPort(loc, specMsg, portMsg))
           }
          else Right(())
+      def requireParamMirrorPorts = if (this.hasParameters) Result.map(
+        List(Telemetry, TimeGet),
+        (portKind: Ast.SpecPortInstance.SpecialKind) =>
+          this.specialPortMap.get(portKind) match {
+            case Some(_) => Right(())
+            case None =>
+              val loc = Locations.get(this.aNode._2.id)
+              Left(SemanticError.MissingPortForParamMirror(loc, s"${portKind.toString} port"))
+          }
+      ) else Right(())
       for {
         _ <- requirePorts(
           this.hasParameters,
           "parameter specifiers",
           List(ParamGet, ParamSet, CommandRecv, CommandReg, CommandResp)
         )
+        _ <- requireParamMirrorPorts
         _ <- requirePorts(
           this.hasCommands,
           "command specifiers",
@@ -472,8 +483,32 @@ case class Component(
   /** Complete a component definition */
   def complete: Result.Result[Component] = for {
     c <- this.constructPortMatchingList
+    _ <- c.checkNoDuplicateNames
+    c <- c.addImplicitTlmChannelsForParams
     _ <- c.checkValidity
   } yield c
+
+  /** For each parameter, add an identically named telemetry channel that
+   *  mirrors the parameter value. Params who explicitly name matching a channel
+   *  are required to match that channel's type to the param's. */
+  private def addImplicitTlmChannelsForParams: Result.Result[Component] =
+    Result.foldLeft (paramMap.toList.sortBy(_._1)) (this) {
+      case (c, (_, param)) =>
+        c.tlmChannelNameMap.get(param.getName) match {
+          case None =>
+            c.addTlmChannel(None, Component.makeImplicitTlmChannel(param))
+          case Some(existing) if existing.channelType == param.paramType =>
+            Right(c)
+          case Some(existing) =>
+            Left(
+              SemanticError.TypeMismatch(
+                existing.getLoc,
+                s"channel ${param.getName} mirrors parameter at " +
+                  s"${param.getLoc} but their types differ"
+              )
+            )
+        }
+    }
 
   /** Construct the port matching list */
   private def constructPortMatchingList: Result.Result[Component] =
@@ -540,6 +575,25 @@ case class Component(
 }
 
 object Component {
+
+  /** Build the implicit telemetry channel that mirrors a parameter. */
+  private def makeImplicitTlmChannel(param: Param): TlmChannel = {
+    val data = param.aNode._2.data
+    val spec = Ast.SpecTlmChannel(
+      data.name, data.typeName, None, None, None, Nil, Nil
+    )
+    val node = AstNode.create(spec)
+    // getLoc reads the location map; point it at the originating parameter.
+    Locations.put(node.id, param.getLoc)
+    TlmChannel(
+      (param.aNode._1, node, param.aNode._3),
+      param.paramType,
+      Ast.SpecTlmChannel.Always,
+      None,
+      Map(),
+      Map()
+    )
+  }
 
   /** A port matching */
   final case class PortMatching(

@@ -368,6 +368,15 @@
   "events" : [
   ],
   "telemetryChannels" : [
+    {
+      "name" : "I2.P",
+      "type" : {
+        "name" : "M.E1",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 768,
+      "telemetryUpdate" : "always"
+    }
   ],
   "records" : [
   ],

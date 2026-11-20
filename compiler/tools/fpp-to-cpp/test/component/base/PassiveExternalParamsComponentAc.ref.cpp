@@ -2490,6 +2490,176 @@ void PassiveExternalParamsComponentBase ::
 }
 
 // ----------------------------------------------------------------------
+// Telemetry serialized write
+// ----------------------------------------------------------------------
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite(
+      FwChanIdType id,
+      Fw::TlmBuffer& _tlmBuff,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    if (
+      this->isConnected_timeGetOut_OutputPort(0) &&
+      (_tlmTime ==  Fw::ZERO_TIME)
+    ) {
+      this->timeGetOut_out(0, _tlmTime);
+    }
+
+    FwChanIdType _id;
+    _id = this->getIdBase() + id;
+
+    this->tlmOut_out(
+      0,
+      _id,
+      _tlmTime,
+      _tlmBuff
+    );
+  }
+}
+
+// ----------------------------------------------------------------------
+// Telemetry write functions
+// ----------------------------------------------------------------------
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamI32Ext(
+      I32 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMI32EXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamF64Ext(
+      F64 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMF64EXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamStringExt(
+      const Fw::StringBase& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = arg.serializeTo(
+      _tlmBuff,
+      FW_MIN(static_cast<FwSizeType>(FW_TLM_STRING_MAX_SIZE), static_cast<FwSizeType>(FW_FIXED_LENGTH_STRING_SIZE))
+    );
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRINGEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamEnumExt(
+      const E& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMENUMEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamArrayExt(
+      const A& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMARRAYEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void PassiveExternalParamsComponentBase ::
+  tlmWrite_ParamStructExt(
+      const S& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRUCTEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+// ----------------------------------------------------------------------
 // Parameter hook functions
 // ----------------------------------------------------------------------
 
@@ -2497,6 +2667,31 @@ void PassiveExternalParamsComponentBase ::
   parameterUpdated(FwPrmIdType id)
 {
   // Do nothing by default
+}
+
+void PassiveExternalParamsComponentBase ::
+  parameterTelemeter(FwPrmIdType id)
+{
+  switch (id) {
+    case PARAMID_PARAMI32EXT:
+      this->tlmWrite_ParamI32Ext(this->paramGet_ParamI32Ext());
+      break;
+    case PARAMID_PARAMF64EXT:
+      this->tlmWrite_ParamF64Ext(this->paramGet_ParamF64Ext());
+      break;
+    case PARAMID_PARAMSTRINGEXT:
+      this->tlmWrite_ParamStringExt(this->paramGet_ParamStringExt());
+      break;
+    case PARAMID_PARAMENUMEXT:
+      this->tlmWrite_ParamEnumExt(this->paramGet_ParamEnumExt());
+      break;
+    case PARAMID_PARAMARRAYEXT:
+      this->tlmWrite_ParamArrayExt(this->paramGet_ParamArrayExt());
+      break;
+    case PARAMID_PARAMSTRUCTEXT:
+      this->tlmWrite_ParamStructExt(this->paramGet_ParamStructExt());
+      break;
+  }
 }
 
 void PassiveExternalParamsComponentBase ::
@@ -2516,6 +2711,7 @@ void PassiveExternalParamsComponentBase ::
     static_cast<FwAssertArgType>(id),
     static_cast<FwAssertArgType>(valid)
   );
+  this->parameterTelemeter(id);
   this->parameterUpdated(id);
 }
 
@@ -3164,6 +3360,30 @@ void PassiveExternalParamsComponentBase ::
   );
 }
 
+void PassiveExternalParamsComponentBase ::
+  tlmOut_out(
+      FwIndexType portNum,
+      FwChanIdType id,
+      Fw::Time& timeTag,
+      Fw::TlmBuffer& val
+  ) const
+{
+  FW_ASSERT(
+    (0 <= portNum) && (portNum < this->getNum_tlmOut_OutputPorts()),
+    static_cast<FwAssertArgType>(portNum)
+  );
+
+  FW_ASSERT(
+    this->m_tlmOut_OutputPort[portNum].isConnected(),
+    static_cast<FwAssertArgType>(portNum)
+  );
+  this->m_tlmOut_OutputPort[portNum].invoke(
+    id,
+    timeTag,
+    val
+  );
+}
+
 #endif
 
 // ----------------------------------------------------------------------
@@ -3197,6 +3417,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMI32EXT);
     this->parameterUpdated(PARAMID_PARAMI32EXT);
   }
   return _response;
@@ -3229,6 +3450,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMF64EXT);
     this->parameterUpdated(PARAMID_PARAMF64EXT);
   }
   return _response;
@@ -3261,6 +3483,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMSTRINGEXT);
     this->parameterUpdated(PARAMID_PARAMSTRINGEXT);
   }
   return _response;
@@ -3293,6 +3516,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMENUMEXT);
     this->parameterUpdated(PARAMID_PARAMENUMEXT);
   }
   return _response;
@@ -3325,6 +3549,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMARRAYEXT);
     this->parameterUpdated(PARAMID_PARAMARRAYEXT);
   }
   return _response;
@@ -3357,6 +3582,7 @@ Fw::CmdResponse PassiveExternalParamsComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMSTRUCTEXT);
     this->parameterUpdated(PARAMID_PARAMSTRUCTEXT);
   }
   return _response;

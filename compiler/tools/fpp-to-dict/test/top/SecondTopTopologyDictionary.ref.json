@@ -1142,6 +1142,57 @@
       "annotation" : "Telemetry channel of type U64"
     },
     {
+      "name" : "Module1.mySecondC1.Param1",
+      "type" : {
+        "name" : "Module1.S1",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 1283,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter (struct)"
+    },
+    {
+      "name" : "Module1.mySecondC1.Param2",
+      "type" : {
+        "name" : "Module1.U32x4",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 1284,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type array (with 4 U32 values)"
+    },
+    {
+      "name" : "Module1.mySecondC1.Param3",
+      "type" : {
+        "name" : "Module1.AliasT3",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 1285,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type string"
+    },
+    {
+      "name" : "Module1.mySecondC1.Param4",
+      "type" : {
+        "name" : "F32",
+        "kind" : "float",
+        "size" : 32
+      },
+      "id" : 1286,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type F32"
+    },
+    {
+      "name" : "Module1.mySecondC1.Param5",
+      "type" : {
+        "name" : "Module1.E1",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 1287,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type enum"
+    },
+    {
       "name" : "Module1.mySecondC2.TlmChannel1",
       "type" : {
         "name" : "U32",

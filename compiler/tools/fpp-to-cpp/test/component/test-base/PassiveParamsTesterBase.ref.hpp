@@ -219,6 +219,42 @@ class PassiveParamsTesterBase :
       Fw::CmdResponse response;
     };
 
+    //! A history entry for telemetry channel ParamU32
+    struct TlmEntry_ParamU32 {
+      Fw::Time timeTag;
+      U32 arg;
+    };
+
+    //! A history entry for telemetry channel ParamF64
+    struct TlmEntry_ParamF64 {
+      Fw::Time timeTag;
+      F64 arg;
+    };
+
+    //! A history entry for telemetry channel ParamString
+    struct TlmEntry_ParamString {
+      Fw::Time timeTag;
+      Fw::TlmString arg;
+    };
+
+    //! A history entry for telemetry channel ParamEnum
+    struct TlmEntry_ParamEnum {
+      Fw::Time timeTag;
+      E arg;
+    };
+
+    //! A history entry for telemetry channel ParamArray
+    struct TlmEntry_ParamArray {
+      Fw::Time timeTag;
+      A arg;
+    };
+
+    //! A history entry for telemetry channel ParamStruct
+    struct TlmEntry_ParamStruct {
+      Fw::Time timeTag;
+      S arg;
+    };
+
   public:
 
     // ----------------------------------------------------------------------
@@ -1087,6 +1123,55 @@ class PassiveParamsTesterBase :
   protected:
 
     // ----------------------------------------------------------------------
+    // Functions for testing telemetry
+    // ----------------------------------------------------------------------
+
+    //! Dispatch telemetry
+    void dispatchTlm(
+        FwChanIdType id, //!< The channel id
+        const Fw::Time& timeTag, //!< The time
+        Fw::TlmBuffer& val //!< The channel value
+    );
+
+    //! Handle channel ParamU32
+    void tlmInput_ParamU32(
+        const Fw::Time& timeTag, //!< The time
+        const U32 val //!< The channel value
+    );
+
+    //! Handle channel ParamF64
+    void tlmInput_ParamF64(
+        const Fw::Time& timeTag, //!< The time
+        const F64 val //!< The channel value
+    );
+
+    //! Handle channel ParamString
+    void tlmInput_ParamString(
+        const Fw::Time& timeTag, //!< The time
+        const Fw::StringBase& val //!< The channel value
+    );
+
+    //! Handle channel ParamEnum
+    void tlmInput_ParamEnum(
+        const Fw::Time& timeTag, //!< The time
+        const E& val //!< The channel value
+    );
+
+    //! Handle channel ParamArray
+    void tlmInput_ParamArray(
+        const Fw::Time& timeTag, //!< The time
+        const A& val //!< The channel value
+    );
+
+    //! Handle channel ParamStruct
+    void tlmInput_ParamStruct(
+        const Fw::Time& timeTag, //!< The time
+        const S& val //!< The channel value
+    );
+
+  protected:
+
+    // ----------------------------------------------------------------------
     // Functions to test parameters
     // ----------------------------------------------------------------------
 
@@ -1285,6 +1370,9 @@ class PassiveParamsTesterBase :
         const S& s //!< A struct
     );
 
+    //! Clear telemetry history
+    void clearTlm();
+
   private:
 
     // ----------------------------------------------------------------------
@@ -1328,6 +1416,15 @@ class PassiveParamsTesterBase :
         Fw::PassiveComponentBase* const callComp, //!< The component instance
         FwIndexType portNum, //!< The port number
         Fw::Time& time //!< Reference to Time object
+    );
+
+    //! Static function for port from_tlmOut
+    static void from_tlmOut_static(
+        Fw::PassiveComponentBase* const callComp, //!< The component instance
+        FwIndexType portNum, //!< The port number
+        FwChanIdType id, //!< Telemetry Channel ID
+        Fw::Time& timeTag, //!< Time Tag
+        Fw::TlmBuffer& val //!< Buffer containing serialized telemetry value
     );
 
     //! Static function for port from_noArgsOut
@@ -1448,6 +1545,27 @@ class PassiveParamsTesterBase :
 
     //! The command response history
     History<CmdResponse>* cmdResponseHistory;
+
+    //! The total number of telemetry inputs seen
+    U32 tlmSize;
+
+    //! The history of ParamU32 values
+    History<TlmEntry_ParamU32>* tlmHistory_ParamU32;
+
+    //! The history of ParamF64 values
+    History<TlmEntry_ParamF64>* tlmHistory_ParamF64;
+
+    //! The history of ParamString values
+    History<TlmEntry_ParamString>* tlmHistory_ParamString;
+
+    //! The history of ParamEnum values
+    History<TlmEntry_ParamEnum>* tlmHistory_ParamEnum;
+
+    //! The history of ParamArray values
+    History<TlmEntry_ParamArray>* tlmHistory_ParamArray;
+
+    //! The history of ParamStruct values
+    History<TlmEntry_ParamStruct>* tlmHistory_ParamStruct;
 
   private:
 

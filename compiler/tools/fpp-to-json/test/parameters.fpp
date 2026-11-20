@@ -23,6 +23,12 @@ passive component ParamOpcodes {
   @ Parameter set port
   param set port prmSetOut
 
+  @ Telemetry port
+  telemetry port tlmOut
+
+  @ Time get port
+  time get port timeGetOut
+
   # ----------------------------------------------------------------------
   # Parameters
   # ----------------------------------------------------------------------
@@ -62,4 +68,6 @@ module Fw {
   port Cmd
   port CmdReg
   port CmdResponse
+  port Tlm
+  port Time
 }

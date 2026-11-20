@@ -31,6 +31,7 @@
 #include "Fw/Prm/PrmString.hpp"
 #include "Fw/Time/TimePortAc.hpp"
 #include "Fw/Tlm/TlmPortAc.hpp"
+#include "Fw/Tlm/TlmString.hpp"
 #include "NoArgsAliasStringReturnPortAc.hpp"
 #include "NoArgsPortAc.hpp"
 #include "NoArgsReturnPortAc.hpp"
@@ -124,6 +125,16 @@ class PassiveParamsComponentBase :
       OPCODE_PARAMARRAY_SAVE = 0x35, //!< Opcode to save parameter ParamArray
       OPCODE_PARAMSTRUCT_SET = 0x40, //!< Opcode to set parameter ParamStruct
       OPCODE_PARAMSTRUCT_SAVE = 0x45, //!< Opcode to save parameter ParamStruct
+    };
+
+    //! Channel IDs
+    enum {
+      CHANNELID_PARAMU32 = 0x0, //!< Channel ID for ParamU32
+      CHANNELID_PARAMF64 = 0x1, //!< Channel ID for ParamF64
+      CHANNELID_PARAMSTRING = 0x2, //!< Channel ID for ParamString
+      CHANNELID_PARAMENUM = 0x3, //!< Channel ID for ParamEnum
+      CHANNELID_PARAMARRAY = 0x4, //!< Channel ID for ParamArray
+      CHANNELID_PARAMSTRUCT = 0x5, //!< Channel ID for ParamStruct
     };
 
     //! Parameter IDs
@@ -1235,6 +1246,77 @@ class PassiveParamsComponentBase :
   protected:
 
     // ----------------------------------------------------------------------
+    // Telemetry serialized write
+    // ----------------------------------------------------------------------
+
+    //! Write telemetry channel given its local id and serialized value.
+    //! Warning: This is a low level telemetry interface that does not guarentee channel type safety.
+    //!          It is up to the caller to make sure the serialized data matches the definition in the model.
+    //!          Update on change semantics are ignored, this telemetry is always written
+    void tlmWrite(
+        FwChanIdType id, //!< The channel id
+        Fw::TlmBuffer& _tlmBuff, //!< The serialized telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+  protected:
+
+    // ----------------------------------------------------------------------
+    // Telemetry write functions
+    // ----------------------------------------------------------------------
+
+    //! Write telemetry channel ParamU32
+    //!
+    //! A parameter with U32 data
+    //! Second line of annotation
+    void tlmWrite_ParamU32(
+        U32 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamF64
+    //!
+    //! A parameter with F64 data
+    void tlmWrite_ParamF64(
+        F64 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamString
+    //!
+    //! A parameter with string data and default value
+    void tlmWrite_ParamString(
+        const Fw::StringBase& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamEnum
+    //!
+    //! A parameter with enum data
+    void tlmWrite_ParamEnum(
+        const E& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamArray
+    //!
+    //! A parameter with array data, default value, and save opcode
+    void tlmWrite_ParamArray(
+        const A& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamStruct
+    //!
+    //! A parameter with struct data and set/save opcodes
+    void tlmWrite_ParamStruct(
+        const S& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+  protected:
+
+    // ----------------------------------------------------------------------
     // Parameter hook functions
     // ----------------------------------------------------------------------
 
@@ -1242,6 +1324,18 @@ class PassiveParamsComponentBase :
     //!
     //! This function does nothing by default. You may override it.
     virtual void parameterUpdated(
+        FwPrmIdType id //!< The parameter ID
+    );
+
+    //! \brief Called whenever a parameter is updated, to mirror it into telemetry
+    //!
+    //! Every parameter has an identically named telemetry channel. By
+    //! default this writes that channel with the parameter's current value.
+    //! It does not re-check validity: callers invoke it only once the
+    //! parameter is usable (the setters on a successful update, and
+    //! parameterLoaded after it asserts VALID or DEFAULT). You may
+    //! override it, for example to suppress or reshape the mirror.
+    virtual void parameterTelemeter(
         FwPrmIdType id //!< The parameter ID
     );
 
@@ -1579,6 +1673,14 @@ class PassiveParamsComponentBase :
     void timeGetOut_out(
         FwIndexType portNum, //!< The port number
         Fw::Time& time //!< Reference to Time object
+    ) const;
+
+    //! Invoke output port tlmOut
+    void tlmOut_out(
+        FwIndexType portNum, //!< The port number
+        FwChanIdType id, //!< Telemetry Channel ID
+        Fw::Time& timeTag, //!< Time Tag
+        Fw::TlmBuffer& val //!< Buffer containing serialized telemetry value
     ) const;
 
   private:
