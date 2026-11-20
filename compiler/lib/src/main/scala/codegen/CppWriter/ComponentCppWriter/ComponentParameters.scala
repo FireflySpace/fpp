@@ -325,21 +325,12 @@ case class ComponentParameters (
     CppDoc.Function.Virtual
   )
 
-  private def writeParamTelemeterCase(param: Param): List[Line] = {
-    val idConstantName = paramIdConstantName(param.getName)
-    val getterName = paramGetterName(param.getName)
-    val paramType = writeParamType(param.paramType, "Fw::ParamString")
+  private def writeParamTelemeterCase(param: Param): List[Line] =
     lines(
-      s"""|case $idConstantName: {
-          |  Fw::ParamValid _valid;
-          |  const $paramType _val = this->$getterName(_valid);
-          |  if ((_valid == Fw::ParamValid::VALID) || (_valid == Fw::ParamValid::DEFAULT)) {
-          |    this->tlmWrite_${param.getName}(_val);
-          |  }
-          |  break;
-          |}"""
+      s"""|case ${paramIdConstantName(param.getName)}:
+          |  this->tlmWrite_${param.getName}(this->${paramGetterName(param.getName)}());
+          |  break;"""
     )
-  }
 
   private def getParamVarForParam(param: Param) =
     val paramType = writeParamType(param.paramType, "Fw::ParamString")
