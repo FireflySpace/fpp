@@ -435,6 +435,49 @@
 #define ASSERT_CMD_RESPONSE(index, opCode, cmdSeq, response) \
   this->assertCmdResponse(__FILE__, __LINE__, index, opCode, cmdSeq, response)
 
+// ----------------------------------------------------------------------
+// Macros for telemetry history assertions
+// ----------------------------------------------------------------------
+
+#define ASSERT_TLM_SIZE(size) \
+  this->assertTlm_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamI32Ext_SIZE(size) \
+  this->assertTlm_ParamI32Ext_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamI32Ext(index, value) \
+  this->assertTlm_ParamI32Ext(__FILE__, __LINE__, index, value)
+
+#define ASSERT_TLM_ParamF64Ext_SIZE(size) \
+  this->assertTlm_ParamF64Ext_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamF64Ext(index, value) \
+  this->assertTlm_ParamF64Ext(__FILE__, __LINE__, index, value)
+
+#define ASSERT_TLM_ParamStringExt_SIZE(size) \
+  this->assertTlm_ParamStringExt_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamStringExt(index, value) \
+  this->assertTlm_ParamStringExt(__FILE__, __LINE__, index, value)
+
+#define ASSERT_TLM_ParamEnumExt_SIZE(size) \
+  this->assertTlm_ParamEnumExt_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamEnumExt(index, value) \
+  this->assertTlm_ParamEnumExt(__FILE__, __LINE__, index, value)
+
+#define ASSERT_TLM_ParamArrayExt_SIZE(size) \
+  this->assertTlm_ParamArrayExt_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamArrayExt(index, value) \
+  this->assertTlm_ParamArrayExt(__FILE__, __LINE__, index, value)
+
+#define ASSERT_TLM_ParamStructExt_SIZE(size) \
+  this->assertTlm_ParamStructExt_size(__FILE__, __LINE__, size)
+
+#define ASSERT_TLM_ParamStructExt(index, value) \
+  this->assertTlm_ParamStructExt(__FILE__, __LINE__, index, value)
+
 //! \class PassiveExternalParamsGTestBase
 //! \brief Auto-generated base for PassiveExternalParams component Google Test harness
 class PassiveExternalParamsGTestBase :
@@ -546,6 +589,109 @@ class PassiveExternalParamsGTestBase :
         FwOpcodeType opCode, //!< The opcode
         U32 cmdSeq, //!< The command sequence number
         Fw::CmdResponse response //!< The command response
+    ) const;
+
+  protected:
+
+    // ----------------------------------------------------------------------
+    // Telemetry
+    // ----------------------------------------------------------------------
+
+    //! Assert the size of telemetry history
+    void assertTlm_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamI32Ext
+    void assertTlm_ParamI32Ext_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamI32Ext
+    void assertTlm_ParamI32Ext(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const I32 val //!< The channel value
+    ) const;
+
+    //! Channel: ParamF64Ext
+    void assertTlm_ParamF64Ext_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamF64Ext
+    void assertTlm_ParamF64Ext(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const F64 val //!< The channel value
+    ) const;
+
+    //! Channel: ParamStringExt
+    void assertTlm_ParamStringExt_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamStringExt
+    void assertTlm_ParamStringExt(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const char* const val //!< The channel value
+    ) const;
+
+    //! Channel: ParamEnumExt
+    void assertTlm_ParamEnumExt_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamEnumExt
+    void assertTlm_ParamEnumExt(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const E& val //!< The channel value
+    ) const;
+
+    //! Channel: ParamArrayExt
+    void assertTlm_ParamArrayExt_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamArrayExt
+    void assertTlm_ParamArrayExt(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const A& val //!< The channel value
+    ) const;
+
+    //! Channel: ParamStructExt
+    void assertTlm_ParamStructExt_size(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 size //!< The asserted size
+    ) const;
+
+    //! Channel: ParamStructExt
+    void assertTlm_ParamStructExt(
+        const char* const __callSiteFileName, //!< The name of the file containing the call site
+        const U32 __callSiteLineNumber, //!< The line number of the call site
+        const U32 __index, //!< The index
+        const S& val //!< The channel value
     ) const;
 
 };

@@ -1142,6 +1142,57 @@
       "annotation" : "Telemetry channel of type U64"
     },
     {
+      "name" : "Module1.myFirstC1.Param1",
+      "type" : {
+        "name" : "Module1.S1",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 771,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter (struct)"
+    },
+    {
+      "name" : "Module1.myFirstC1.Param2",
+      "type" : {
+        "name" : "Module1.U32x4",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 772,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type array (with 4 U32 values)"
+    },
+    {
+      "name" : "Module1.myFirstC1.Param3",
+      "type" : {
+        "name" : "Module1.AliasT3",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 773,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type string"
+    },
+    {
+      "name" : "Module1.myFirstC1.Param4",
+      "type" : {
+        "name" : "F32",
+        "kind" : "float",
+        "size" : 32
+      },
+      "id" : 774,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type F32"
+    },
+    {
+      "name" : "Module1.myFirstC1.Param5",
+      "type" : {
+        "name" : "Module1.E1",
+        "kind" : "qualifiedIdentifier"
+      },
+      "id" : 775,
+      "telemetryUpdate" : "always",
+      "annotation" : "Parameter of type enum"
+    },
+    {
       "name" : "Module1.myFirstC2.TlmChannel1",
       "type" : {
         "name" : "U32",
@@ -1264,6 +1315,11 @@
         }
       ],
       "omitted" : [
+        "Module1.myFirstC1.Param1",
+        "Module1.myFirstC1.Param2",
+        "Module1.myFirstC1.Param3",
+        "Module1.myFirstC1.Param4",
+        "Module1.myFirstC1.Param5",
         "Module1.myFirstC1.TlmChannel3",
         "Module1.myFirstC2.TlmChannel2",
         "Module1.myFirstC2.TlmChannel3"

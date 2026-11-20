@@ -20,6 +20,10 @@ module M {
         param get port prmGetOut
 
         param set port prmSetOut
+
+        telemetry port tlmOut
+
+        time get port timeGetOut
     }
 
     instance I1: C base id 0x100

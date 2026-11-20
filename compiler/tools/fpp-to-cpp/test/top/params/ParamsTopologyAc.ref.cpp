@@ -250,6 +250,70 @@ namespace M {
     return result;
   }
 
+  bool CComponentBase::isConnected_timeGetOut_OutputPort(FwIndexType portNum) const {
+    FW_ASSERT(
+      (0 <= portNum) && (portNum < NUM_TIMEGETOUT_OUTPUT_PORTS),
+      static_cast<FwAssertArgType>(portNum),
+      static_cast<FwAssertArgType>(NUM_TIMEGETOUT_OUTPUT_PORTS)
+    );
+    bool result = false;
+    const auto instance = this->getInstance();
+    switch (instance) {
+      default:
+#ifdef FW_STRICT_ASSERTIONS
+        FW_ASSERT(false, static_cast<FwAssertArgType>(instance));
+        break;
+#else
+        // Fall through
+#endif
+      case ::M::InstanceIds::M_c1:
+        switch (portNum) {
+          default:
+            break;
+        }
+        break;
+      case ::M::InstanceIds::M_c2:
+        switch (portNum) {
+          default:
+            break;
+        }
+        break;
+    }
+    return result;
+  }
+
+  bool CComponentBase::isConnected_tlmOut_OutputPort(FwIndexType portNum) const {
+    FW_ASSERT(
+      (0 <= portNum) && (portNum < NUM_TLMOUT_OUTPUT_PORTS),
+      static_cast<FwAssertArgType>(portNum),
+      static_cast<FwAssertArgType>(NUM_TLMOUT_OUTPUT_PORTS)
+    );
+    bool result = false;
+    const auto instance = this->getInstance();
+    switch (instance) {
+      default:
+#ifdef FW_STRICT_ASSERTIONS
+        FW_ASSERT(false, static_cast<FwAssertArgType>(instance));
+        break;
+#else
+        // Fall through
+#endif
+      case ::M::InstanceIds::M_c1:
+        switch (portNum) {
+          default:
+            break;
+        }
+        break;
+      case ::M::InstanceIds::M_c2:
+        switch (portNum) {
+          default:
+            break;
+        }
+        break;
+    }
+    return result;
+  }
+
   void CComponentBase::cmdRegOut_out(
       FwIndexType portNum,
       FwOpcodeType opCode
@@ -369,6 +433,78 @@ namespace M {
       (0 <= portNum) && (portNum < NUM_PRMSETOUT_OUTPUT_PORTS),
       static_cast<FwAssertArgType>(portNum),
       static_cast<FwAssertArgType>(NUM_PRMSETOUT_OUTPUT_PORTS)
+    );
+    const auto instance = this->getInstance();
+    switch (instance) {
+      default:
+#ifdef FW_STRICT_ASSERTIONS
+        FW_ASSERT(false, static_cast<FwAssertArgType>(instance));
+        break;
+#else
+        // Fall through
+#endif
+      case ::M::InstanceIds::M_c1:
+        switch (portNum) {
+          default:
+            FW_ASSERT(false, static_cast<FwAssertArgType>(portNum));
+            break;
+        }
+        break;
+      case ::M::InstanceIds::M_c2:
+        switch (portNum) {
+          default:
+            FW_ASSERT(false, static_cast<FwAssertArgType>(portNum));
+            break;
+        }
+        break;
+    }
+  }
+
+  void CComponentBase::timeGetOut_out(
+      FwIndexType portNum,
+      Fw::Time& time
+  ) const {
+    FW_ASSERT(
+      (0 <= portNum) && (portNum < NUM_TIMEGETOUT_OUTPUT_PORTS),
+      static_cast<FwAssertArgType>(portNum),
+      static_cast<FwAssertArgType>(NUM_TIMEGETOUT_OUTPUT_PORTS)
+    );
+    const auto instance = this->getInstance();
+    switch (instance) {
+      default:
+#ifdef FW_STRICT_ASSERTIONS
+        FW_ASSERT(false, static_cast<FwAssertArgType>(instance));
+        break;
+#else
+        // Fall through
+#endif
+      case ::M::InstanceIds::M_c1:
+        switch (portNum) {
+          default:
+            FW_ASSERT(false, static_cast<FwAssertArgType>(portNum));
+            break;
+        }
+        break;
+      case ::M::InstanceIds::M_c2:
+        switch (portNum) {
+          default:
+            FW_ASSERT(false, static_cast<FwAssertArgType>(portNum));
+            break;
+        }
+        break;
+    }
+  }
+
+  void CComponentBase::tlmOut_out(
+      FwIndexType portNum,
+      FwChanIdType id,
+      Fw::Time& timeTag,
+      Fw::TlmBuffer& val
+  ) const {
+    FW_ASSERT(
+      (0 <= portNum) && (portNum < NUM_TLMOUT_OUTPUT_PORTS),
+      static_cast<FwAssertArgType>(portNum),
+      static_cast<FwAssertArgType>(NUM_TLMOUT_OUTPUT_PORTS)
     );
     const auto instance = this->getInstance();
     switch (instance) {

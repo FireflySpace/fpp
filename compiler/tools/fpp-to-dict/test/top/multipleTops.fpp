@@ -313,6 +313,11 @@ module Module1 {
       Module1.myFirstC2.TlmChannel2
       Module1.myFirstC1.TlmChannel3
       Module1.myFirstC2.TlmChannel3
+      Module1.myFirstC1.Param1
+      Module1.myFirstC1.Param2
+      Module1.myFirstC1.Param3
+      Module1.myFirstC1.Param4
+      Module1.myFirstC1.Param5
     }
   }
 

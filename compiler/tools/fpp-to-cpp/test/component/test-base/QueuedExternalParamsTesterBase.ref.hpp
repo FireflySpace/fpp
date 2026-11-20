@@ -220,6 +220,42 @@ class QueuedExternalParamsTesterBase :
       Fw::CmdResponse response;
     };
 
+    //! A history entry for telemetry channel ParamI32Ext
+    struct TlmEntry_ParamI32Ext {
+      Fw::Time timeTag;
+      I32 arg;
+    };
+
+    //! A history entry for telemetry channel ParamF64Ext
+    struct TlmEntry_ParamF64Ext {
+      Fw::Time timeTag;
+      F64 arg;
+    };
+
+    //! A history entry for telemetry channel ParamStringExt
+    struct TlmEntry_ParamStringExt {
+      Fw::Time timeTag;
+      Fw::TlmString arg;
+    };
+
+    //! A history entry for telemetry channel ParamEnumExt
+    struct TlmEntry_ParamEnumExt {
+      Fw::Time timeTag;
+      E arg;
+    };
+
+    //! A history entry for telemetry channel ParamArrayExt
+    struct TlmEntry_ParamArrayExt {
+      Fw::Time timeTag;
+      A arg;
+    };
+
+    //! A history entry for telemetry channel ParamStructExt
+    struct TlmEntry_ParamStructExt {
+      Fw::Time timeTag;
+      S arg;
+    };
+
     //! External Parameter Delegate
     class QueuedExternalParamsComponentBaseParamExternalDelegate :
       public Fw::ParamExternalDelegate
@@ -1362,6 +1398,55 @@ class QueuedExternalParamsTesterBase :
   protected:
 
     // ----------------------------------------------------------------------
+    // Functions for testing telemetry
+    // ----------------------------------------------------------------------
+
+    //! Dispatch telemetry
+    void dispatchTlm(
+        FwChanIdType id, //!< The channel id
+        const Fw::Time& timeTag, //!< The time
+        Fw::TlmBuffer& val //!< The channel value
+    );
+
+    //! Handle channel ParamI32Ext
+    void tlmInput_ParamI32Ext(
+        const Fw::Time& timeTag, //!< The time
+        const I32 val //!< The channel value
+    );
+
+    //! Handle channel ParamF64Ext
+    void tlmInput_ParamF64Ext(
+        const Fw::Time& timeTag, //!< The time
+        const F64 val //!< The channel value
+    );
+
+    //! Handle channel ParamStringExt
+    void tlmInput_ParamStringExt(
+        const Fw::Time& timeTag, //!< The time
+        const Fw::StringBase& val //!< The channel value
+    );
+
+    //! Handle channel ParamEnumExt
+    void tlmInput_ParamEnumExt(
+        const Fw::Time& timeTag, //!< The time
+        const E& val //!< The channel value
+    );
+
+    //! Handle channel ParamArrayExt
+    void tlmInput_ParamArrayExt(
+        const Fw::Time& timeTag, //!< The time
+        const A& val //!< The channel value
+    );
+
+    //! Handle channel ParamStructExt
+    void tlmInput_ParamStructExt(
+        const Fw::Time& timeTag, //!< The time
+        const S& val //!< The channel value
+    );
+
+  protected:
+
+    // ----------------------------------------------------------------------
     // Functions to test parameters
     // ----------------------------------------------------------------------
 
@@ -1560,6 +1645,9 @@ class QueuedExternalParamsTesterBase :
         const S& s //!< A struct
     );
 
+    //! Clear telemetry history
+    void clearTlm();
+
   private:
 
     // ----------------------------------------------------------------------
@@ -1603,6 +1691,15 @@ class QueuedExternalParamsTesterBase :
         Fw::PassiveComponentBase* const callComp, //!< The component instance
         FwIndexType portNum, //!< The port number
         Fw::Time& time //!< Reference to Time object
+    );
+
+    //! Static function for port from_tlmOut
+    static void from_tlmOut_static(
+        Fw::PassiveComponentBase* const callComp, //!< The component instance
+        FwIndexType portNum, //!< The port number
+        FwChanIdType id, //!< Telemetry Channel ID
+        Fw::Time& timeTag, //!< Time Tag
+        Fw::TlmBuffer& val //!< Buffer containing serialized telemetry value
     );
 
     //! Static function for port from_noArgsOut
@@ -1723,6 +1820,27 @@ class QueuedExternalParamsTesterBase :
 
     //! The command response history
     History<CmdResponse>* cmdResponseHistory;
+
+    //! The total number of telemetry inputs seen
+    U32 tlmSize;
+
+    //! The history of ParamI32Ext values
+    History<TlmEntry_ParamI32Ext>* tlmHistory_ParamI32Ext;
+
+    //! The history of ParamF64Ext values
+    History<TlmEntry_ParamF64Ext>* tlmHistory_ParamF64Ext;
+
+    //! The history of ParamStringExt values
+    History<TlmEntry_ParamStringExt>* tlmHistory_ParamStringExt;
+
+    //! The history of ParamEnumExt values
+    History<TlmEntry_ParamEnumExt>* tlmHistory_ParamEnumExt;
+
+    //! The history of ParamArrayExt values
+    History<TlmEntry_ParamArrayExt>* tlmHistory_ParamArrayExt;
+
+    //! The history of ParamStructExt values
+    History<TlmEntry_ParamStructExt>* tlmHistory_ParamStructExt;
 
   private:
 

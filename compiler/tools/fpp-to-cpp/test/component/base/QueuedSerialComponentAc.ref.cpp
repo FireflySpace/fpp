@@ -7022,6 +7022,276 @@ void QueuedSerialComponentBase ::
   }
 }
 
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamU32(
+      U32 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMU32,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamF64(
+      F64 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMF64,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamString(
+      const Fw::StringBase& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = arg.serializeTo(
+      _tlmBuff,
+      FW_MIN(static_cast<FwSizeType>(FW_TLM_STRING_MAX_SIZE), static_cast<FwSizeType>(FW_FIXED_LENGTH_STRING_SIZE))
+    );
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRING,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamEnum(
+      const E& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMENUM,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamArray(
+      const A& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMARRAY,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamStruct(
+      const S& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRUCT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamI32Ext(
+      I32 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMI32EXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamF64Ext(
+      F64 arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMF64EXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamStringExt(
+      const Fw::StringBase& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = arg.serializeTo(
+      _tlmBuff,
+      FW_MIN(static_cast<FwSizeType>(FW_TLM_STRING_MAX_SIZE), static_cast<FwSizeType>(FW_FIXED_LENGTH_STRING_SIZE))
+    );
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRINGEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamEnumExt(
+      const E& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMENUMEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamArrayExt(
+      const A& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMARRAYEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
+void QueuedSerialComponentBase ::
+  tlmWrite_ParamStructExt(
+      const S& arg,
+      Fw::Time _tlmTime
+  ) const
+{
+  if (this->isConnected_tlmOut_OutputPort(0)) {
+    Fw::TlmBuffer _tlmBuff;
+    Fw::SerializeStatus _stat = _tlmBuff.serializeFrom(arg);
+    FW_ASSERT(
+      _stat == Fw::FW_SERIALIZE_OK,
+      static_cast<FwAssertArgType>(_stat)
+    );
+
+    this->tlmWrite(
+      CHANNELID_PARAMSTRUCTEXT,
+      _tlmBuff,
+      _tlmTime
+    );
+  }
+}
+
 // ----------------------------------------------------------------------
 // Parameter hook functions
 // ----------------------------------------------------------------------
@@ -7030,6 +7300,49 @@ void QueuedSerialComponentBase ::
   parameterUpdated(FwPrmIdType id)
 {
   // Do nothing by default
+}
+
+void QueuedSerialComponentBase ::
+  parameterTelemeter(FwPrmIdType id)
+{
+  switch (id) {
+    case PARAMID_PARAMU32:
+      this->tlmWrite_ParamU32(this->paramGet_ParamU32());
+      break;
+    case PARAMID_PARAMF64:
+      this->tlmWrite_ParamF64(this->paramGet_ParamF64());
+      break;
+    case PARAMID_PARAMSTRING:
+      this->tlmWrite_ParamString(this->paramGet_ParamString());
+      break;
+    case PARAMID_PARAMENUM:
+      this->tlmWrite_ParamEnum(this->paramGet_ParamEnum());
+      break;
+    case PARAMID_PARAMARRAY:
+      this->tlmWrite_ParamArray(this->paramGet_ParamArray());
+      break;
+    case PARAMID_PARAMSTRUCT:
+      this->tlmWrite_ParamStruct(this->paramGet_ParamStruct());
+      break;
+    case PARAMID_PARAMI32EXT:
+      this->tlmWrite_ParamI32Ext(this->paramGet_ParamI32Ext());
+      break;
+    case PARAMID_PARAMF64EXT:
+      this->tlmWrite_ParamF64Ext(this->paramGet_ParamF64Ext());
+      break;
+    case PARAMID_PARAMSTRINGEXT:
+      this->tlmWrite_ParamStringExt(this->paramGet_ParamStringExt());
+      break;
+    case PARAMID_PARAMENUMEXT:
+      this->tlmWrite_ParamEnumExt(this->paramGet_ParamEnumExt());
+      break;
+    case PARAMID_PARAMARRAYEXT:
+      this->tlmWrite_ParamArrayExt(this->paramGet_ParamArrayExt());
+      break;
+    case PARAMID_PARAMSTRUCTEXT:
+      this->tlmWrite_ParamStructExt(this->paramGet_ParamStructExt());
+      break;
+  }
 }
 
 void QueuedSerialComponentBase ::
@@ -7049,6 +7362,7 @@ void QueuedSerialComponentBase ::
     static_cast<FwAssertArgType>(id),
     static_cast<FwAssertArgType>(valid)
   );
+  this->parameterTelemeter(id);
   this->parameterUpdated(id);
 }
 
@@ -9140,6 +9454,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMU32);
   this->parameterUpdated(PARAMID_PARAMU32);
   return Fw::CmdResponse::OK;
 }
@@ -9161,6 +9476,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMF64);
   this->parameterUpdated(PARAMID_PARAMF64);
   return Fw::CmdResponse::OK;
 }
@@ -9182,6 +9498,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMSTRING);
   this->parameterUpdated(PARAMID_PARAMSTRING);
   return Fw::CmdResponse::OK;
 }
@@ -9203,6 +9520,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMENUM);
   this->parameterUpdated(PARAMID_PARAMENUM);
   return Fw::CmdResponse::OK;
 }
@@ -9224,6 +9542,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMARRAY);
   this->parameterUpdated(PARAMID_PARAMARRAY);
   return Fw::CmdResponse::OK;
 }
@@ -9245,6 +9564,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
   }
 
   // Call notifier
+  this->parameterTelemeter(PARAMID_PARAMSTRUCT);
   this->parameterUpdated(PARAMID_PARAMSTRUCT);
   return Fw::CmdResponse::OK;
 }
@@ -9276,6 +9596,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMI32EXT);
     this->parameterUpdated(PARAMID_PARAMI32EXT);
   }
   return _response;
@@ -9308,6 +9629,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMF64EXT);
     this->parameterUpdated(PARAMID_PARAMF64EXT);
   }
   return _response;
@@ -9340,6 +9662,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMSTRINGEXT);
     this->parameterUpdated(PARAMID_PARAMSTRINGEXT);
   }
   return _response;
@@ -9372,6 +9695,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMENUMEXT);
     this->parameterUpdated(PARAMID_PARAMENUMEXT);
   }
   return _response;
@@ -9404,6 +9728,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMARRAYEXT);
     this->parameterUpdated(PARAMID_PARAMARRAYEXT);
   }
   return _response;
@@ -9436,6 +9761,7 @@ Fw::CmdResponse QueuedSerialComponentBase ::
 
   // Call notifier
   if (_response == Fw::CmdResponse::OK) {
+    this->parameterTelemeter(PARAMID_PARAMSTRUCTEXT);
     this->parameterUpdated(PARAMID_PARAMSTRUCTEXT);
   }
   return _response;

@@ -139,6 +139,30 @@ void PassiveParamsTesterBase ::
 #endif
   }
 
+  // Connect input port tlmOut
+  for (
+    FwIndexType port = 0;
+    port < static_cast<FwIndexType>(this->getNum_from_tlmOut());
+    port++
+  ) {
+    this->m_from_tlmOut[port].init();
+    this->m_from_tlmOut[port].addCallComp(
+      this,
+      from_tlmOut_static
+    );
+    this->m_from_tlmOut[port].setPortNum(port);
+
+#if FW_OBJECT_NAMES == 1
+    Fw::ObjectName portName;
+    portName.format(
+      "%s_from_tlmOut[%" PRI_FwIndexType "]",
+      this->m_objName.toChar(),
+      port
+    );
+    this->m_from_tlmOut[port].setObjName(portName.toChar());
+#endif
+  }
+
   // Connect input port noArgsOut
   for (
     FwIndexType port = 0;
@@ -1003,6 +1027,14 @@ PassiveParamsTesterBase ::
   // Initialize command history
   this->cmdResponseHistory = new History<CmdResponse>(maxHistorySize);
 
+  // Initialize telemetry histories
+  this->tlmHistory_ParamU32 = new History<TlmEntry_ParamU32>(maxHistorySize);
+  this->tlmHistory_ParamF64 = new History<TlmEntry_ParamF64>(maxHistorySize);
+  this->tlmHistory_ParamString = new History<TlmEntry_ParamString>(maxHistorySize);
+  this->tlmHistory_ParamEnum = new History<TlmEntry_ParamEnum>(maxHistorySize);
+  this->tlmHistory_ParamArray = new History<TlmEntry_ParamArray>(maxHistorySize);
+  this->tlmHistory_ParamStruct = new History<TlmEntry_ParamStruct>(maxHistorySize);
+
   // Clear history
   this->clearHistory();
 }
@@ -1019,6 +1051,14 @@ PassiveParamsTesterBase ::
 
   // Destroy command history
   delete this->cmdResponseHistory;
+
+  // Destroy telemetry histories
+  delete this->tlmHistory_ParamU32;
+  delete this->tlmHistory_ParamF64;
+  delete this->tlmHistory_ParamString;
+  delete this->tlmHistory_ParamEnum;
+  delete this->tlmHistory_ParamArray;
+  delete this->tlmHistory_ParamStruct;
 }
 
 // ----------------------------------------------------------------------
@@ -1767,6 +1807,178 @@ void PassiveParamsTesterBase ::
 }
 
 // ----------------------------------------------------------------------
+// Functions for testing telemetry
+// ----------------------------------------------------------------------
+
+void PassiveParamsTesterBase ::
+  dispatchTlm(
+      FwChanIdType id,
+      const Fw::Time& timeTag,
+      Fw::TlmBuffer& val
+  )
+{
+  val.resetDeser();
+
+  const U32 idBase = this->getIdBase();
+  FW_ASSERT(
+    id >= idBase,
+    static_cast<FwAssertArgType>(id),
+    static_cast<FwAssertArgType>(idBase)
+  );
+
+  switch (id - idBase) {
+    case PassiveParamsComponentBase::CHANNELID_PARAMU32: {
+      U32 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamU32: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamU32(timeTag, arg);
+      break;
+    }
+
+    case PassiveParamsComponentBase::CHANNELID_PARAMF64: {
+      F64 arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamF64: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamF64(timeTag, arg);
+      break;
+    }
+
+    case PassiveParamsComponentBase::CHANNELID_PARAMSTRING: {
+      Fw::TlmString arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamString: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamString(timeTag, arg);
+      break;
+    }
+
+    case PassiveParamsComponentBase::CHANNELID_PARAMENUM: {
+      E arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamEnum: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamEnum(timeTag, arg);
+      break;
+    }
+
+    case PassiveParamsComponentBase::CHANNELID_PARAMARRAY: {
+      A arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamArray: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamArray(timeTag, arg);
+      break;
+    }
+
+    case PassiveParamsComponentBase::CHANNELID_PARAMSTRUCT: {
+      S arg;
+      const Fw::SerializeStatus _status = val.deserializeTo(arg);
+
+      if (_status != Fw::FW_SERIALIZE_OK) {
+        printf("Error deserializing ParamStruct: %d\n", _status);
+        return;
+      }
+
+      this->tlmInput_ParamStruct(timeTag, arg);
+      break;
+    }
+
+    default: {
+      FW_ASSERT(false, static_cast<FwAssertArgType>(id));
+      break;
+    }
+  }
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamU32(
+      const Fw::Time& timeTag,
+      const U32 val
+  )
+{
+  TlmEntry_ParamU32 e = { timeTag, val };
+  this->tlmHistory_ParamU32->push_back(e);
+  this->tlmSize++;
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamF64(
+      const Fw::Time& timeTag,
+      const F64 val
+  )
+{
+  TlmEntry_ParamF64 e = { timeTag, val };
+  this->tlmHistory_ParamF64->push_back(e);
+  this->tlmSize++;
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamString(
+      const Fw::Time& timeTag,
+      const Fw::StringBase& val
+  )
+{
+  TlmEntry_ParamString e = { timeTag, val };
+  this->tlmHistory_ParamString->push_back(e);
+  this->tlmSize++;
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamEnum(
+      const Fw::Time& timeTag,
+      const E& val
+  )
+{
+  TlmEntry_ParamEnum e = { timeTag, val };
+  this->tlmHistory_ParamEnum->push_back(e);
+  this->tlmSize++;
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamArray(
+      const Fw::Time& timeTag,
+      const A& val
+  )
+{
+  TlmEntry_ParamArray e = { timeTag, val };
+  this->tlmHistory_ParamArray->push_back(e);
+  this->tlmSize++;
+}
+
+void PassiveParamsTesterBase ::
+  tlmInput_ParamStruct(
+      const Fw::Time& timeTag,
+      const S& val
+  )
+{
+  TlmEntry_ParamStruct e = { timeTag, val };
+  this->tlmHistory_ParamStruct->push_back(e);
+  this->tlmSize++;
+}
+
+// ----------------------------------------------------------------------
 // Functions to test parameters
 // ----------------------------------------------------------------------
 
@@ -2143,6 +2355,7 @@ void PassiveParamsTesterBase ::
 {
   this->clearFromPortHistory();
   this->cmdResponseHistory->clear();
+  this->clearTlm();
 }
 
 void PassiveParamsTesterBase ::
@@ -2293,6 +2506,18 @@ void PassiveParamsTesterBase ::
   _e.s = s;
   this->fromPortHistory_typedReturnOut->push_back(_e);
   this->fromPortHistorySize++;
+}
+
+void PassiveParamsTesterBase ::
+  clearTlm()
+{
+  this->tlmSize = 0;
+  this->tlmHistory_ParamU32->clear();
+  this->tlmHistory_ParamF64->clear();
+  this->tlmHistory_ParamString->clear();
+  this->tlmHistory_ParamEnum->clear();
+  this->tlmHistory_ParamArray->clear();
+  this->tlmHistory_ParamStruct->clear();
 }
 
 // ----------------------------------------------------------------------
@@ -2531,6 +2756,19 @@ void PassiveParamsTesterBase ::
 {
   PassiveParamsTesterBase* _testerBase = static_cast<PassiveParamsTesterBase*>(callComp);
   time = _testerBase->m_testTime;
+}
+
+void PassiveParamsTesterBase ::
+  from_tlmOut_static(
+      Fw::PassiveComponentBase* const callComp,
+      FwIndexType portNum,
+      FwChanIdType id,
+      Fw::Time& timeTag,
+      Fw::TlmBuffer& val
+  )
+{
+  PassiveParamsTesterBase* _testerBase = static_cast<PassiveParamsTesterBase*>(callComp);
+  _testerBase->dispatchTlm(id, timeTag, val);
 }
 
 void PassiveParamsTesterBase ::

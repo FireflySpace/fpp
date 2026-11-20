@@ -212,6 +212,64 @@
                       ],
                       [
                         [
+                          "Telemetry port"
+                        ],
+                        {
+                          "SpecPortInstance" : {
+                            "node" : {
+                              "AstNode" : {
+                                "data" : {
+                                  "Special" : {
+                                    "inputKind" : "None",
+                                    "kind" : {
+                                      "Telemetry" : {
+                                        
+                                      }
+                                    },
+                                    "name" : "tlmOut",
+                                    "priority" : "None",
+                                    "queueFull" : "None"
+                                  }
+                                },
+                                "id" : 8
+                              }
+                            }
+                          }
+                        },
+                        [
+                        ]
+                      ],
+                      [
+                        [
+                          "Time get port"
+                        ],
+                        {
+                          "SpecPortInstance" : {
+                            "node" : {
+                              "AstNode" : {
+                                "data" : {
+                                  "Special" : {
+                                    "inputKind" : "None",
+                                    "kind" : {
+                                      "TimeGet" : {
+                                        
+                                      }
+                                    },
+                                    "name" : "timeGetOut",
+                                    "priority" : "None",
+                                    "queueFull" : "None"
+                                  }
+                                },
+                                "id" : 9
+                              }
+                            }
+                          }
+                        },
+                        [
+                        ]
+                      ],
+                      [
+                        [
                           "Parameter 1",
                           "Its implied set opcode is 0x00",
                           "Its implied save opcode is 0x01"
@@ -233,7 +291,7 @@
                                           }
                                         }
                                       },
-                                      "id" : 8
+                                      "id" : 10
                                     }
                                   },
                                   "default" : {
@@ -244,7 +302,7 @@
                                             "value" : "1"
                                           }
                                         },
-                                        "id" : 9
+                                        "id" : 11
                                       }
                                     }
                                   },
@@ -253,7 +311,7 @@
                                   "saveOpcode" : "None",
                                   "isExternal" : false
                                 },
-                                "id" : 10
+                                "id" : 12
                               }
                             }
                           }
@@ -284,7 +342,7 @@
                                           }
                                         }
                                       },
-                                      "id" : 11
+                                      "id" : 13
                                     }
                                   },
                                   "default" : {
@@ -295,7 +353,7 @@
                                             "value" : "2.0"
                                           }
                                         },
-                                        "id" : 12
+                                        "id" : 14
                                       }
                                     }
                                   },
@@ -307,7 +365,7 @@
                                             "value" : "0x10"
                                           }
                                         },
-                                        "id" : 13
+                                        "id" : 15
                                       }
                                     }
                                   },
@@ -319,7 +377,7 @@
                                             "value" : "0x10"
                                           }
                                         },
-                                        "id" : 14
+                                        "id" : 16
                                       }
                                     }
                                   },
@@ -331,13 +389,13 @@
                                             "value" : "0x11"
                                           }
                                         },
-                                        "id" : 15
+                                        "id" : 17
                                       }
                                     }
                                   },
                                   "isExternal" : false
                                 },
-                                "id" : 16
+                                "id" : 18
                               }
                             }
                           }
@@ -368,12 +426,12 @@
                                                   "name" : "F64x3"
                                                 }
                                               },
-                                              "id" : 18
+                                              "id" : 20
                                             }
                                           }
                                         }
                                       },
-                                      "id" : 19
+                                      "id" : 21
                                     }
                                   },
                                   "default" : {
@@ -389,7 +447,7 @@
                                                       "value" : "1.0"
                                                     }
                                                   },
-                                                  "id" : 20
+                                                  "id" : 22
                                                 }
                                               },
                                               {
@@ -399,7 +457,7 @@
                                                       "value" : "2.0"
                                                     }
                                                   },
-                                                  "id" : 21
+                                                  "id" : 23
                                                 }
                                               },
                                               {
@@ -409,13 +467,13 @@
                                                       "value" : "3.0"
                                                     }
                                                   },
-                                                  "id" : 22
+                                                  "id" : 24
                                                 }
                                               }
                                             ]
                                           }
                                         },
-                                        "id" : 23
+                                        "id" : 25
                                       }
                                     }
                                   },
@@ -429,13 +487,13 @@
                                             "value" : "0x20"
                                           }
                                         },
-                                        "id" : 24
+                                        "id" : 26
                                       }
                                     }
                                   },
                                   "isExternal" : false
                                 },
-                                "id" : 25
+                                "id" : 27
                               }
                             }
                           }
@@ -466,7 +524,7 @@
                                           }
                                         }
                                       },
-                                      "id" : 32
+                                      "id" : 34
                                     }
                                   },
                                   "default" : {
@@ -477,7 +535,7 @@
                                             "value" : "42"
                                           }
                                         },
-                                        "id" : 33
+                                        "id" : 35
                                       }
                                     }
                                   },
@@ -486,7 +544,7 @@
                                   "saveOpcode" : "None",
                                   "isExternal" : true
                                 },
-                                "id" : 34
+                                "id" : 36
                               }
                             }
                           }
@@ -496,7 +554,7 @@
                       ]
                     ]
                   },
-                  "id" : 35
+                  "id" : 37
                 }
               }
             }
@@ -527,7 +585,7 @@
                                   ],
                                   "returnType" : "None"
                                 },
-                                "id" : 36
+                                "id" : 38
                               }
                             }
                           }
@@ -548,7 +606,7 @@
                                   ],
                                   "returnType" : "None"
                                 },
-                                "id" : 37
+                                "id" : 39
                               }
                             }
                           }
@@ -569,7 +627,7 @@
                                   ],
                                   "returnType" : "None"
                                 },
-                                "id" : 38
+                                "id" : 40
                               }
                             }
                           }
@@ -590,7 +648,7 @@
                                   ],
                                   "returnType" : "None"
                                 },
-                                "id" : 39
+                                "id" : 41
                               }
                             }
                           }
@@ -618,10 +676,52 @@
                         },
                         [
                         ]
+                      ],
+                      [
+                        [
+                        ],
+                        {
+                          "DefPort" : {
+                            "node" : {
+                              "AstNode" : {
+                                "data" : {
+                                  "name" : "Tlm",
+                                  "params" : [
+                                  ],
+                                  "returnType" : "None"
+                                },
+                                "id" : 43
+                              }
+                            }
+                          }
+                        },
+                        [
+                        ]
+                      ],
+                      [
+                        [
+                        ],
+                        {
+                          "DefPort" : {
+                            "node" : {
+                              "AstNode" : {
+                                "data" : {
+                                  "name" : "Time",
+                                  "params" : [
+                                  ],
+                                  "returnType" : "None"
+                                },
+                                "id" : 46
+                              }
+                            }
+                          }
+                        },
+                        [
+                        ]
                       ]
                     ]
                   },
-                  "id" : 43
+                  "id" : 47
                 }
               }
             }
@@ -678,142 +778,142 @@
     },
     "8" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "33.17",
+      "pos" : "27.3",
       "includingLoc" : "None"
     },
     "9" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "33.29",
+      "pos" : "30.3",
       "includingLoc" : "None"
     },
     "10" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "33.3",
+      "pos" : "39.17",
       "includingLoc" : "None"
     },
     "11" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "38.17",
+      "pos" : "39.29",
       "includingLoc" : "None"
     },
     "12" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "39.13",
+      "pos" : "39.3",
       "includingLoc" : "None"
     },
     "13" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "40.8",
+      "pos" : "44.17",
       "includingLoc" : "None"
     },
     "14" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "41.16",
+      "pos" : "45.13",
       "includingLoc" : "None"
     },
     "15" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "42.17",
+      "pos" : "46.8",
       "includingLoc" : "None"
     },
     "16" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "38.3",
+      "pos" : "47.16",
       "includingLoc" : "None"
     },
     "17" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "47.17",
+      "pos" : "48.17",
       "includingLoc" : "None"
     },
     "18" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "47.17",
+      "pos" : "44.3",
       "includingLoc" : "None"
     },
     "19" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "47.17",
+      "pos" : "53.17",
       "includingLoc" : "None"
     },
     "20" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "48.15",
+      "pos" : "53.17",
       "includingLoc" : "None"
     },
     "21" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "48.20",
+      "pos" : "53.17",
       "includingLoc" : "None"
     },
     "22" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "48.25",
+      "pos" : "54.15",
       "includingLoc" : "None"
     },
     "23" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "48.13",
+      "pos" : "54.20",
       "includingLoc" : "None"
     },
     "24" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "49.17",
+      "pos" : "54.25",
       "includingLoc" : "None"
     },
     "25" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "47.3",
+      "pos" : "54.13",
       "includingLoc" : "None"
     },
     "26" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.26",
+      "pos" : "55.17",
       "includingLoc" : "None"
     },
     "27" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "55.13",
+      "pos" : "53.3",
       "includingLoc" : "None"
     },
     "28" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.3",
+      "pos" : "60.26",
       "includingLoc" : "None"
     },
     "29" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.26",
+      "pos" : "61.13",
       "includingLoc" : "None"
     },
     "30" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "55.13",
+      "pos" : "60.3",
       "includingLoc" : "None"
     },
     "31" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.3",
+      "pos" : "60.26",
       "includingLoc" : "None"
     },
     "32" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.26",
+      "pos" : "61.13",
       "includingLoc" : "None"
     },
     "33" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "55.13",
+      "pos" : "60.3",
       "includingLoc" : "None"
     },
     "34" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "54.3",
+      "pos" : "60.26",
       "includingLoc" : "None"
     },
     "35" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "5.1",
+      "pos" : "61.13",
       "includingLoc" : "None"
     },
     "36" : {
@@ -823,37 +923,57 @@
     },
     "37" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "61.3",
+      "pos" : "5.1",
       "includingLoc" : "None"
     },
     "38" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "62.3",
+      "pos" : "66.3",
       "includingLoc" : "None"
     },
     "39" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "63.3",
+      "pos" : "67.3",
       "includingLoc" : "None"
     },
     "40" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "64.3",
+      "pos" : "68.3",
       "includingLoc" : "None"
     },
     "41" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "64.3",
+      "pos" : "69.3",
       "includingLoc" : "None"
     },
     "42" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "64.3",
+      "pos" : "70.3",
       "includingLoc" : "None"
     },
     "43" : {
       "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
-      "pos" : "59.1",
+      "pos" : "71.3",
+      "includingLoc" : "None"
+    },
+    "44" : {
+      "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
+      "pos" : "72.3",
+      "includingLoc" : "None"
+    },
+    "45" : {
+      "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
+      "pos" : "72.3",
+      "includingLoc" : "None"
+    },
+    "46" : {
+      "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
+      "pos" : "72.3",
+      "includingLoc" : "None"
+    },
+    "47" : {
+      "file" : "[ local path prefix ]/compiler/tools/fpp-to-json/test/parameters.fpp",
+      "pos" : "65.1",
       "includingLoc" : "None"
     }
   }
@@ -865,9 +985,9 @@
       
     },
     "componentMap" : {
-      "35" : {
+      "37" : {
         "aNode" : {
-          "astNodeId" : 35
+          "astNodeId" : 37
         },
         "portInterface" : {
           "instanceType" : "component",
@@ -890,7 +1010,7 @@
                 },
                 "symbol" : {
                   "Port" : {
-                    "nodeId" : 38,
+                    "nodeId" : 40,
                     "unqualifiedName" : "Cmd"
                   }
                 },
@@ -918,7 +1038,7 @@
                 },
                 "symbol" : {
                   "Port" : {
-                    "nodeId" : 39,
+                    "nodeId" : 41,
                     "unqualifiedName" : "CmdReg"
                   }
                 },
@@ -974,7 +1094,7 @@
                 },
                 "symbol" : {
                   "Port" : {
-                    "nodeId" : 36,
+                    "nodeId" : 38,
                     "unqualifiedName" : "PrmGet"
                   }
                 },
@@ -1002,8 +1122,64 @@
                 },
                 "symbol" : {
                   "Port" : {
-                    "nodeId" : 37,
+                    "nodeId" : 39,
                     "unqualifiedName" : "PrmSet"
+                  }
+                },
+                "priority" : "None",
+                "queueFull" : "None",
+                "importNodeIds" : [
+                ]
+              }
+            },
+            "timeGetOut" : {
+              "Special" : {
+                "aNode" : {
+                  "astNodeId" : 9
+                },
+                "specifier" : {
+                  "inputKind" : "None",
+                  "kind" : {
+                    "TimeGet" : {
+                      
+                    }
+                  },
+                  "name" : "timeGetOut",
+                  "priority" : "None",
+                  "queueFull" : "None"
+                },
+                "symbol" : {
+                  "Port" : {
+                    "nodeId" : 46,
+                    "unqualifiedName" : "Time"
+                  }
+                },
+                "priority" : "None",
+                "queueFull" : "None",
+                "importNodeIds" : [
+                ]
+              }
+            },
+            "tlmOut" : {
+              "Special" : {
+                "aNode" : {
+                  "astNodeId" : 8
+                },
+                "specifier" : {
+                  "inputKind" : "None",
+                  "kind" : {
+                    "Telemetry" : {
+                      
+                    }
+                  },
+                  "name" : "tlmOut",
+                  "priority" : "None",
+                  "queueFull" : "None"
+                },
+                "symbol" : {
+                  "Port" : {
+                    "nodeId" : 43,
+                    "unqualifiedName" : "Tlm"
                   }
                 },
                 "priority" : "None",
@@ -1031,7 +1207,7 @@
               },
               "symbol" : {
                 "Port" : {
-                  "nodeId" : 38,
+                  "nodeId" : 40,
                   "unqualifiedName" : "Cmd"
                 }
               },
@@ -1057,7 +1233,7 @@
               },
               "symbol" : {
                 "Port" : {
-                  "nodeId" : 39,
+                  "nodeId" : 41,
                   "unqualifiedName" : "CmdReg"
                 }
               },
@@ -1109,7 +1285,7 @@
               },
               "symbol" : {
                 "Port" : {
-                  "nodeId" : 36,
+                  "nodeId" : 38,
                   "unqualifiedName" : "PrmGet"
                 }
               },
@@ -1135,8 +1311,60 @@
               },
               "symbol" : {
                 "Port" : {
-                  "nodeId" : 37,
+                  "nodeId" : 39,
                   "unqualifiedName" : "PrmSet"
+                }
+              },
+              "priority" : "None",
+              "queueFull" : "None",
+              "importNodeIds" : [
+              ]
+            },
+            "telemetry" : {
+              "aNode" : {
+                "astNodeId" : 8
+              },
+              "specifier" : {
+                "inputKind" : "None",
+                "kind" : {
+                  "Telemetry" : {
+                    
+                  }
+                },
+                "name" : "tlmOut",
+                "priority" : "None",
+                "queueFull" : "None"
+              },
+              "symbol" : {
+                "Port" : {
+                  "nodeId" : 43,
+                  "unqualifiedName" : "Tlm"
+                }
+              },
+              "priority" : "None",
+              "queueFull" : "None",
+              "importNodeIds" : [
+              ]
+            },
+            "time get" : {
+              "aNode" : {
+                "astNodeId" : 9
+              },
+              "specifier" : {
+                "inputKind" : "None",
+                "kind" : {
+                  "TimeGet" : {
+                    
+                  }
+                },
+                "name" : "timeGetOut",
+                "priority" : "None",
+                "queueFull" : "None"
+              },
+              "symbol" : {
+                "Port" : {
+                  "nodeId" : 46,
+                  "unqualifiedName" : "Time"
                 }
               },
               "priority" : "None",
@@ -1150,7 +1378,7 @@
           "0" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 10
+                "astNodeId" : 12
               },
               "kind" : {
                 "Set" : {
@@ -1162,7 +1390,7 @@
           "1" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 10
+                "astNodeId" : 12
               },
               "kind" : {
                 "Save" : {
@@ -1174,7 +1402,7 @@
           "16" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 16
+                "astNodeId" : 18
               },
               "kind" : {
                 "Set" : {
@@ -1186,7 +1414,7 @@
           "17" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 16
+                "astNodeId" : 18
               },
               "kind" : {
                 "Save" : {
@@ -1198,7 +1426,7 @@
           "18" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 25
+                "astNodeId" : 27
               },
               "kind" : {
                 "Set" : {
@@ -1210,7 +1438,7 @@
           "32" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 25
+                "astNodeId" : 27
               },
               "kind" : {
                 "Save" : {
@@ -1222,7 +1450,7 @@
           "33" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 34
+                "astNodeId" : 36
               },
               "kind" : {
                 "Set" : {
@@ -1234,7 +1462,7 @@
           "34" : {
             "Param" : {
               "aNode" : {
-                "astNodeId" : 34
+                "astNodeId" : 36
               },
               "kind" : {
                 "Save" : {
@@ -1246,12 +1474,362 @@
         },
         "defaultOpcode" : 35,
         "tlmChannelMap" : {
-          
+          "0" : {
+            "aNode" : {
+              "astNodeId" : 48
+            },
+            "channelType" : {
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "1" : {
+            "aNode" : {
+              "astNodeId" : 49
+            },
+            "channelType" : {
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "2" : {
+            "aNode" : {
+              "astNodeId" : 50
+            },
+            "channelType" : {
+              "Array" : {
+                "node" : {
+                  "astNodeId" : 2
+                },
+                "anonArray" : {
+                  "size" : {
+                    "Some" : 3
+                  },
+                  "eltType" : {
+                    "Float" : {
+                      "kind" : {
+                        "F64" : {
+                          
+                        }
+                      }
+                    }
+                  }
+                },
+                "default" : {
+                  "Some" : {
+                    "anonArray" : {
+                      "elements" : [
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "t" : {
+                      "node" : {
+                        "astNodeId" : 2
+                      },
+                      "anonArray" : {
+                        "size" : {
+                          "Some" : 3
+                        },
+                        "eltType" : {
+                          "Float" : {
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "default" : "None",
+                      "format" : "None"
+                    }
+                  }
+                },
+                "format" : "None"
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "3" : {
+            "aNode" : {
+              "astNodeId" : 51
+            },
+            "channelType" : {
+              "PrimitiveInt" : {
+                "kind" : {
+                  "I16" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          }
         },
         "tlmChannelNameMap" : {
-          
+          "Param1" : {
+            "aNode" : {
+              "astNodeId" : 48
+            },
+            "channelType" : {
+              "PrimitiveInt" : {
+                "kind" : {
+                  "U32" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "Param2" : {
+            "aNode" : {
+              "astNodeId" : 49
+            },
+            "channelType" : {
+              "Float" : {
+                "kind" : {
+                  "F64" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "Param3" : {
+            "aNode" : {
+              "astNodeId" : 50
+            },
+            "channelType" : {
+              "Array" : {
+                "node" : {
+                  "astNodeId" : 2
+                },
+                "anonArray" : {
+                  "size" : {
+                    "Some" : 3
+                  },
+                  "eltType" : {
+                    "Float" : {
+                      "kind" : {
+                        "F64" : {
+                          
+                        }
+                      }
+                    }
+                  }
+                },
+                "default" : {
+                  "Some" : {
+                    "anonArray" : {
+                      "elements" : [
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "Float" : {
+                            "value" : 0.0,
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "t" : {
+                      "node" : {
+                        "astNodeId" : 2
+                      },
+                      "anonArray" : {
+                        "size" : {
+                          "Some" : 3
+                        },
+                        "eltType" : {
+                          "Float" : {
+                            "kind" : {
+                              "F64" : {
+                                
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "default" : "None",
+                      "format" : "None"
+                    }
+                  }
+                },
+                "format" : "None"
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          },
+          "Param4" : {
+            "aNode" : {
+              "astNodeId" : 51
+            },
+            "channelType" : {
+              "PrimitiveInt" : {
+                "kind" : {
+                  "I16" : {
+                    
+                  }
+                }
+              }
+            },
+            "update" : {
+              "Always" : {
+                
+              }
+            },
+            "format" : "None",
+            "lowLimits" : {
+              
+            },
+            "highLimits" : {
+              
+            }
+          }
         },
-        "defaultTlmChannelId" : 0,
+        "defaultTlmChannelId" : 4,
         "eventMap" : {
           
         },
@@ -1259,7 +1837,7 @@
         "paramMap" : {
           "0" : {
             "aNode" : {
-              "astNodeId" : 10
+              "astNodeId" : 12
             },
             "paramType" : {
               "PrimitiveInt" : {
@@ -1288,7 +1866,7 @@
           },
           "16" : {
             "aNode" : {
-              "astNodeId" : 16
+              "astNodeId" : 18
             },
             "paramType" : {
               "Float" : {
@@ -1317,7 +1895,7 @@
           },
           "17" : {
             "aNode" : {
-              "astNodeId" : 25
+              "astNodeId" : 27
             },
             "paramType" : {
               "Array" : {
@@ -1525,7 +2103,7 @@
           },
           "18" : {
             "aNode" : {
-              "astNodeId" : 34
+              "astNodeId" : 36
             },
             "paramType" : {
               "PrimitiveInt" : {
@@ -1587,56 +2165,68 @@
     "locationSpecifierMap" : [
     ],
     "parentSymbolMap" : {
-      "36" : {
-        "Module" : {
-          "nodeId" : 43,
-          "unqualifiedName" : "Fw"
-        }
-      },
-      "37" : {
-        "Module" : {
-          "nodeId" : 43,
-          "unqualifiedName" : "Fw"
-        }
-      },
       "38" : {
         "Module" : {
-          "nodeId" : 43,
+          "nodeId" : 47,
           "unqualifiedName" : "Fw"
         }
       },
       "39" : {
         "Module" : {
-          "nodeId" : 43,
+          "nodeId" : 47,
+          "unqualifiedName" : "Fw"
+        }
+      },
+      "40" : {
+        "Module" : {
+          "nodeId" : 47,
+          "unqualifiedName" : "Fw"
+        }
+      },
+      "41" : {
+        "Module" : {
+          "nodeId" : 47,
           "unqualifiedName" : "Fw"
         }
       },
       "42" : {
         "Module" : {
-          "nodeId" : 43,
+          "nodeId" : 47,
+          "unqualifiedName" : "Fw"
+        }
+      },
+      "43" : {
+        "Module" : {
+          "nodeId" : 47,
+          "unqualifiedName" : "Fw"
+        }
+      },
+      "46" : {
+        "Module" : {
+          "nodeId" : 47,
           "unqualifiedName" : "Fw"
         }
       }
     },
     "symbolScopeMap" : {
-      "35" : {
+      "37" : {
         "map" : {
           
         }
       },
-      "43" : {
+      "47" : {
         "map" : {
           "Port" : {
             "map" : {
               "Cmd" : {
                 "Port" : {
-                  "nodeId" : 38,
+                  "nodeId" : 40,
                   "unqualifiedName" : "Cmd"
                 }
               },
               "CmdReg" : {
                 "Port" : {
-                  "nodeId" : 39,
+                  "nodeId" : 41,
                   "unqualifiedName" : "CmdReg"
                 }
               },
@@ -1648,14 +2238,26 @@
               },
               "PrmGet" : {
                 "Port" : {
-                  "nodeId" : 36,
+                  "nodeId" : 38,
                   "unqualifiedName" : "PrmGet"
                 }
               },
               "PrmSet" : {
                 "Port" : {
-                  "nodeId" : 37,
+                  "nodeId" : 39,
                   "unqualifiedName" : "PrmSet"
+                }
+              },
+              "Time" : {
+                "Port" : {
+                  "nodeId" : 46,
+                  "unqualifiedName" : "Time"
+                }
+              },
+              "Tlm" : {
+                "Port" : {
+                  "nodeId" : 43,
+                  "unqualifiedName" : "Tlm"
                 }
               }
             }
@@ -1762,7 +2364,7 @@
           "format" : "None"
         }
       },
-      "8" : {
+      "10" : {
         "PrimitiveInt" : {
           "kind" : {
             "U32" : {
@@ -1771,37 +2373,27 @@
           }
         }
       },
-      "9" : {
+      "11" : {
         "Integer" : {
           
-        }
-      },
-      "11" : {
-        "Float" : {
-          "kind" : {
-            "F64" : {
-              
-            }
-          }
-        }
-      },
-      "12" : {
-        "Float" : {
-          "kind" : {
-            "F64" : {
-              
-            }
-          }
         }
       },
       "13" : {
-        "Integer" : {
-          
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
+            }
+          }
         }
       },
       "14" : {
-        "Integer" : {
-          
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
+            }
+          }
         }
       },
       "15" : {
@@ -1809,7 +2401,17 @@
           
         }
       },
-      "19" : {
+      "16" : {
+        "Integer" : {
+          
+        }
+      },
+      "17" : {
+        "Integer" : {
+          
+        }
+      },
+      "21" : {
         "Array" : {
           "node" : {
             "astNodeId" : 2
@@ -1890,24 +2492,6 @@
           "format" : "None"
         }
       },
-      "20" : {
-        "Float" : {
-          "kind" : {
-            "F64" : {
-              
-            }
-          }
-        }
-      },
-      "21" : {
-        "Float" : {
-          "kind" : {
-            "F64" : {
-              
-            }
-          }
-        }
-      },
       "22" : {
         "Float" : {
           "kind" : {
@@ -1918,6 +2502,24 @@
         }
       },
       "23" : {
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
+            }
+          }
+        }
+      },
+      "24" : {
+        "Float" : {
+          "kind" : {
+            "F64" : {
+              
+            }
+          }
+        }
+      },
+      "25" : {
         "AnonArray" : {
           "size" : {
             "Some" : 3
@@ -1933,12 +2535,12 @@
           }
         }
       },
-      "24" : {
+      "26" : {
         "Integer" : {
           
         }
       },
-      "32" : {
+      "34" : {
         "PrimitiveInt" : {
           "kind" : {
             "I16" : {
@@ -1947,7 +2549,7 @@
           }
         }
       },
-      "33" : {
+      "35" : {
         "Integer" : {
           
         }
@@ -1956,13 +2558,13 @@
     "useDefMap" : {
       "3" : {
         "Port" : {
-          "nodeId" : 38,
+          "nodeId" : 40,
           "unqualifiedName" : "Cmd"
         }
       },
       "4" : {
         "Port" : {
-          "nodeId" : 39,
+          "nodeId" : 41,
           "unqualifiedName" : "CmdReg"
         }
       },
@@ -1974,23 +2576,35 @@
       },
       "6" : {
         "Port" : {
-          "nodeId" : 36,
+          "nodeId" : 38,
           "unqualifiedName" : "PrmGet"
         }
       },
       "7" : {
         "Port" : {
-          "nodeId" : 37,
+          "nodeId" : 39,
           "unqualifiedName" : "PrmSet"
         }
       },
-      "18" : {
+      "8" : {
+        "Port" : {
+          "nodeId" : 43,
+          "unqualifiedName" : "Tlm"
+        }
+      },
+      "9" : {
+        "Port" : {
+          "nodeId" : 46,
+          "unqualifiedName" : "Time"
+        }
+      },
+      "20" : {
         "Array" : {
           "nodeId" : 2,
           "unqualifiedName" : "F64x3"
         }
       },
-      "19" : {
+      "21" : {
         "Array" : {
           "nodeId" : 2,
           "unqualifiedName" : "F64x3"
@@ -2003,12 +2617,12 @@
           "value" : 3
         }
       },
-      "9" : {
+      "11" : {
         "Integer" : {
           "value" : 1
         }
       },
-      "12" : {
+      "14" : {
         "Float" : {
           "value" : 2.0,
           "kind" : {
@@ -2018,22 +2632,22 @@
           }
         }
       },
-      "13" : {
-        "Integer" : {
-          "value" : 16
-        }
-      },
-      "14" : {
-        "Integer" : {
-          "value" : 16
-        }
-      },
       "15" : {
+        "Integer" : {
+          "value" : 16
+        }
+      },
+      "16" : {
+        "Integer" : {
+          "value" : 16
+        }
+      },
+      "17" : {
         "Integer" : {
           "value" : 17
         }
       },
-      "20" : {
+      "22" : {
         "Float" : {
           "value" : 1.0,
           "kind" : {
@@ -2043,7 +2657,7 @@
           }
         }
       },
-      "21" : {
+      "23" : {
         "Float" : {
           "value" : 2.0,
           "kind" : {
@@ -2053,7 +2667,7 @@
           }
         }
       },
-      "22" : {
+      "24" : {
         "Float" : {
           "value" : 3.0,
           "kind" : {
@@ -2063,7 +2677,7 @@
           }
         }
       },
-      "23" : {
+      "25" : {
         "AnonArray" : {
           "elements" : [
             {
@@ -2099,12 +2713,12 @@
           ]
         }
       },
-      "24" : {
+      "26" : {
         "Integer" : {
           "value" : 32
         }
       },
-      "33" : {
+      "35" : {
         "Integer" : {
           "value" : 42
         }

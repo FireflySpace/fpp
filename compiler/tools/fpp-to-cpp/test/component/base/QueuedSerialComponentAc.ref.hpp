@@ -221,6 +221,18 @@ class QueuedSerialComponentBase :
       CHANNELID_CHANNELU32ONCHANGE = 0x16, //!< Channel ID for ChannelU32OnChange
       CHANNELID_CHANNELENUMONCHANGE = 0x17, //!< Channel ID for ChannelEnumOnChange
       CHANNELID_CHANNELBOOLONCHANGE = 0x18, //!< Channel ID for ChannelBoolOnChange
+      CHANNELID_PARAMU32 = 0x19, //!< Channel ID for ParamU32
+      CHANNELID_PARAMF64 = 0x1a, //!< Channel ID for ParamF64
+      CHANNELID_PARAMSTRING = 0x1b, //!< Channel ID for ParamString
+      CHANNELID_PARAMENUM = 0x1c, //!< Channel ID for ParamEnum
+      CHANNELID_PARAMARRAY = 0x1d, //!< Channel ID for ParamArray
+      CHANNELID_PARAMSTRUCT = 0x1e, //!< Channel ID for ParamStruct
+      CHANNELID_PARAMI32EXT = 0x1f, //!< Channel ID for ParamI32Ext
+      CHANNELID_PARAMF64EXT = 0x20, //!< Channel ID for ParamF64Ext
+      CHANNELID_PARAMSTRINGEXT = 0x21, //!< Channel ID for ParamStringExt
+      CHANNELID_PARAMENUMEXT = 0x22, //!< Channel ID for ParamEnumExt
+      CHANNELID_PARAMARRAYEXT = 0x23, //!< Channel ID for ParamArrayExt
+      CHANNELID_PARAMSTRUCTEXT = 0x24, //!< Channel ID for ParamStructExt
     };
 
     //! Parameter IDs
@@ -2535,6 +2547,104 @@ class QueuedSerialComponentBase :
         Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
     );
 
+    //! Write telemetry channel ParamU32
+    //!
+    //! A parameter with U32 data
+    //! Second line of annotation
+    void tlmWrite_ParamU32(
+        U32 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamF64
+    //!
+    //! A parameter with F64 data
+    void tlmWrite_ParamF64(
+        F64 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamString
+    //!
+    //! A parameter with string data and default value
+    void tlmWrite_ParamString(
+        const Fw::StringBase& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamEnum
+    //!
+    //! A parameter with enum data
+    void tlmWrite_ParamEnum(
+        const E& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamArray
+    //!
+    //! A parameter with array data, default value, and save opcode
+    void tlmWrite_ParamArray(
+        const A& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamStruct
+    //!
+    //! A parameter with struct data and set/save opcodes
+    void tlmWrite_ParamStruct(
+        const S& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamI32Ext
+    //!
+    //! An externally stored parameter with I32 data
+    //! Second line of annotation
+    void tlmWrite_ParamI32Ext(
+        I32 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamF64Ext
+    //!
+    //! An externally stored parameter with F64 data
+    void tlmWrite_ParamF64Ext(
+        F64 arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamStringExt
+    //!
+    //! An externally stored parameter with string data and default value
+    void tlmWrite_ParamStringExt(
+        const Fw::StringBase& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamEnumExt
+    //!
+    //! An externally stored parameter with enum data
+    void tlmWrite_ParamEnumExt(
+        const E& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamArrayExt
+    //!
+    //! An externally stored parameter with array data, default value, and save opcode
+    void tlmWrite_ParamArrayExt(
+        const A& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
+    //! Write telemetry channel ParamStructExt
+    //!
+    //! An externally stored parameter with struct data and set/save opcodes
+    void tlmWrite_ParamStructExt(
+        const S& arg, //!< The telemetry value
+        Fw::Time _tlmTime = Fw::Time() //!< Timestamp. Default: unspecified, request from getTime port
+    ) const;
+
   protected:
 
     // ----------------------------------------------------------------------
@@ -2545,6 +2655,16 @@ class QueuedSerialComponentBase :
     //!
     //! This function does nothing by default. You may override it.
     virtual void parameterUpdated(
+        FwPrmIdType id //!< The parameter ID
+    );
+
+    //! \brief Called whenever a parameter is updated, to mirror it into telemetry
+    //!
+    //! Every parameter has an identically named telemetry channel. By
+    //! default this writes that channel with the parameter's current value,
+    //! skipping it if the parameter is not usable (not VALID or DEFAULT).
+    //! You may override it, for example to suppress or reshape the mirror.
+    virtual void parameterTelemeter(
         FwPrmIdType id //!< The parameter ID
     );
 
