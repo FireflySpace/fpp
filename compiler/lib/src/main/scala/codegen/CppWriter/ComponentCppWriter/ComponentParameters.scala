@@ -151,6 +151,7 @@ case class ComponentParameters (
       "Parameter hook functions",
       List(
         getParamUpdateHookFunction,
+        getParamTelemeterHookFunction,
         getParamLoadHookFunction,
         getParamsLoadHookFunction
       )
@@ -271,6 +272,7 @@ case class ComponentParameters (
          |  static_cast<FwAssertArgType>(id),
          |  static_cast<FwAssertArgType>(valid)
          |);
+         |this->parameterTelemeter(id);
          |this->parameterUpdated(id);"""
     ),
     CppDoc.Function.Virtual
@@ -295,6 +297,48 @@ case class ComponentParameters (
     lines("// Do nothing by default"),
     CppDoc.Function.Virtual
   )
+
+  private def getParamTelemeterHookFunction = functionClassMember(
+    Some(
+      s"""|\\brief Called whenever a parameter is updated, to mirror it into telemetry
+          |
+          |Every parameter has an identically named telemetry channel. By
+          |default this writes that channel with the parameter's current value,
+          |skipping it if the parameter is not usable (not VALID or DEFAULT).
+          |You may override it, for example to suppress or reshape the mirror.
+          |"""
+    ),
+    "parameterTelemeter",
+    List(
+      CppDoc.Function.Param(
+        CppDoc.Type("FwPrmIdType"),
+        "id",
+        Some("The parameter ID")
+      )
+    ),
+    CppDoc.Type("void"),
+    wrapInSwitch(
+      "id",
+      sortedParams.flatMap((_, param) => writeParamTelemeterCase(param))
+    ),
+    CppDoc.Function.Virtual
+  )
+
+  private def writeParamTelemeterCase(param: Param): List[Line] = {
+    val idConstantName = paramIdConstantName(param.getName)
+    val getterName = paramGetterName(param.getName)
+    val paramType = writeParamType(param.paramType, "Fw::ParamString")
+    lines(
+      s"""|case $idConstantName: {
+          |  Fw::ParamValid _valid;
+          |  const $paramType _val = this->$getterName(_valid);
+          |  if ((_valid == Fw::ParamValid::VALID) || (_valid == Fw::ParamValid::DEFAULT)) {
+          |    this->tlmWrite_${param.getName}(_val);
+          |  }
+          |  break;
+          |}"""
+    )
+  }
 
   private def getParamVarForParam(param: Param) =
     val paramType = writeParamType(param.paramType, "Fw::ParamString")
@@ -591,6 +635,7 @@ case class ComponentParameters (
         s"""|
             |// Call notifier
             |if (_response == Fw::CmdResponse::OK) {
+            |  this->parameterTelemeter($idConstantName);
             |  this->parameterUpdated($idConstantName);
             |}
             |return _response;"""
@@ -622,6 +667,7 @@ case class ComponentParameters (
       lines(
         s"""|
             |// Call notifier
+            |this->parameterTelemeter($idConstantName);
             |this->parameterUpdated($idConstantName);
             |return Fw::CmdResponse::OK;"""
       )
