@@ -472,6 +472,7 @@ case class Component(
   /** Complete a component definition */
   def complete: Result.Result[Component] = for {
     c <- this.constructPortMatchingList
+    _ <- c.checkNoDuplicateNames
     c <- c.addImplicitTlmChannelsForParams
     _ <- c.checkValidity
   } yield c
