@@ -266,14 +266,15 @@ case class ComponentParameters (
       )
     ),
     CppDoc.Type("void"),
-    lines(
-      """|FW_ASSERT(
-         |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
-         |  static_cast<FwAssertArgType>(id),
-         |  static_cast<FwAssertArgType>(valid)
-         |);
-         |this->parameterTelemeter(id);
-         |this->parameterUpdated(id);"""
+    List.concat(
+      lines(
+        """|FW_ASSERT(
+           |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
+           |  static_cast<FwAssertArgType>(id),
+           |  static_cast<FwAssertArgType>(valid)
+           |);"""
+      ),
+      writeParamNotify("id")
     ),
     CppDoc.Function.Virtual
   )
@@ -632,14 +633,14 @@ case class ComponentParameters (
         )
       ),
       lines(
-        s"""|
-            |// Call notifier
-            |if (_response == Fw::CmdResponse::OK) {
-            |  this->parameterTelemeter($idConstantName);
-            |  this->parameterUpdated($idConstantName);
-            |}
-            |return _response;"""
-      )
+        """|
+           |// Call notifier"""
+      ),
+      wrapInIf(
+        "_response == Fw::CmdResponse::OK",
+        writeParamNotify(idConstantName)
+      ),
+      lines("return _response;")
     )
   }
 
@@ -665,13 +666,19 @@ case class ComponentParameters (
         )
       ),
       lines(
-        s"""|
-            |// Call notifier
-            |this->parameterTelemeter($idConstantName);
-            |this->parameterUpdated($idConstantName);
-            |return Fw::CmdResponse::OK;"""
-      )
+        """|
+           |// Call notifier"""
+      ),
+      writeParamNotify(idConstantName),
+      lines("return Fw::CmdResponse::OK;")
     )
   }
+
+  /** Emit the post-update notification for a parameter */
+  private def writeParamNotify(idExpr: String): List[Line] =
+    lines(
+      s"""|this->parameterTelemeter($idExpr);
+          |this->parameterUpdated($idExpr);"""
+    )
 
 }
