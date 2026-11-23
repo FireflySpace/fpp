@@ -1387,11 +1387,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamU32);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamU32_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamU32_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
   }
   this->parameterLoaded(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
@@ -1401,11 +1400,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamF64);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamF64_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamF64_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
   }
   this->parameterLoaded(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
@@ -1415,11 +1413,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamString_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamString);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamString_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamString_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
     if (this->m_param_ParamString_valid == Fw::ParamValid::UNINIT) {
       this->m_ParamString = Fw::String("default");
@@ -1433,11 +1430,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamEnum);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamEnum_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamEnum_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
   }
   this->parameterLoaded(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
@@ -1447,11 +1443,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamArray);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamArray_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamArray_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
     if (this->m_param_ParamArray_valid == Fw::ParamValid::UNINIT) {
       this->m_ParamArray = A({1, 2, 3});
@@ -1465,11 +1460,10 @@ void PassiveParamsComponentBase ::
   {
     Os::ScopeLock _lock(this->m_paramLock);
     if (_dbValid == Fw::ParamValid::VALID) {
-      this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
       _stat = _paramBuffer.deserializeTo(this->m_ParamStruct);
-      if (_stat != Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamStruct_valid = Fw::ParamValid::INVALID;
-      }
+      this->m_param_ParamStruct_valid = (_stat == Fw::FW_SERIALIZE_OK)
+        ? Fw::ParamValid::VALID
+        : Fw::ParamValid::INVALID;
     }
   }
   this->parameterLoaded(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
@@ -2608,8 +2602,17 @@ void PassiveParamsComponentBase ::
 }
 
 void PassiveParamsComponentBase ::
-  parameterTelemeter(FwPrmIdType id)
+  parameterModified(
+      FwPrmIdType id,
+      Fw::ParamValid valid
+  )
 {
+  FW_ASSERT(
+    FW_PARAM_OK(valid),
+    static_cast<FwAssertArgType>(id),
+    static_cast<FwAssertArgType>(valid)
+  );
+  // Mirror the parameter into its telemetry channel
   switch (id) {
     case PARAMID_PARAMU32:
       this->tlmWrite_ParamU32(this->paramGet_ParamU32());
@@ -2630,6 +2633,7 @@ void PassiveParamsComponentBase ::
       this->tlmWrite_ParamStruct(this->paramGet_ParamStruct());
       break;
   }
+  this->parameterUpdated(id);
 }
 
 void PassiveParamsComponentBase ::
@@ -2644,13 +2648,7 @@ void PassiveParamsComponentBase ::
       Fw::ParamValid valid
   )
 {
-  FW_ASSERT(
-    (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
-    static_cast<FwAssertArgType>(id),
-    static_cast<FwAssertArgType>(valid)
-  );
-  this->parameterTelemeter(id);
-  this->parameterUpdated(id);
+  this->parameterModified(id, valid);
 }
 
 // ----------------------------------------------------------------------
@@ -3260,10 +3258,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamU32 = _localVal;
     this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMU32);
-  this->parameterUpdated(PARAMID_PARAMU32);
+  this->parameterModified(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
   return Fw::CmdResponse::OK;
 }
 
@@ -3282,10 +3277,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamF64 = _localVal;
     this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMF64);
-  this->parameterUpdated(PARAMID_PARAMF64);
+  this->parameterModified(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
   return Fw::CmdResponse::OK;
 }
 
@@ -3304,10 +3296,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamString = _localVal;
     this->m_param_ParamString_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMSTRING);
-  this->parameterUpdated(PARAMID_PARAMSTRING);
+  this->parameterModified(PARAMID_PARAMSTRING, this->m_param_ParamString_valid);
   return Fw::CmdResponse::OK;
 }
 
@@ -3326,10 +3315,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamEnum = _localVal;
     this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMENUM);
-  this->parameterUpdated(PARAMID_PARAMENUM);
+  this->parameterModified(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
   return Fw::CmdResponse::OK;
 }
 
@@ -3348,10 +3334,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamArray = _localVal;
     this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMARRAY);
-  this->parameterUpdated(PARAMID_PARAMARRAY);
+  this->parameterModified(PARAMID_PARAMARRAY, this->m_param_ParamArray_valid);
   return Fw::CmdResponse::OK;
 }
 
@@ -3370,10 +3353,7 @@ Fw::CmdResponse PassiveParamsComponentBase ::
     this->m_ParamStruct = _localVal;
     this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
   }
-
-  // Call notifier
-  this->parameterTelemeter(PARAMID_PARAMSTRUCT);
-  this->parameterUpdated(PARAMID_PARAMSTRUCT);
+  this->parameterModified(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
   return Fw::CmdResponse::OK;
 }
 

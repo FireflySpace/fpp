@@ -2212,11 +2212,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamU32);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamU32_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamU32_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
     }
     this->parameterLoaded(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
@@ -2226,11 +2225,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamF64);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamF64_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamF64_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
     }
     this->parameterLoaded(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
@@ -2240,11 +2238,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamString_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamString);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamString_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamString_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
       if (this->m_param_ParamString_valid == Fw::ParamValid::UNINIT) {
         this->m_ParamString = Fw::String("default");
@@ -2258,11 +2255,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamEnum);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamEnum_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamEnum_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
     }
     this->parameterLoaded(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
@@ -2272,11 +2268,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamArray);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamArray_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamArray_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
       if (this->m_param_ParamArray_valid == Fw::ParamValid::UNINIT) {
         this->m_ParamArray = A({1, 2, 3});
@@ -2290,11 +2285,10 @@ namespace M {
     {
       Os::ScopeLock _lock(this->m_paramLock);
       if (_dbValid == Fw::ParamValid::VALID) {
-        this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
         _stat = _paramBuffer.deserializeTo(this->m_ParamStruct);
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamStruct_valid = Fw::ParamValid::INVALID;
-        }
+        this->m_param_ParamStruct_valid = (_stat == Fw::FW_SERIALIZE_OK)
+          ? Fw::ParamValid::VALID
+          : Fw::ParamValid::INVALID;
       }
     }
     this->parameterLoaded(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
@@ -2306,15 +2300,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamI32Ext_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMI32EXT,
           this->m_param_ParamI32Ext_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamI32Ext_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
@@ -2326,15 +2317,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamF64Ext_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMF64EXT,
           this->m_param_ParamF64Ext_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamF64Ext_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
@@ -2346,15 +2334,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamStringExt_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMSTRINGEXT,
           this->m_param_ParamStringExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
-        }
       }
       if (this->m_param_ParamStringExt_valid == Fw::ParamValid::UNINIT) {
         this->m_param_ParamStringExt_valid = Fw::ParamValid::DEFAULT;
@@ -2363,15 +2348,12 @@ namespace M {
         _stat = _paramBuffer.serializeFrom(_val);
         FW_ASSERT(_stat == Fw::FW_SERIALIZE_OK, static_cast<FwAssertArgType>(_stat));
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMSTRINGEXT,
           this->m_param_ParamStringExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
@@ -2383,15 +2365,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamEnumExt_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMENUMEXT,
           this->m_param_ParamEnumExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamEnumExt_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
@@ -2403,15 +2382,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamArrayExt_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMARRAYEXT,
           this->m_param_ParamArrayExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
-        }
       }
       if (this->m_param_ParamArrayExt_valid == Fw::ParamValid::UNINIT) {
         this->m_param_ParamArrayExt_valid = Fw::ParamValid::DEFAULT;
@@ -2420,15 +2396,12 @@ namespace M {
         _stat = _paramBuffer.serializeFrom(_val);
         FW_ASSERT(_stat == Fw::FW_SERIALIZE_OK, static_cast<FwAssertArgType>(_stat));
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMARRAYEXT,
           this->m_param_ParamArrayExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
@@ -2440,15 +2413,12 @@ namespace M {
       if (_dbValid == Fw::ParamValid::VALID) {
         this->m_param_ParamStructExt_valid = Fw::ParamValid::VALID;
         FW_ASSERT(this->paramDelegatePtr != nullptr);
-        _stat = this->paramDelegatePtr->deserializeParam(
+        (void) this->paramDelegatePtr->deserializeParam(
           _baseId,
           PARAMID_PARAMSTRUCTEXT,
           this->m_param_ParamStructExt_valid,
           _paramBuffer
         );
-        if (_stat != Fw::FW_SERIALIZE_OK) {
-          this->m_param_ParamStructExt_valid = Fw::ParamValid::INVALID;
-        }
       }
     }
     this->parameterLoaded(PARAMID_PARAMSTRUCTEXT, this->m_param_ParamStructExt_valid);
@@ -7135,8 +7105,17 @@ namespace M {
   }
 
   void ActiveTestComponentBase ::
-    parameterTelemeter(FwPrmIdType id)
+    parameterModified(
+        FwPrmIdType id,
+        Fw::ParamValid valid
+    )
   {
+    FW_ASSERT(
+      FW_PARAM_OK(valid),
+      static_cast<FwAssertArgType>(id),
+      static_cast<FwAssertArgType>(valid)
+    );
+    // Mirror the parameter into its telemetry channel
     switch (id) {
       case PARAMID_PARAMU32:
         this->tlmWrite_ParamU32(this->paramGet_ParamU32());
@@ -7175,6 +7154,7 @@ namespace M {
         this->tlmWrite_ParamStructExt(this->paramGet_ParamStructExt());
         break;
     }
+    this->parameterUpdated(id);
   }
 
   void ActiveTestComponentBase ::
@@ -7189,13 +7169,7 @@ namespace M {
         Fw::ParamValid valid
     )
   {
-    FW_ASSERT(
-      (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
-      static_cast<FwAssertArgType>(id),
-      static_cast<FwAssertArgType>(valid)
-    );
-    this->parameterTelemeter(id);
-    this->parameterUpdated(id);
+    this->parameterModified(id, valid);
   }
 
   // ----------------------------------------------------------------------
@@ -9215,10 +9189,7 @@ namespace M {
       this->m_ParamU32 = _localVal;
       this->m_param_ParamU32_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMU32);
-    this->parameterUpdated(PARAMID_PARAMU32);
+    this->parameterModified(PARAMID_PARAMU32, this->m_param_ParamU32_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9237,10 +9208,7 @@ namespace M {
       this->m_ParamF64 = _localVal;
       this->m_param_ParamF64_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMF64);
-    this->parameterUpdated(PARAMID_PARAMF64);
+    this->parameterModified(PARAMID_PARAMF64, this->m_param_ParamF64_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9259,10 +9227,7 @@ namespace M {
       this->m_ParamString = _localVal;
       this->m_param_ParamString_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMSTRING);
-    this->parameterUpdated(PARAMID_PARAMSTRING);
+    this->parameterModified(PARAMID_PARAMSTRING, this->m_param_ParamString_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9281,10 +9246,7 @@ namespace M {
       this->m_ParamEnum = _localVal;
       this->m_param_ParamEnum_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMENUM);
-    this->parameterUpdated(PARAMID_PARAMENUM);
+    this->parameterModified(PARAMID_PARAMENUM, this->m_param_ParamEnum_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9303,10 +9265,7 @@ namespace M {
       this->m_ParamArray = _localVal;
       this->m_param_ParamArray_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMARRAY);
-    this->parameterUpdated(PARAMID_PARAMARRAY);
+    this->parameterModified(PARAMID_PARAMARRAY, this->m_param_ParamArray_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9325,10 +9284,7 @@ namespace M {
       this->m_ParamStruct = _localVal;
       this->m_param_ParamStruct_valid = Fw::ParamValid::VALID;
     }
-
-    // Call notifier
-    this->parameterTelemeter(PARAMID_PARAMSTRUCT);
-    this->parameterUpdated(PARAMID_PARAMSTRUCT);
+    this->parameterModified(PARAMID_PARAMSTRUCT, this->m_param_ParamStruct_valid);
     return Fw::CmdResponse::OK;
   }
 
@@ -9340,27 +9296,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamI32Ext_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMI32EXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamI32Ext_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamI32Ext_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamI32Ext_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMI32EXT);
-      this->parameterUpdated(PARAMID_PARAMI32EXT);
+      this->parameterModified(PARAMID_PARAMI32EXT, this->m_param_ParamI32Ext_valid);
     }
     return _response;
   }
@@ -9373,27 +9321,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamF64Ext_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMF64EXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamF64Ext_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamF64Ext_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamF64Ext_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMF64EXT);
-      this->parameterUpdated(PARAMID_PARAMF64EXT);
+      this->parameterModified(PARAMID_PARAMF64EXT, this->m_param_ParamF64Ext_valid);
     }
     return _response;
   }
@@ -9406,27 +9346,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamStringExt_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMSTRINGEXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamStringExt_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamStringExt_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamStringExt_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMSTRINGEXT);
-      this->parameterUpdated(PARAMID_PARAMSTRINGEXT);
+      this->parameterModified(PARAMID_PARAMSTRINGEXT, this->m_param_ParamStringExt_valid);
     }
     return _response;
   }
@@ -9439,27 +9371,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamEnumExt_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMENUMEXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamEnumExt_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamEnumExt_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamEnumExt_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMENUMEXT);
-      this->parameterUpdated(PARAMID_PARAMENUMEXT);
+      this->parameterModified(PARAMID_PARAMENUMEXT, this->m_param_ParamEnumExt_valid);
     }
     return _response;
   }
@@ -9472,27 +9396,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamArrayExt_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMARRAYEXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamArrayExt_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamArrayExt_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamArrayExt_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMARRAYEXT);
-      this->parameterUpdated(PARAMID_PARAMARRAYEXT);
+      this->parameterModified(PARAMID_PARAMARRAYEXT, this->m_param_ParamArrayExt_valid);
     }
     return _response;
   }
@@ -9505,27 +9421,19 @@ namespace M {
       Os::ScopeLock _lock(this->m_paramLock);
       // Update the external parameter
       FW_ASSERT(this->paramDelegatePtr != nullptr);
-      const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+      // Request VALID; the delegate reports the resulting validity.
+      this->m_param_ParamStructExt_valid = Fw::ParamValid::VALID;
+      _response = this->paramDelegatePtr->deserializeParam(
         static_cast<FwPrmIdType>(this->getIdBase()),
         PARAMID_PARAMSTRUCTEXT,
-        Fw::ParamValid::VALID,
+        this->m_param_ParamStructExt_valid,
         val
       );
-      // Set response and update component state
-      if (_stat == Fw::FW_SERIALIZE_OK) {
-        this->m_param_ParamStructExt_valid = Fw::ParamValid::VALID;
-        _response = Fw::CmdResponse::OK;
-      }
-      else {
-        this->m_param_ParamStructExt_valid = Fw::ParamValid::INVALID;
-        _response = Fw::CmdResponse::VALIDATION_ERROR;
-      }
     }
 
-    // Call notifier
+    // Reject changed nothing; notify only on accept
     if (_response == Fw::CmdResponse::OK) {
-      this->parameterTelemeter(PARAMID_PARAMSTRUCTEXT);
-      this->parameterUpdated(PARAMID_PARAMSTRUCTEXT);
+      this->parameterModified(PARAMID_PARAMSTRUCTEXT, this->m_param_ParamStructExt_valid);
     }
     return _response;
   }

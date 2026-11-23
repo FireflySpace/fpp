@@ -1624,16 +1624,16 @@ class QueuedExternalParamsComponentBase :
         FwPrmIdType id //!< The parameter ID
     );
 
-    //! \brief Called whenever a parameter is updated, to mirror it into telemetry
+    //! \brief Called after a parameter is modified (loaded or set)
     //!
-    //! Every parameter has an identically named telemetry channel. By
-    //! default this writes that channel with the parameter's current value.
-    //! It does not re-check validity: callers invoke it only once the
-    //! parameter is usable (the setters on a successful update, and
-    //! parameterLoaded after it asserts VALID or DEFAULT). You may
-    //! override it, for example to suppress or reshape the mirror.
-    virtual void parameterTelemeter(
-        FwPrmIdType id //!< The parameter ID
+    //! Runs on every effective mutation (load, default push, accepted set),
+    //! with the resulting validity. Default: asserts usable (VALID/DEFAULT),
+    //! mirrors into the matching tlm channel, then calls parameterUpdated.
+    //! A rejected set does not call this. Override to relax the usability
+    //! contract (e.g. tolerate UNINIT at boot) or reshape the mirror.
+    virtual void parameterModified(
+        FwPrmIdType id, //!< The parameter ID
+        Fw::ParamValid valid //!< The parameter validity status
     );
 
     //! \brief Called whenever parameters are loaded
@@ -1645,10 +1645,8 @@ class QueuedExternalParamsComponentBase :
 
     //! \brief Called for each parameter when parameters are loaded
     //!
-    //! By default this asserts that the parameter is usable (VALID or
-    //! DEFAULT) and then notifies the component via parameterUpdated.
-    //! Override it to relax that contract, e.g. to tolerate UNINIT or
-    //! INVALID parameters.
+    //! By default this forwards to parameterModified.
+    //! Override it to change per-parameter load-time handling.
     virtual void parameterLoaded(
         FwPrmIdType id, //!< The parameter ID
         Fw::ParamValid valid //!< The parameter validity status
