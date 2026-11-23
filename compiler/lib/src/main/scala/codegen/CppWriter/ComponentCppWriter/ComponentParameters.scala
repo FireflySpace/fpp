@@ -156,9 +156,9 @@ case class ComponentParameters (
       "Parameter hook functions",
       List(
         getParamUpdateHookFunction,
+        getParamModifiedHookFunction,
         getParamLoadHookFunction,
-        getParamsLoadHookFunction,
-        getParamModifiedHookFunction
+        getParamsLoadHookFunction
       )
     )
   }
