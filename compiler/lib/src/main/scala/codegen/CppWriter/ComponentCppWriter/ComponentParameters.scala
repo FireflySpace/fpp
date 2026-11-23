@@ -60,7 +60,7 @@ case class ComponentParameters (
       val idConstantName = paramIdConstantName(paramName)
       lines(
         s"""|FW_ASSERT(this->paramDelegatePtr != nullptr);
-            |_stat = this->paramDelegatePtr->deserializeParam(
+            |(void) this->paramDelegatePtr->deserializeParam(
             |  _baseId,
             |  $idConstantName,
             |  this->$validityFlagName,
@@ -68,7 +68,12 @@ case class ComponentParameters (
             |);"""
       )
     else
-      lines(s"_stat = $paramBufferName.deserializeTo(this->$varName);")
+      lines(
+        s"""|_stat = $paramBufferName.deserializeTo(this->$varName);
+            |this->$validityFlagName = (_stat == Fw::FW_SERIALIZE_OK)
+            |  ? Fw::ParamValid::VALID
+            |  : Fw::ParamValid::INVALID;"""
+      )
   }
 
   private def getExternalParameterFunctions: List[CppDoc.Class.Member] = {
@@ -151,9 +156,9 @@ case class ComponentParameters (
       "Parameter hook functions",
       List(
         getParamUpdateHookFunction,
-        getParamTelemeterHookFunction,
         getParamLoadHookFunction,
-        getParamsLoadHookFunction
+        getParamsLoadHookFunction,
+        getParamModifiedHookFunction
       )
     )
   }
@@ -246,10 +251,8 @@ case class ComponentParameters (
     Some(
       s"""|\\brief Called for each parameter when parameters are loaded
           |
-          |By default this asserts that the parameter is usable (VALID or
-          |DEFAULT) and then notifies the component via parameterUpdated.
-          |Override it to relax that contract, e.g. to tolerate UNINIT or
-          |INVALID parameters.
+          |By default this forwards to parameterModified.
+          |Override it to change per-parameter load-time handling.
           |"""
     ),
     "parameterLoaded",
@@ -266,16 +269,7 @@ case class ComponentParameters (
       )
     ),
     CppDoc.Type("void"),
-    List.concat(
-      lines(
-        """|FW_ASSERT(
-           |  (valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT),
-           |  static_cast<FwAssertArgType>(id),
-           |  static_cast<FwAssertArgType>(valid)
-           |);"""
-      ),
-      writeParamNotify("id")
-    ),
+    lines("this->parameterModified(id, valid);"),
     CppDoc.Function.Virtual
   )
 
@@ -299,30 +293,45 @@ case class ComponentParameters (
     CppDoc.Function.Virtual
   )
 
-  private def getParamTelemeterHookFunction = functionClassMember(
+  private def getParamModifiedHookFunction = functionClassMember(
     Some(
-      s"""|\\brief Called whenever a parameter is updated, to mirror it into telemetry
+      s"""|\\brief Called after a parameter is modified (loaded or set)
           |
-          |Every parameter has an identically named telemetry channel. By
-          |default this writes that channel with the parameter's current value.
-          |It does not re-check validity: callers invoke it only once the
-          |parameter is usable (the setters on a successful update, and
-          |parameterLoaded after it asserts VALID or DEFAULT). You may
-          |override it, for example to suppress or reshape the mirror.
+          |Runs on every effective mutation (load, default push, accepted set),
+          |with the resulting validity. Default: asserts usable (VALID/DEFAULT),
+          |mirrors into the matching tlm channel, then calls parameterUpdated.
+          |A rejected set does not call this. Override to relax the usability
+          |contract (e.g. tolerate UNINIT at boot) or reshape the mirror.
           |"""
     ),
-    "parameterTelemeter",
+    "parameterModified",
     List(
       CppDoc.Function.Param(
         CppDoc.Type("FwPrmIdType"),
         "id",
         Some("The parameter ID")
+      ),
+      CppDoc.Function.Param(
+        CppDoc.Type("Fw::ParamValid"),
+        "valid",
+        Some("The parameter validity status")
       )
     ),
     CppDoc.Type("void"),
-    wrapInSwitch(
-      "id",
-      sortedParams.flatMap((_, param) => writeParamTelemeterCase(param))
+    List.concat(
+      lines(
+        """|FW_ASSERT(
+           |  FW_PARAM_OK(valid),
+           |  static_cast<FwAssertArgType>(id),
+           |  static_cast<FwAssertArgType>(valid)
+           |);
+           |// Mirror the parameter into its telemetry channel"""
+      ),
+      wrapInSwitch(
+        "id",
+        sortedParams.flatMap((_, param) => writeParamTelemeterCase(param))
+      ),
+      lines("this->parameterUpdated(id);")
     ),
     CppDoc.Function.Virtual
   )
@@ -435,9 +444,9 @@ case class ComponentParameters (
               |_stat = $paramBufferName.serializeFrom(_val);
               |FW_ASSERT(_stat == Fw::FW_SERIALIZE_OK, static_cast<FwAssertArgType>(_stat));"""
         ),
-        // Push the default into the external store; a failed push is INVALID.
-        deserializeParam(param),
-        wrapInIf("_stat != Fw::FW_SERIALIZE_OK", setValidityFlagLines(param, "INVALID"))
+        // Push the default into the external store; the delegate owns the
+        // resulting validity.
+        deserializeParam(param)
       )
     else
       lines(
@@ -461,17 +470,16 @@ case class ComponentParameters (
   private def writeGetterFunctionBody(param: Param) = {
     val paramType = writeParamType(param.paramType, "Fw::ParamString")
     val validityFlagName = paramValidityFlagName(param.getName)
+    val lockedBody = List.concat(
+      lines(s"valid = this->$validityFlagName;"),
+      wrapInIf(
+        "(valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT)",
+        getParamFromComponent(param)
+      )
+    )
     List.concat(
       lines(s"$paramType _local{};"),
-      withParamLock(
-        List.concat(
-          lines(s"valid = this->$validityFlagName;"),
-          wrapInIf(
-            "(valid == Fw::ParamValid::VALID) || (valid == Fw::ParamValid::DEFAULT)",
-            getParamFromComponent(param)
-          )
-        )
-      ),
+      withParamLock(lockedBody),
       lines("return _local;")
     )
   }
@@ -492,14 +500,11 @@ case class ComponentParameters (
   }
 
   private def writeLoadBodyForParam(param: Param) = {
-    val dbOverride = List.concat(
-      setValidityFlagLines(param, "VALID"),
-      deserializeParam(param),
-      wrapInIf(
-        "_stat != Fw::FW_SERIALIZE_OK",
-        setValidityFlagLines(param, "INVALID")
+    val dbOverride =
+      List.concat(
+        if param.isExternal then setValidityFlagLines(param, "VALID") else Nil,
+        deserializeParam(param)
       )
-    )
     param.default match {
       case Some(value) =>
         List.concat(
@@ -520,10 +525,14 @@ case class ComponentParameters (
       if sortedParams.nonEmpty
       then lines("Fw::ParamValid _dbValid{};")
       else Nil
+    val statDecl =
+      if sortedParams.exists((_, param) => !param.isExternal || param.default.isDefined)
+      then lines("Fw::SerializeStatus _stat{};")
+      else Nil
     List.concat(
+      statDecl,
       lines(
-        s"""|Fw::SerializeStatus _stat{};
-            |const FwPrmIdType _baseId = static_cast<FwPrmIdType>(this->getIdBase());
+        s"""|const FwPrmIdType _baseId = static_cast<FwPrmIdType>(this->getIdBase());
             |FW_ASSERT(this->$prmGetIsConnected(0));
             |
             |FwPrmIdType _id{};
@@ -602,36 +611,33 @@ case class ComponentParameters (
 
   private def writeSetterBodyForExternalParam(param: Param) = {
     val idConstantName = paramIdConstantName(param.getName)
+    val validityFlagName = paramValidityFlagName(param.getName)
     List.concat(
       lines("Fw::CmdResponse _response{};"),
       withParamLock(
         lines(
+          // Validity and command response are independent: the delegate sets
+          // the resulting validity (via the flag) and returns the response.
+          // A rejected update keeps the existing value at VALID.
           s"""|// Update the external parameter
               |FW_ASSERT(this->paramDelegatePtr != nullptr);
-              |const Fw::SerializeStatus _stat = this->paramDelegatePtr->deserializeParam(
+              |// Request VALID; the delegate reports the resulting validity.
+              |${setValidityFlag(param, "VALID")}
+              |_response = this->paramDelegatePtr->deserializeParam(
               |  static_cast<FwPrmIdType>(this->getIdBase()),
               |  $idConstantName,
-              |  Fw::ParamValid::VALID,
+              |  this->$validityFlagName,
               |  val
-              |);
-              |// Set response and update component state
-              |if (_stat == Fw::FW_SERIALIZE_OK) {
-              |  ${setValidityFlag(param, "VALID")}
-              |  _response = Fw::CmdResponse::OK;
-              |}
-              |else {
-              |  ${setValidityFlag(param, "INVALID")}
-              |  _response = Fw::CmdResponse::VALIDATION_ERROR;
-              |}"""
+              |);"""
         )
       ),
       lines(
         """|
-           |// Call notifier"""
+           |// Reject changed nothing; notify only on accept"""
       ),
       wrapInIf(
         "_response == Fw::CmdResponse::OK",
-        writeParamNotify(idConstantName)
+        lines(s"this->parameterModified($idConstantName, this->$validityFlagName);")
       ),
       lines("return _response;")
     )
@@ -658,20 +664,9 @@ case class ComponentParameters (
               |this->$validityFlagName = Fw::ParamValid::VALID;"""
         )
       ),
-      lines(
-        """|
-           |// Call notifier"""
-      ),
-      writeParamNotify(idConstantName),
+      lines(s"this->parameterModified($idConstantName, this->$validityFlagName);"),
       lines("return Fw::CmdResponse::OK;")
     )
   }
-
-  /** Emit the post-update notification for a parameter */
-  private def writeParamNotify(idExpr: String): List[Line] =
-    lines(
-      s"""|this->parameterTelemeter($idExpr);
-          |this->parameterUpdated($idExpr);"""
-    )
 
 }
