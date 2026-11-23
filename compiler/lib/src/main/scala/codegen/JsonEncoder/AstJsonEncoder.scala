@@ -33,6 +33,14 @@ object AstJsonEncoder extends JsonEncoder {
   implicit val eventThrottleEncoder: Encoder[Ast.EventThrottle] =
     io.circe.generic.semiauto.deriveEncoder[Ast.EventThrottle]
 
+  // Explicit encoder for abstract type definitions. The auto-derived encoder
+  // throws IndexOutOfBoundsException on this product
+  implicit lazy val defAbsTypeEncoder: Encoder[Ast.DefAbsType] =
+    (d: Ast.DefAbsType) => Json.obj(
+      "name" -> d.name.asJson,
+      "templateArgs" -> d.templateArgs.asJson
+    )
+
   // JSON encoder for module member nodes
   implicit lazy val moduleMemberNodeEncoder: Encoder[Ast.ModuleMember.Node] =
     io.circe.generic.semiauto.deriveEncoder[Ast.ModuleMember.Node]

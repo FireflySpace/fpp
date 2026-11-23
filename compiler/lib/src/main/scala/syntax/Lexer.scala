@@ -293,6 +293,7 @@ object Lexer {
         case LITERAL_STRING => Token.LITERAL_STRING(strVal)
         case LOCATE => Token.LOCATE()
         case LOW => Token.LOW()
+        case LANGLE => Token.LANGLE()
         case LPAREN => Token.LPAREN()
         case LSHIFT => Token.LSHIFT()
         case MACHINE => Token.MACHINE()
@@ -327,6 +328,7 @@ object Lexer {
         case REG => Token.REG()
         case REQUEST => Token.REQUEST()
         case RESP => Token.RESP()
+        case RANGLE => Token.RANGLE()
         case RPAREN => Token.RPAREN()
         case RSHIFT => Token.RSHIFT()
         case SAVE => Token.SAVE()
@@ -560,14 +562,15 @@ object Lexer {
             token = LSHIFT
             nextChar()
           else
-            error("'<'")
+            token = LANGLE
+            eatNewlines()
         case '>' =>
           nextChar()
           if ch == '>' then
             token = RSHIFT
             nextChar()
           else
-            error("'>'")
+            token = RANGLE
         case '=' =>
           nextChar()
           token = EQUALS

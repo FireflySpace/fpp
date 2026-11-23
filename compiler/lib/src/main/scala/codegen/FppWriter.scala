@@ -134,7 +134,10 @@ object FppWriter extends AstVisitor with LineUtils {
   ) = {
     val (_, node, _) = aNode
     val data = node.data
-    lines(s"type ${ident(data.name)}")
+    val argStr =
+      if (data.templateArgs.isEmpty) ""
+      else "<" ++ data.templateArgs.map(a => ident(a.data)).mkString(", ") ++ ">"
+    lines(s"type ${ident(data.name)}$argStr")
   }
 
   override def defActionAnnotatedNode(

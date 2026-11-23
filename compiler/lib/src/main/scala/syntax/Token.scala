@@ -79,6 +79,7 @@ object Token {
   final case class LITERAL_STRING(str: String) extends Token
   final case class LOCATE() extends Token
   final case class LOW() extends Token
+  final case class LANGLE() extends Token
   final case class LPAREN() extends Token
   final case class LSHIFT() extends Token
   final case class MACHINE() extends Token
@@ -103,6 +104,7 @@ object Token {
   final case class PRODUCT() extends Token
   final case class QUEUE() extends Token
   final case class QUEUED() extends Token
+  final case class RANGLE() extends Token
   final case class RARROW() extends Token
   final case class RBRACE() extends Token
   final case class RBRACKET() extends Token
@@ -303,4 +305,6 @@ enum TokenId {
   case STAR
   case LSHIFT
   case RSHIFT
+  case LANGLE
+  case RANGLE
 }

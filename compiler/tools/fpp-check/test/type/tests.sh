@@ -2,6 +2,7 @@ tests="
 alias_dictionary_not_displayable
 alias_dictionary_ok
 alias_type_ok
+template_abs_ok
 string_length_shadowed
 string_missing_default_size_constant
 string_missing_fw_size_store_type

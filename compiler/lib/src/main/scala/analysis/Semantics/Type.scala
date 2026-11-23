@@ -196,7 +196,9 @@ object Type {
   /** An abstract type */
   case class AbsType(
     /** The AST node giving the definition */
-    node: Ast.Annotated[AstNode[Ast.DefAbsType]]
+    node: Ast.Annotated[AstNode[Ast.DefAbsType]],
+    /** C++ template arguments forwarded verbatim to the backer class */
+    templateArgs: List[scala.Predef.String] = Nil
   ) extends Type {
     override def getDefaultValue = Some(Value.AbsType(this))
     override def getDefSymbol = Some(Symbol.AbsType(node))

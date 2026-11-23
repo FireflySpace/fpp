@@ -28,7 +28,10 @@ object AstWriter extends AstVisitor with LineUtils {
     aNode: Ast.Annotated[AstNode[Ast.DefAbsType]]
   ) = {
     val (_, node, _) = aNode
-    lines("def abs type") ++ ident(node.data.name).map(indentIn)
+    lines("def abs type") ++ (
+      ident(node.data.name) ++
+      node.data.templateArgs.flatMap(a => lines(s"template arg ${a.data}"))
+    ).map(indentIn)
   }
 
   override def defActionAnnotatedNode(

@@ -40,3 +40,9 @@ state_machine()
     diff_hpp SM_XAlias && \
     diff_cpp SM_AArray
 }
+
+template_abs()
+{
+  run_test "$fpp_options" template_abs && \
+    diff_cpp TemplateStructSerializable
+}

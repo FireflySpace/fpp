@@ -10,8 +10,10 @@ object CheckTypeUses extends UseAnalyzer {
 
   override def defAbsTypeAnnotatedNode(a: Analysis, aNode: Ast.Annotated[AstNode[Ast.DefAbsType]]) = {
     def visitor(a: Analysis, aNode: Ast.Annotated[AstNode[Ast.DefAbsType]]) = {
-      val t = Type.AbsType(aNode)
       val node = aNode._2
+      // Template args are forwarded verbatim to C++; not resolved as symbols.
+      val templateArgs = node.data.templateArgs.map(_.data)
+      val t = Type.AbsType(aNode, templateArgs)
       Right(a.assignType(node -> t))
     }
     visitIfNeeded(visitor)(a, aNode)

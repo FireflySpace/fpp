@@ -79,7 +79,13 @@ object Ast {
   }
 
   /** Abstract type definition */
-  final case class DefAbsType(name: Ident)
+  final case class DefAbsType(
+    name: Ident,
+    /** C++ template arguments forwarded verbatim to the backer class
+     *  (integer literals and dot-qualified identifiers; NOT resolved as FPP
+     *  symbols). */
+    templateArgs: List[AstNode[Ident]] = Nil
+  )
 
   /* Aliased type definition */
   final case class DefAliasType(

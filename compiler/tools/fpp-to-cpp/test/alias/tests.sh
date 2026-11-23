@@ -4,4 +4,5 @@ basic
 component
 namespace
 state_machine
+template_abs
 "

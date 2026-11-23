@@ -82,8 +82,22 @@ object Parser extends Parsers {
   }
 
   def defAbsType: Parser[Ast.DefAbsType] = {
-    (typeToken ~> ident) ^^ (id => Ast.DefAbsType(id))
+    // Optional `<args>` are C++ template arguments forwarded to the backer
+    // class at each use site.
+    (typeToken ~> ident) ~ opt(templateArgs) ^^ {
+      case id ~ argsOpt =>
+        Ast.DefAbsType(id, argsOpt.getOrElse(Nil))
+    }
   }
+
+  private def templateArgs: Parser[List[AstNode[Ast.Ident]]] =
+    langle ~> elementSequence(node(templateArg), comma) <~ rangle
+
+  // A template argument is forwarded verbatim to C++: an integer literal or a
+  // dot-qualified identifier. It is NOT resolved as an FPP symbol.
+  private def templateArg: Parser[Ast.Ident] =
+    literalInt |
+      (rep1sep(ident, dot) ^^ (_.mkString(".")))
 
   private def defAction: Parser[Ast.DefAction] = {
     (action ~> ident) ~! opt(colon ~>! node(typeName)) ^^ {
@@ -1122,6 +1136,10 @@ object Parser extends Parsers {
   private def lbrace = accept("{", { case t: Token.LBRACE => t })
 
   private def colon = accept(":", { case t: Token.COLON => t })
+
+  private def langle = accept("<", { case t: Token.LANGLE => t })
+
+  private def rangle = accept(">", { case t: Token.RANGLE => t })
 
   private def comma = accept(",", { case t: Token.COMMA => t })
 

@@ -39,3 +39,9 @@ state_machine()
   move_hpp SM_XAlias && \
   move_cpp SM_AArray
 }
+
+template_abs()
+{
+  update "$fpp_options" template_abs
+  move_cpp TemplateStructSerializable
+}

@@ -14,8 +14,12 @@ case class TypeCppWriter(
 
   private object NameVisitor extends TypeVisitor {
 
-    override def absType(s: CppWriterState, t: Type.AbsType) =
-      s.writeSymbol(Symbol.AbsType(t.node))
+    override def absType(s: CppWriterState, t: Type.AbsType) = {
+      val name = s.writeSymbol(Symbol.AbsType(t.node))
+      // Forward template arguments to the C++ backer class at instantiation.
+      if (t.templateArgs.isEmpty) name
+      else name ++ "<" ++ t.templateArgs.mkString(", ") ++ ">"
+    }
 
     override def aliasType(s: CppWriterState, t: Type.AliasType) =
       t.getUnderlyingType match {
